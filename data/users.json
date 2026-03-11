@@ -1,0 +1,39 @@
+{
+  "users": [
+    {
+      "id": "1773257220368-e0oza84el9b",
+      "email": "jack@email.com",
+      "name": "jACK",
+      "passwordHash": "$2a$10$JA685oiD1k6UQXtM.ks.yOhxVq/dgovp1mYBzYkzQPzlYaRcKVE1a",
+      "createdAt": "2026-03-11T19:27:00.368Z"
+    },
+    {
+      "id": "1773257810341-7hp1nxp0erk",
+      "email": "jack1@email.com",
+      "name": "Jack Jose",
+      "passwordHash": "$2a$10$t3j0ZowRW9KreHCfyvwUl.KGGdNolwQEIfzpFIbcjQCcSHL1pp.3a",
+      "createdAt": "2026-03-11T19:36:50.341Z"
+    },
+    {
+      "id": "1773258121756-a3trw7k4aef",
+      "email": "dan@123.com",
+      "name": "Dany",
+      "passwordHash": "$2a$10$QKlYM3qmchn/N9qhjJfPT.8M.Cw5/CdFCFfLXQ4i0sQkb3m3WVdp6",
+      "createdAt": "2026-03-11T19:42:01.756Z"
+    },
+    {
+      "id": "1773259381476-kjwph6mljad",
+      "email": "hebel@gmail.com",
+      "name": "Hebel",
+      "passwordHash": "$2a$10$3tgC916TAVt4KQR/B0VT1ufgzfcbk9RDYLdodBx985kPuKqVM5/8G",
+      "createdAt": "2026-03-11T20:03:01.476Z"
+    },
+    {
+      "id": "1773261022256-5kf9kgmqh7o",
+      "email": "rohan123@gmail.com",
+      "name": "Rohan Nadia",
+      "passwordHash": "$2a$10$nqCwsK0rwCWvqxVTIF3N/.5xBrNklAiOnbjZ6OSI.46FIxdIdiTuu",
+      "createdAt": "2026-03-11T20:30:22.256Z"
+    }
+  ]
+}
