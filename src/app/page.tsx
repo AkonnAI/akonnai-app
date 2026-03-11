@@ -9,12 +9,16 @@ import HowItWorks from "@/components/HowItWorks";
 import Educators from "@/components/Educators";
 import StudentSpotlight from "@/components/StudentSpotlight";
 import FAQ from "@/components/FAQ";
+import LogoTicker from "@/components/LogoTicker";
+import StatsRow from "@/components/StatsRow";
 
 export default function Home() {
   return (
     <main className="min-h-screen flex flex-col bg-white">
       <Navbar />
       <HeroSection />
+      <LogoTicker />
+      <StatsRow />
       <AIProgramsSection />
       <TopPicks />
       <HowItWorks />
