@@ -34,6 +34,13 @@
       "name": "Rohan Nadia",
       "passwordHash": "$2a$10$nqCwsK0rwCWvqxVTIF3N/.5xBrNklAiOnbjZ6OSI.46FIxdIdiTuu",
       "createdAt": "2026-03-11T20:30:22.256Z"
+    },
+    {
+      "id": "1773333561562-uvs3anbyy7f",
+      "email": "keertiraj123@gmail.com",
+      "name": "Keertiraj",
+      "passwordHash": "$2a$10$38jhDXaDlj4CL4UQjTC/S.bZNPYc6FAw2m.DaMKrp64YycNE8A7x6",
+      "createdAt": "2026-03-12T16:39:21.562Z"
     }
   ]
 }
