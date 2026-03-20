@@ -30,7 +30,7 @@ export default function AboutPage() {
                     <div>
                         <h2 className="text-3xl font-bold text-slate-900 mb-6">Why we started AKMIND</h2>
                         <p className="text-slate-600 leading-relaxed mb-4">
-                            In 2023, our founders noticed a gap — students were learning outdated curricula while the world was rapidly shifting to AI-powered everything. Schools weren&apos;t equipped to bridge that gap.
+                            In 2026, our founders noticed a gap — students were learning outdated curricula while the world was rapidly shifting to AI-powered everything. Schools weren&apos;t equipped to bridge that gap.
                         </p>
                         <p className="text-slate-600 leading-relaxed mb-4">
                             So we built AKMIND — a structured, hands-on AI learning platform designed specifically for students in Grades 5–10. We partnered with industry professionals to create curriculum that mirrors what real AI engineers build every day.
