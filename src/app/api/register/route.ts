@@ -1,7 +1,10 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 import nodemailer from "nodemailer";
 import { getDb, BOOKINGS_TABLE } from "@/lib/dynamodb";
 import { PutCommand } from "@aws-sdk/lib-dynamodb";
+import { demoBookingSchema } from "@/lib/validators";
+import { ok, validationFail } from "@/lib/api-response";
+import { safeHandler } from "@/middleware-helpers/safe-handler";
 
 export const runtime = "nodejs";
 
@@ -24,7 +27,7 @@ function createTransporter() {
   });
 }
 
-async function sendAdminNotificationEmail(registration: any) {
+async function sendAdminNotificationEmail(registration: Record<string, string>) {
   const to = process.env.REGISTRATION_NOTIFY_EMAIL;
   if (!to) {
     console.warn("REGISTRATION_NOTIFY_EMAIL is not set; skipping admin email.");
@@ -37,20 +40,20 @@ async function sendAdminNotificationEmail(registration: any) {
     return;
   }
 
-  const { parentName, phone, email, childName, grade, course, date, time } = registration || {};
+  const { parentName, phone, email, childName, grade, course, date, time } = registration;
 
-  const subject = `New Demo Booking: ${childName || "Student"} (${course || "Course"})`;
+  const subject = `New Demo Booking: ${childName} (${course})`;
   const text = [
     "A new demo class has been booked:",
     "",
-    `Parent Name : ${parentName || "-"}`,
-    `Parent Email: ${email || "-"}`,
-    `Phone       : ${phone || "-"}`,
-    `Student     : ${childName || "-"}`,
-    `Grade       : ${grade || "-"}`,
-    `Course      : ${course || "-"}`,
-    `Date        : ${date || "-"}`,
-    `Time        : ${time || "-"}`,
+    `Parent Name : ${parentName}`,
+    `Parent Email: ${email}`,
+    `Phone       : ${phone}`,
+    `Student     : ${childName}`,
+    `Grade       : ${grade}`,
+    `Course      : ${course}`,
+    `Date        : ${date}`,
+    `Time        : ${time}`,
     "",
     `Submitted at: ${new Date().toLocaleString()}`,
   ].join("\n");
@@ -63,8 +66,8 @@ async function sendAdminNotificationEmail(registration: any) {
   });
 }
 
-async function sendParentConfirmationEmail(registration: any) {
-  const { parentName, email, childName, course, date, time } = registration || {};
+async function sendParentConfirmationEmail(registration: Record<string, string>) {
+  const { parentName, email, childName, course, date, time } = registration;
   if (!email) return;
 
   const transporter = createTransporter();
@@ -75,17 +78,17 @@ async function sendParentConfirmationEmail(registration: any) {
 
   const subject = `Your AKMIND Demo Class is Confirmed!`;
   const text = [
-    `Hi ${parentName || "Parent"},`,
+    `Hi ${parentName},`,
     "",
     "Thank you for booking a demo class with AKMIND! We're excited to show you what your child will learn.",
     "",
     "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
     "  BOOKING DETAILS",
     "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
-    `  Student : ${childName || "-"}`,
-    `  Course  : ${course || "-"}`,
-    `  Date    : ${date || "-"}`,
-    `  Time    : ${time || "-"}`,
+    `  Student : ${childName}`,
+    `  Course  : ${course}`,
+    `  Date    : ${date}`,
+    `  Time    : ${time}`,
     "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
     "",
     "Our team will reach out to you shortly with the demo class link and further details.",
@@ -105,58 +108,48 @@ async function sendParentConfirmationEmail(registration: any) {
   });
 }
 
-export async function POST(req: NextRequest) {
-  try {
-    const body = await req.json();
-    const { parentName, phone, email, childName, grade, course, date, time } = body;
+export const POST = safeHandler(async (req: NextRequest) => {
+  const result = demoBookingSchema.safeParse(await req.json());
+  if (!result.success) return validationFail(result.error.flatten());
 
-    // Save booking to DynamoDB
-    const bookingId = crypto.randomUUID();
-    await getDb().send(
-      new PutCommand({
-        TableName: BOOKINGS_TABLE,
-        Item: {
-          id: bookingId,
-          parentName,
-          phone,
-          email,
-          childName,
-          grade,
-          course,
-          date,
-          time,
-          createdAt: new Date().toISOString(),
-        },
-      })
-    );
+  const { parentName, phone, email, childName, grade, course, date, time } = result.data;
 
-    // Forward to Google Apps Script
-    const gasResponse = await fetch(GAS_URL, {
-      method: "POST",
-      headers: { "Content-Type": "text/plain;charset=utf-8" },
-      body: JSON.stringify(body),
-    });
+  const bookingId = crypto.randomUUID();
+  await getDb().send(
+    new PutCommand({
+      TableName: BOOKINGS_TABLE,
+      Item: {
+        id: bookingId,
+        parentName,
+        phone,
+        email,
+        childName,
+        grade,
+        course,
+        date,
+        time,
+        createdAt: new Date().toISOString(),
+      },
+    })
+  );
 
-    if (!gasResponse.ok) {
-      console.error("GAS responded with status:", gasResponse.status);
-    }
+  // Forward to GAS — non-blocking
+  fetch(GAS_URL, {
+    method: "POST",
+    headers: { "Content-Type": "text/plain;charset=utf-8" },
+    body: JSON.stringify(result.data),
+  }).catch((e) => console.error("GAS forward failed:", e));
 
-    // Send both emails independently — neither failure blocks the booking
-    await Promise.allSettled([
-      sendAdminNotificationEmail(body).catch((e) =>
-        console.error("Failed to send admin notification email:", e)
-      ),
-      sendParentConfirmationEmail(body).catch((e) =>
-        console.error("Failed to send parent confirmation email:", e)
-      ),
-    ]);
+  // Emails — non-blocking
+  const reg = { parentName, phone, email, childName, grade, course, date, time };
+  Promise.allSettled([
+    sendAdminNotificationEmail(reg).catch((e) =>
+      console.error("Failed to send admin notification email:", e)
+    ),
+    sendParentConfirmationEmail(reg).catch((e) =>
+      console.error("Failed to send parent confirmation email:", e)
+    ),
+  ]);
 
-    return NextResponse.json({ success: true, bookingId }, { status: 200 });
-  } catch (error) {
-    console.error("Registration error:", error);
-    return NextResponse.json(
-      { success: false, error: "Internal server error while processing registration." },
-      { status: 500 }
-    );
-  }
-}
+  return ok({ bookingId });
+});

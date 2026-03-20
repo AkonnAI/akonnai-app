@@ -1,36 +1,33 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 import { verifyUser, createSessionCookiePayload } from "@/lib/auth";
+import { loginSchema } from "@/lib/validators";
+import { ok, fail, validationFail } from "@/lib/api-response";
+import { safeHandler } from "@/middleware-helpers/safe-handler";
 
 export const runtime = "nodejs";
 
-export async function POST(req: NextRequest) {
+export const POST = safeHandler(async (req: NextRequest) => {
+  const result = loginSchema.safeParse(await req.json());
+  if (!result.success) return validationFail(result.error.flatten());
+
+  const { email, password } = result.data;
+
+  let user: Awaited<ReturnType<typeof verifyUser>>;
   try {
-    const body = await req.json();
-    const email = String(body.email || "").trim();
-    const password = String(body.password || "");
-
-    if (!email || !password) {
-      return NextResponse.json(
-        { success: false, error: "Email and password are required." },
-        { status: 400 },
-      );
-    }
-
-    const user = await verifyUser(email, password);
-    const sessionCookie = createSessionCookiePayload(user);
-
-    const res = NextResponse.json({ success: true, user }, { status: 200 });
-    res.cookies.set(sessionCookie.name, sessionCookie.value, {
-      httpOnly: false,
-      secure: process.env.NODE_ENV === "production",
-      path: "/",
-      sameSite: "lax",
-      maxAge: 60 * 60 * 24 * 7,
-    });
-    return res;
-  } catch (err: any) {
-    const message = err?.message || "Failed to login.";
-    return NextResponse.json({ success: false, error: message }, { status: 401 });
+    user = await verifyUser(email, password);
+  } catch {
+    return fail("Invalid email or password", 401);
   }
-}
 
+  const sessionCookie = createSessionCookiePayload(user);
+
+  const res = ok({ user });
+  res.cookies.set(sessionCookie.name, sessionCookie.value, {
+    httpOnly: false,
+    secure: process.env.NODE_ENV === "production",
+    path: "/",
+    sameSite: "lax",
+    maxAge: 60 * 60 * 24 * 7,
+  });
+  return res;
+});

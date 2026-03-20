@@ -1,23 +1,29 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 import { GetCommand } from "@aws-sdk/lib-dynamodb";
 import { getDb, BOOKINGS_TABLE } from "@/lib/dynamodb";
+import { ok, fail } from "@/lib/api-response";
+import { safeHandler } from "@/middleware-helpers/safe-handler";
 
 export const runtime = "nodejs";
 
-export async function GET(
+export const GET = safeHandler(async (
   _req: NextRequest,
-  { params }: { params: Promise<{ bookingId: string }> }
-) {
-  const { bookingId } = await params;
+  ctx?: unknown
+) => {
+  const { bookingId } = await (ctx as { params: Promise<{ bookingId: string }> }).params;
+
+  if (typeof bookingId !== "string" || bookingId.length > 100) {
+    return fail("Invalid booking ID", 400);
+  }
 
   const result = await getDb().send(
     new GetCommand({ TableName: BOOKINGS_TABLE, Key: { id: bookingId } })
   );
 
   if (!result.Item) {
-    return NextResponse.json({ error: "Not found" }, { status: 404 });
+    return fail("Not found", 404);
   }
 
   const { id, childName, grade, course, date, time, email } = result.Item;
-  return NextResponse.json({ id, childName, grade, course, date, time, email });
-}
+  return ok({ id, childName, grade, course, date, time, email });
+});

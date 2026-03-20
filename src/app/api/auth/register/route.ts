@@ -1,6 +1,9 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 import nodemailer from "nodemailer";
 import { registerUser, createSessionCookiePayload } from "@/lib/auth";
+import { registerUserSchema } from "@/lib/validators";
+import { ok, fail, validationFail } from "@/lib/api-response";
+import { safeHandler } from "@/middleware-helpers/safe-handler";
 
 export const runtime = "nodejs";
 
@@ -46,49 +49,35 @@ async function sendSignupEmail(name: string, email: string) {
   });
 }
 
-export async function POST(req: NextRequest) {
+export const POST = safeHandler(async (req: NextRequest) => {
+  const result = registerUserSchema.safeParse(await req.json());
+  if (!result.success) return validationFail(result.error.flatten());
+
+  const { name, email, password } = result.data;
+
+  let user: Awaited<ReturnType<typeof registerUser>>;
   try {
-    const body = await req.json();
-    const name = String(body.name || "").trim();
-    const email = String(body.email || "").trim();
-    const password = String(body.password || "");
-
-    if (!name || !email || !password) {
-      return NextResponse.json(
-        { success: false, error: "Name, email and password are required." },
-        { status: 400 },
-      );
-    }
-
-    if (password.length < 6) {
-      return NextResponse.json(
-        { success: false, error: "Password must be at least 6 characters." },
-        { status: 400 },
-      );
-    }
-
-    const user = await registerUser(name, email, password);
-    const sessionCookie = createSessionCookiePayload(user);
-
-    try {
-      await sendSignupEmail(user.name, user.email);
-    } catch (emailErr) {
-      console.error("Failed to send signup notification email:", emailErr);
-    }
-
-    const res = NextResponse.json({ success: true, user }, { status: 201 });
-    res.cookies.set(sessionCookie.name, sessionCookie.value, {
-      httpOnly: false,
-      secure: process.env.NODE_ENV === "production",
-      path: "/",
-      sameSite: "lax",
-      maxAge: 60 * 60 * 24 * 7, // 7 days
-    });
-    return res;
+    user = await registerUser(name, email, password);
   } catch (err: any) {
-    const message = err?.message || "Failed to register user.";
-    const status = message.includes("already exists") ? 409 : 500;
-    return NextResponse.json({ success: false, error: message }, { status });
+    if (err?.message === "Email already registered") {
+      return fail("Email already registered", 409);
+    }
+    throw err;
   }
-}
 
+  const sessionCookie = createSessionCookiePayload(user);
+
+  sendSignupEmail(user.name, user.email).catch((e) =>
+    console.error("Failed to send signup notification email:", e)
+  );
+
+  const res = ok({ user }, 201);
+  res.cookies.set(sessionCookie.name, sessionCookie.value, {
+    httpOnly: false,
+    secure: process.env.NODE_ENV === "production",
+    path: "/",
+    sameSite: "lax",
+    maxAge: 60 * 60 * 24 * 7,
+  });
+  return res;
+});
