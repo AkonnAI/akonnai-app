@@ -1,10 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
+import { getDb, BOOKINGS_TABLE } from "@/lib/dynamodb";
+import { PutCommand } from "@aws-sdk/lib-dynamodb";
+
+export const runtime = "nodejs";
 
 const GAS_URL =
   "https://script.google.com/macros/s/AKfycbyKPtz_UBvC-_Xw9SiUvxJIXQMyblihzVCiZ6OatI1Q087Dq6vvLkFDP8pmnesFE7CP/exec";
-
-export const runtime = "nodejs";
 
 function createTransporter() {
   const host = process.env.SMTP_HOST;
@@ -106,7 +108,29 @@ async function sendParentConfirmationEmail(registration: any) {
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
+    const { parentName, phone, email, childName, grade, course, date, time } = body;
 
+    // Save booking to DynamoDB
+    const bookingId = crypto.randomUUID();
+    await getDb().send(
+      new PutCommand({
+        TableName: BOOKINGS_TABLE,
+        Item: {
+          id: bookingId,
+          parentName,
+          phone,
+          email,
+          childName,
+          grade,
+          course,
+          date,
+          time,
+          createdAt: new Date().toISOString(),
+        },
+      })
+    );
+
+    // Forward to Google Apps Script
     const gasResponse = await fetch(GAS_URL, {
       method: "POST",
       headers: { "Content-Type": "text/plain;charset=utf-8" },
@@ -115,10 +139,6 @@ export async function POST(req: NextRequest) {
 
     if (!gasResponse.ok) {
       console.error("GAS responded with status:", gasResponse.status);
-      return NextResponse.json(
-        { success: false, error: "Google Apps Script returned an error." },
-        { status: 502 },
-      );
     }
 
     // Send both emails independently — neither failure blocks the booking
@@ -131,12 +151,12 @@ export async function POST(req: NextRequest) {
       ),
     ]);
 
-    return NextResponse.json({ success: true }, { status: 200 });
+    return NextResponse.json({ success: true, bookingId }, { status: 200 });
   } catch (error) {
-    console.error("Registration proxy error:", error);
+    console.error("Registration error:", error);
     return NextResponse.json(
-      { success: false, error: "Internal server error while forwarding registration." },
-      { status: 500 },
+      { success: false, error: "Internal server error while processing registration." },
+      { status: 500 }
     );
   }
 }

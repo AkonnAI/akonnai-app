@@ -1,87 +1,78 @@
-import fs from "node:fs";
-import path from "node:path";
 import crypto from "node:crypto";
 import bcrypt from "bcryptjs";
-
-const DATA_DIR = path.join(process.cwd(), "data");
-const USERS_FILE = path.join(DATA_DIR, "users.json");
-
-type UserRecord = {
-  id: string;
-  email: string;
-  name: string;
-  passwordHash: string;
-  createdAt: string;
-};
-
-type UsersDb = {
-  users: UserRecord[];
-};
-
-function ensureDataFile() {
-  if (!fs.existsSync(DATA_DIR)) {
-    fs.mkdirSync(DATA_DIR, { recursive: true });
-  }
-  if (!fs.existsSync(USERS_FILE)) {
-    fs.writeFileSync(USERS_FILE, JSON.stringify({ users: [] }, null, 2), "utf-8");
-  }
-}
-
-function readUsers(): UsersDb {
-  ensureDataFile();
-  const raw = fs.readFileSync(USERS_FILE, "utf-8");
-  try {
-    return JSON.parse(raw) as UsersDb;
-  } catch {
-    return { users: [] };
-  }
-}
-
-function writeUsers(db: UsersDb) {
-  ensureDataFile();
-  fs.writeFileSync(USERS_FILE, JSON.stringify(db, null, 2), "utf-8");
-}
+import { GetCommand, PutCommand, QueryCommand } from "@aws-sdk/lib-dynamodb";
+import { getDb, USERS_TABLE } from "@/lib/dynamodb";
 
 export async function registerUser(name: string, email: string, password: string) {
-  const normalizedEmail = email.trim().toLowerCase();
-  const db = readUsers();
+  const normalizedEmail = email.toLowerCase().trim();
 
-  const existing = db.users.find((u) => u.email === normalizedEmail);
-  if (existing) {
-    throw new Error("User already exists with this email");
+  // Check uniqueness via email-index GSI
+  const existing = await getDb().send(
+    new QueryCommand({
+      TableName: USERS_TABLE,
+      IndexName: "email-index",
+      KeyConditionExpression: "email = :e",
+      ExpressionAttributeValues: { ":e": normalizedEmail },
+      Limit: 1,
+    })
+  );
+  if (existing.Items && existing.Items.length > 0) {
+    throw new Error("Email already registered");
   }
 
   const passwordHash = await bcrypt.hash(password, 10);
-  const user: UserRecord = {
-    id: `${Date.now()}-${Math.random().toString(36).slice(2)}`,
-    email: normalizedEmail,
-    name: name.trim(),
-    passwordHash,
-    createdAt: new Date().toISOString(),
-  };
+  const id = `${Date.now()}-${Math.random().toString(36).slice(2)}`;
 
-  db.users.push(user);
-  writeUsers(db);
+  await getDb().send(
+    new PutCommand({
+      TableName: USERS_TABLE,
+      Item: {
+        id,
+        email: normalizedEmail,
+        name: name.trim(),
+        passwordHash,
+        createdAt: new Date().toISOString(),
+      },
+    })
+  );
 
-  return { id: user.id, email: user.email, name: user.name };
+  return { id, email: normalizedEmail, name: name.trim() };
 }
 
 export async function verifyUser(email: string, password: string) {
-  const normalizedEmail = email.trim().toLowerCase();
-  const db = readUsers();
-  const user = db.users.find((u) => u.email === normalizedEmail);
+  const normalizedEmail = email.toLowerCase().trim();
 
-  if (!user) {
-    throw new Error("Invalid email or password");
+  const result = await getDb().send(
+    new QueryCommand({
+      TableName: USERS_TABLE,
+      IndexName: "email-index",
+      KeyConditionExpression: "email = :e",
+      ExpressionAttributeValues: { ":e": normalizedEmail },
+      Limit: 1,
+    })
+  );
+
+  if (!result.Items || result.Items.length === 0) {
+    throw new Error("Invalid credentials");
   }
 
-  const ok = await bcrypt.compare(password, user.passwordHash);
-  if (!ok) {
-    throw new Error("Invalid email or password");
+  const user = result.Items[0];
+  const valid = await bcrypt.compare(password, user.passwordHash);
+  if (!valid) {
+    throw new Error("Invalid credentials");
   }
 
-  return { id: user.id, email: user.email, name: user.name };
+  return { id: user.id as string, email: user.email as string, name: user.name as string };
 }
+
+export async function getUserById(id: string) {
+  const result = await getDb().send(
+    new GetCommand({ TableName: USERS_TABLE, Key: { id } })
+  );
+  return result.Item ?? null;
+}
+
+// ─── Session cookie (HMAC-SHA256) ────────────────────────────────────────────
 
 const SESSION_COOKIE_NAME = "akmind_session";
 const SESSION_SECRET = process.env.AUTH_SESSION_SECRET || "development-secret-change-me";
@@ -133,4 +124,3 @@ export function parseSessionCookie(cookieHeader: string | null | undefined) {
 export function clearSessionCookie() {
   return { name: SESSION_COOKIE_NAME };
 }
-

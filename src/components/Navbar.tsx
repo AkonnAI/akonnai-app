@@ -135,17 +135,30 @@ const Navbar = () => {
     }, [pathname]);
 
     useEffect(() => {
-        const fetchMe = async () => {
-            try {
-                const res = await fetch("/api/auth/me", { credentials: "include" });
-                if (!res.ok) return;
-                const data = await res.json();
-                setAuthUser(data.authenticated && data.user ? { name: data.user.name, email: data.user.email } : null);
-            } catch {
-                setAuthUser(null);
-            }
-        };
-        fetchMe();
+        try {
+            const cookies = Object.fromEntries(
+                document.cookie.split(";").map((c) => {
+                    const [k, ...v] = c.trim().split("=");
+                    return [k.trim(), v.join("=")];
+                })
+            );
+            const raw = cookies["akmind_session"];
+            if (!raw) { setAuthUser(null); return; }
+
+            const decoded = decodeURIComponent(raw);
+            const dotIndex = decoded.lastIndexOf(".");
+            if (dotIndex === -1) { setAuthUser(null); return; }
+
+            // Decode base64url payload (HMAC is verified server-side on protected routes)
+            const encoded = decoded.slice(0, dotIndex);
+            const b64 = encoded.replace(/-/g, "+").replace(/_/g, "/");
+            const padded = b64 + "===".slice((b64.length + 3) % 4);
+            const base = atob(padded);
+            const user = JSON.parse(base) as { id: string; name: string; email: string };
+            setAuthUser({ name: user.name, email: user.email });
+        } catch {
+            setAuthUser(null);
+        }
     }, [pathname]);
 
     const getInitials = (user: AuthUser | null) => {

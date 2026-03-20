@@ -53,13 +53,7 @@ export default function RegisterPage() {
         setIsSubmitting(true);
         setSubmitError(null);
 
-        // Save to sessionStorage for confirmation page
-        if (typeof window !== "undefined") {
-            sessionStorage.setItem("registrationData", JSON.stringify(formData));
-        }
-
         try {
-            // POST to our own Next.js API route (server-side proxy) to avoid browser CORS issues with GAS
             const res = await fetch("/api/register", {
                 method: "POST",
                 headers: {
@@ -76,7 +70,8 @@ export default function RegisterPage() {
                 return;
             }
 
-            router.push("/confirmation");
+            const { bookingId } = await res.json();
+            router.push(`/confirmation?id=${bookingId}`);
         } catch (error) {
             console.error("Submission error:", error);
             setSubmitError("A network error occurred. Please check your connection and try again.");
