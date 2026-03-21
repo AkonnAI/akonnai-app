@@ -1,4 +1,4 @@
-# AKMIND v1.0 — Project Documentation
+# AKMIND v2.0 — Project Documentation
 
 > **"Dream. Discover. Shine."**
 > Exciting and effective AI programs, curated by experts!
@@ -13,15 +13,18 @@
 4. [Environment Configuration](#4-environment-configuration)
 5. [Database & Data Storage](#5-database--data-storage)
 6. [Authentication & Session Management](#6-authentication--session-management)
-7. [Frontend Pages](#7-frontend-pages)
-8. [Components](#8-components)
-9. [Backend API Routes](#9-backend-api-routes)
-10. [Demo Booking Flow](#10-demo-booking-flow)
-11. [Email Notifications](#11-email-notifications)
-12. [Third-Party Integrations](#12-third-party-integrations)
-13. [Styling & Design System](#13-styling--design-system)
-14. [Startup & Development](#14-startup--development)
-15. [Key Data Flows](#15-key-data-flows)
+7. [Rate Limiting](#7-rate-limiting)
+8. [Security Hardening](#8-security-hardening)
+9. [Frontend Pages](#9-frontend-pages)
+10. [Components](#10-components)
+11. [Backend API Routes](#11-backend-api-routes)
+12. [Demo Booking Flow](#12-demo-booking-flow)
+13. [Email Notifications](#13-email-notifications)
+14. [Third-Party Integrations](#14-third-party-integrations)
+15. [Styling & Design System](#15-styling--design-system)
+16. [Startup & Development](#16-startup--development)
+17. [Key Data Flows](#17-key-data-flows)
+18. [Version History](#18-version-history)
 
 ---
 
@@ -55,34 +58,37 @@
 ### Frontend
 | Technology | Version | Purpose |
 |---|---|---|
-| **Next.js** | 16.1.6 | React framework (App Router) |
+| **Next.js** | ^16.2.1 | React framework (App Router) |
 | **React** | 19.2.3 | UI library |
-| **TypeScript** | 5 | Type-safe JavaScript |
-| **Tailwind CSS** | 4 | Utility-first styling |
-| **Framer Motion** | 12.34.0 | Animations & transitions |
-| **Lucide React** | 0.564.0 | Icon library |
-| **clsx** | 2.1.1 | Conditional classnames |
-| **tailwind-merge** | 3.4.1 | Tailwind class deduplication |
+| **TypeScript** | ^5 | Type-safe JavaScript |
+| **Tailwind CSS** | ^4 | Utility-first styling |
+| **Framer Motion** | ^12.34.0 | Animations & transitions |
+| **Lucide React** | ^0.564.0 | Icon library |
+| **clsx** | ^2.1.1 | Conditional classnames |
+| **tailwind-merge** | ^3.4.1 | Tailwind class deduplication |
 
 ### Backend
 | Technology | Version | Purpose |
 |---|---|---|
 | **Node.js** | — | Runtime (via Next.js) |
 | **Next.js API Routes** | — | Serverless API endpoints |
-| **bcryptjs** | 2.4.3 | Password hashing |
-| **nodemailer** | 6.9.16 | Email sending (SMTP) |
+| **Zod** | ^4.3.6 | Request body schema validation |
+| **bcryptjs** | ^2.4.3 | Password hashing |
+| **@aws-sdk/client-dynamodb** | ^3.1013.0 | DynamoDB low-level client |
+| **@aws-sdk/lib-dynamodb** | ^3.1013.0 | DynamoDB document client (marshalling) |
+| **@aws-sdk/client-ses** | ^3.1013.0 | AWS SES email sending |
+| **@aws-sdk/client-cognito-identity-provider** | ^3.1013.0 | AWS Cognito authentication |
 
-### Data Storage
-| Storage | Purpose |
+### AWS Infrastructure
+| Service | Purpose |
 |---|---|
-| **JSON file** (`data/users.json`) | Parent account database |
-| **sessionStorage** (browser) | Temp registration wizard data |
-| **Google Apps Script (GAS)** | Demo booking CRM (Google Sheets) |
+| **DynamoDB** | Users table, bookings table, rate-limit table |
+| **Cognito** | User pool (sign up / sign in infrastructure) |
+| **SES** | Transactional emails from `hello@akmind.com` |
+| **Amplify** | Hosting, CI/CD from GitHub, domain management |
+| **Route 53** | DNS for `akmind.com` |
 
-### Fonts & Assets
-- **Outfit** (Google Fonts) — Primary typeface
-- Custom SVG brand assets
-- Animated GIFs and MP4 video (intro)
+> **Removed in v2.0:** `nodemailer`, `@types/nodemailer`, `data/users.json` flat-file DB, Gmail SMTP
 
 ---
 
@@ -92,460 +98,659 @@
 akmind-v1.0-master/
 │
 ├── src/
-│   ├── app/                          # Next.js App Router
-│   │   ├── api/                      # Backend API endpoints
+│   ├── app/                              # Next.js App Router
+│   │   ├── api/                          # Backend API endpoints
 │   │   │   ├── auth/
-│   │   │   │   ├── login/
-│   │   │   │   │   └── route.ts      # POST /api/auth/login
-│   │   │   │   ├── logout/
-│   │   │   │   │   └── route.ts      # POST /api/auth/logout
-│   │   │   │   ├── me/
-│   │   │   │   │   └── route.ts      # GET /api/auth/me
-│   │   │   │   └── register/
-│   │   │   │       └── route.ts      # POST /api/auth/register
-│   │   │   └── register/
-│   │   │       └── route.ts          # POST /api/register (demo booking)
+│   │   │   │   ├── login/route.ts        # POST /api/auth/login
+│   │   │   │   ├── logout/route.ts       # POST /api/auth/logout
+│   │   │   │   ├── me/route.ts           # GET /api/auth/me
+│   │   │   │   └── register/route.ts     # POST /api/auth/register
+│   │   │   ├── booking/
+│   │   │   │   └── [bookingId]/route.ts  # GET /api/booking/:id
+│   │   │   └── register/route.ts         # POST /api/register (demo booking)
 │   │   │
-│   │   ├── about/
-│   │   │   └── page.tsx              # About Us page
-│   │   ├── become-mentor/
-│   │   │   └── page.tsx              # Become a Mentor page
-│   │   ├── careers/
-│   │   │   └── page.tsx              # Careers/Jobs page
-│   │   ├── confirmation/
-│   │   │   └── page.tsx              # Demo booking confirmation
-│   │   ├── contact/
-│   │   │   └── page.tsx              # Contact Us page
-│   │   ├── curriculum/
-│   │   │   └── page.tsx              # Program curriculum details
-│   │   ├── login/
-│   │   │   └── page.tsx              # Parent login page
-│   │   ├── mentors/
-│   │   │   └── page.tsx              # Meet the Mentors page
-│   │   ├── register/
-│   │   │   └── page.tsx              # Demo class booking wizard
-│   │   ├── reviews/
-│   │   │   └── page.tsx              # Student reviews & testimonials
-│   │   ├── signup/
-│   │   │   └── page.tsx              # Parent account signup
-│   │   │
-│   │   ├── page.tsx                  # Home/Landing page
-│   │   ├── layout.tsx                # Root layout (fonts, metadata)
-│   │   ├── globals.css               # Global styles
-│   │   └── favicon.ico
+│   │   ├── about/page.tsx
+│   │   ├── become-mentor/page.tsx
+│   │   ├── careers/page.tsx
+│   │   ├── confirmation/page.tsx         # Booking confirmation (reads ?id= from URL)
+│   │   ├── contact/page.tsx
+│   │   ├── curriculum/page.tsx
+│   │   ├── login/page.tsx
+│   │   ├── mentors/page.tsx
+│   │   ├── register/page.tsx             # 4-step booking wizard
+│   │   ├── reviews/page.tsx
+│   │   ├── signup/page.tsx
+│   │   ├── page.tsx                      # Home / Landing page
+│   │   ├── layout.tsx
+│   │   └── globals.css
 │   │
-│   ├── components/                   # Reusable React components
-│   │   ├── AIProgramsSection.tsx     # 3D tilt program cards
-│   │   ├── ChooseYourCourse.tsx      # Course selection UI
-│   │   ├── Educators.tsx             # Educator/mentor showcase
-│   │   ├── FAQ.tsx                   # Tabbed FAQ accordion
-│   │   ├── Footer.tsx                # Site footer
-│   │   ├── HeroSection.tsx           # Animated landing hero
-│   │   ├── HowItWorks.tsx            # 3-step process section
-│   │   ├── LogoTicker.tsx            # Scrolling logos ticker
-│   │   ├── Navbar.tsx                # Navigation with dropdowns
-│   │   ├── ScrollProgressBar.tsx     # Page scroll indicator bar
-│   │   ├── SkillsForSuccess.tsx      # Skills highlight section
-│   │   ├── StatsRow.tsx              # Key statistics display
-│   │   ├── StudentSpotlight.tsx      # Student testimonials
-│   │   ├── TopPicks.tsx              # Featured program card
-│   │   └── WhyChoose.tsx             # USP/differentiators section
+│   ├── components/                       # Reusable React components
+│   │   ├── AIProgramsSection.tsx
+│   │   ├── ChooseYourCourse.tsx
+│   │   ├── Educators.tsx
+│   │   ├── FAQ.tsx
+│   │   ├── Footer.tsx
+│   │   ├── HeroSection.tsx
+│   │   ├── HowItWorks.tsx
+│   │   ├── LogoTicker.tsx
+│   │   ├── Navbar.tsx
+│   │   ├── ScrollProgressBar.tsx
+│   │   ├── SkillsForSuccess.tsx
+│   │   ├── StatsRow.tsx
+│   │   ├── StudentSpotlight.tsx
+│   │   ├── TopPicks.tsx
+│   │   └── WhyChoose.tsx
 │   │
-│   └── lib/
-│       └── auth.ts                   # Auth utilities (hash, session, verify)
+│   ├── lib/
+│   │   ├── env.ts            # ★ NEW — validates all 11 required env vars at startup
+│   │   ├── dynamodb.ts       # ★ UPDATED — DynamoDB client + table name exports
+│   │   ├── cognito.ts        # ★ UPDATED — Cognito sign up / sign in helpers
+│   │   ├── auth.ts           # ★ UPDATED — session cookie (HMAC-SHA256)
+│   │   ├── email.ts          # ★ NEW — AWS SES email functions
+│   │   ├── rate-limit.ts     # ★ NEW — DynamoDB TTL rate limiter
+│   │   ├── validators.ts     # Zod schemas for all API inputs
+│   │   └── api-response.ts   # ok() / fail() / validationFail() helpers
+│   │
+│   └── middleware-helpers/
+│       └── safe-handler.ts   # Wraps handlers in try/catch, returns 500 on throw
 │
-├── data/
-│   └── users.json                    # Parent accounts (JSON database)
+├── src/middleware.ts          # ★ NEW — payload size, content-type, security headers
 │
 ├── public/
-│   ├── images/                       # Hero slides, program images
-│   ├── media/                        # GIFs, intro.mp4 video
-│   └── *.svg                         # Brand/logo SVG assets
+│   ├── robots.txt             # ★ NEW — disallows /api/ and /confirmation from crawlers
+│   ├── images/
+│   └── media/
 │
-├── .env.local                        # Environment variables (secrets)
-├── .gitignore
-├── eslint.config.mjs                 # ESLint configuration
-├── next.config.ts                    # Next.js configuration
-├── package.json                      # Project dependencies & scripts
-├── package-lock.json
-├── postcss.config.mjs                # PostCSS / Tailwind config
-├── start_all.cmd                     # Windows one-click startup script
-├── tsconfig.json                     # TypeScript configuration
-└── README.md                         # Basic Next.js setup notes
+├── .env.local                 # Local secrets (gitignored)
+├── .env.local.example         # ★ NEW — safe-to-commit template for all 11 vars
+├── next.config.ts             # ★ UPDATED — CSP + security headers via headers()
+├── DEPLOYMENT.md              # ★ NEW — AWS setup checklist + pre-launch test list
+├── ARCHITECTURE.md            # ★ NEW — schemas, rate limit rules, data flows
+├── package.json
+└── tsconfig.json
 ```
 
 ---
 
 ## 4. Environment Configuration
 
-File: **`.env.local`**
+All 11 variables are **required**. The app throws at startup if any are missing (skipped during `next build`).
+
+**File:** `.env.local` (never commit this — it is gitignored)
 
 ```env
-# Session security — HMAC-SHA256 signing key for auth cookies
-AUTH_SESSION_SECRET=akmind-super-secret-session-key-2024-x9q2
+# AWS credentials — IAM user: akmind-app
+AWS_ACCESS_KEY_ID=your-iam-access-key-id
+AWS_SECRET_ACCESS_KEY=your-iam-secret-access-key
+AWS_REGION=ap-south-1
 
-# Admin email that receives demo booking notifications
-REGISTRATION_NOTIFY_EMAIL=admin@akonnai.ai
+# DynamoDB table names
+DYNAMODB_USERS_TABLE=users
+DYNAMODB_BOOKINGS_TABLE=bookings
 
-# Gmail SMTP credentials for sending emails
-SMTP_HOST=smtp.gmail.com
-SMTP_PORT=587
-SMTP_USER=hebelniraj015@gmail.com
-SMTP_PASS=afyzecittpwhnaab
+# Cognito User Pool
+COGNITO_USER_POOL_ID=ap-south-1_NWlfYqpfw
+COGNITO_CLIENT_ID=4es6i1i70nh367uhp8u4s8boiv
+NEXT_PUBLIC_COGNITO_USER_POOL_ID=ap-south-1_NWlfYqpfw
+NEXT_PUBLIC_COGNITO_CLIENT_ID=4es6i1i70nh367uhp8u4s8boiv
+NEXT_PUBLIC_COGNITO_REGION=ap-south-1
+
+# AWS SES — sender & admin recipient
+SES_FROM_EMAIL=hello@akmind.com
+SES_ADMIN_EMAIL=admin@akmind.com
+
+# Session signing key — must be 32+ characters
+# Generate with: node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+AUTH_SESSION_SECRET=838c111179138ebef6610d6822b2cf3533ef14b146c1bec621ac27fee992619f
+
+# Google Apps Script webhook URL (bookings → Google Sheet)
+GAS_WEBHOOK_URL=https://script.google.com/macros/s/AKfycbyKPtz_UBvC-_Xw9SiUvxJIXQMyblihzVCiZ6OatI1Q087Dq6vvLkFDP8pmnesFE7CP/exec
 ```
 
-### Security Notes
-- Session cookies are signed with **HMAC-SHA256** (using `AUTH_SESSION_SECRET`)
-- All passwords are hashed with **bcryptjs at 10 salt rounds** — never stored in plain text
-- Cookies are `httpOnly` (not accessible via JS), `secure` in production, expire after **7 days**
-- Email failures are non-blocking — booking still succeeds if email sending fails
+### Where each variable comes from
+
+| Variable | Source |
+|---|---|
+| `AWS_ACCESS_KEY_ID` / `AWS_SECRET_ACCESS_KEY` | AWS Console → IAM → Users → akmind-app → Security credentials |
+| `AWS_REGION` | Your chosen AWS region (e.g. `ap-south-1`) |
+| `DYNAMODB_USERS_TABLE` / `DYNAMODB_BOOKINGS_TABLE` | DynamoDB table names you created |
+| `COGNITO_USER_POOL_ID` | Cognito → User pools → your pool → Pool ID |
+| `COGNITO_CLIENT_ID` | Cognito → your pool → App clients → client ID |
+| `SES_FROM_EMAIL` / `SES_ADMIN_EMAIL` | Verified SES identities |
+| `AUTH_SESSION_SECRET` | Generate locally with crypto.randomBytes (see above) |
+| `GAS_WEBHOOK_URL` | Google Apps Script → Deploy → Web app URL |
+
+### `src/lib/env.ts` — Startup Validation
+
+```typescript
+const required: Record<string, string | undefined> = {
+  AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID,
+  AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY,
+  AWS_REGION: process.env.AWS_REGION,
+  DYNAMODB_USERS_TABLE: process.env.DYNAMODB_USERS_TABLE,
+  DYNAMODB_BOOKINGS_TABLE: process.env.DYNAMODB_BOOKINGS_TABLE,
+  COGNITO_USER_POOL_ID: process.env.COGNITO_USER_POOL_ID,
+  COGNITO_CLIENT_ID: process.env.COGNITO_CLIENT_ID,
+  SES_FROM_EMAIL: process.env.SES_FROM_EMAIL,
+  SES_ADMIN_EMAIL: process.env.SES_ADMIN_EMAIL,
+  GAS_WEBHOOK_URL: process.env.GAS_WEBHOOK_URL,
+  AUTH_SESSION_SECRET: process.env.AUTH_SESSION_SECRET,
+};
+
+// Skip during next build — vars only required at runtime
+const isBuildPhase = process.env.NEXT_PHASE === "phase-production-build";
+
+if (!isBuildPhase) {
+  const missing = Object.entries(required)
+    .filter(([_, v]) => !v)
+    .map(([k]) => k);
+  if (missing.length > 0)
+    throw new Error(`Missing required environment variables: ${missing.join(", ")}`);
+  if (process.env.AUTH_SESSION_SECRET!.length < 32)
+    throw new Error("AUTH_SESSION_SECRET must be at least 32 characters");
+}
+
+export const env = {
+  awsAccessKeyId: process.env.AWS_ACCESS_KEY_ID!,
+  awsSecretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
+  awsRegion: process.env.AWS_REGION!,
+  usersTable: process.env.DYNAMODB_USERS_TABLE!,
+  bookingsTable: process.env.DYNAMODB_BOOKINGS_TABLE!,
+  cognitoUserPoolId: process.env.COGNITO_USER_POOL_ID!,
+  cognitoClientId: process.env.COGNITO_CLIENT_ID!,
+  sesFrom: process.env.SES_FROM_EMAIL!,
+  sesAdmin: process.env.SES_ADMIN_EMAIL!,
+  gasWebhookUrl: process.env.GAS_WEBHOOK_URL!,
+  sessionSecret: process.env.AUTH_SESSION_SECRET!,
+};
+```
+
+All library files (`dynamodb.ts`, `cognito.ts`, `email.ts`, `auth.ts`, `rate-limit.ts`) import from `env` — no direct `process.env` access anywhere except `env.ts`.
 
 ---
 
 ## 5. Database & Data Storage
 
-### User Accounts — `data/users.json`
+> **v1.0 used a flat `data/users.json` file. v2.0 is fully on AWS DynamoDB.**
 
-A flat-file JSON database that stores registered parent accounts.
+### Table: `users` (DYNAMODB_USERS_TABLE)
 
-**Schema:**
-```typescript
-type UserRecord = {
-  id: string;           // Unique: `${Date.now()}-${Math.random().toString(36)}`
-  email: string;        // Lowercase, trimmed — must be unique
-  name: string;         // Trimmed display name
-  passwordHash: string; // bcryptjs hash (10 rounds)
-  createdAt: string;    // ISO 8601 timestamp, e.g. "2024-11-15T09:30:00.000Z"
-}
+Stores registered parent accounts.
 
-type UsersDb = {
-  users: UserRecord[];
-}
-```
+| Attribute | Type | Notes |
+|---|---|---|
+| `id` | String (PK) | `${Date.now()}-${Math.random().toString(36).slice(2)}` |
+| `email` | String | Lowercased + trimmed; **GSI partition key** (`email-index`) |
+| `name` | String | Trimmed display name |
+| `passwordHash` | String | bcrypt hash, 10 rounds — **never returned to client** |
+| `createdAt` | String | ISO 8601 timestamp |
 
-**Example entry:**
+**GSI:** `email-index` — partition key: `email` (used to look up users by email for login/uniqueness check)
+
+**Example item:**
 ```json
 {
-  "users": [
-    {
-      "id": "1731659400000-k3m9x",
-      "email": "parent@example.com",
-      "name": "Priya Sharma",
-      "passwordHash": "$2a$10$...",
-      "createdAt": "2024-11-15T09:30:00.000Z"
-    }
-  ]
+  "id": "1731659400000-k3m9x",
+  "email": "priya@example.com",
+  "name": "Priya Sharma",
+  "passwordHash": "$2a$10$...",
+  "createdAt": "2025-03-01T09:30:00.000Z"
 }
 ```
 
-### Demo Registration Data — Browser `sessionStorage`
+---
 
-Temporarily held in the browser between the 4-step registration wizard and the confirmation page.
+### Table: `bookings` (DYNAMODB_BOOKINGS_TABLE)
+
+Stores all demo class bookings.
+
+| Attribute | Type | Notes |
+|---|---|---|
+| `id` | String (PK) | `crypto.randomUUID()` |
+| `parentName` | String | |
+| `phone` | String | |
+| `email` | String | Parent email |
+| `childName` | String | |
+| `grade` | String | e.g. `"Grade 7"` |
+| `course` | String | e.g. `"AI Builders (Grades 7-8)"` |
+| `date` | String | Selected demo date `"YYYY-MM-DD"` |
+| `time` | String | Selected time slot e.g. `"4:00 PM"` |
+| `createdAt` | String | ISO 8601 timestamp |
+
+**Example item:**
+```json
+{
+  "id": "550e8400-e29b-41d4-a716-446655440000",
+  "parentName": "Priya Sharma",
+  "phone": "9876543210",
+  "email": "priya@example.com",
+  "childName": "Aarav Sharma",
+  "grade": "Grade 7",
+  "course": "AI Builders (Grades 7-8)",
+  "date": "2025-04-10",
+  "time": "4:00 PM",
+  "createdAt": "2025-03-21T10:00:00.000Z"
+}
+```
+
+---
+
+### Table: `akmind-rate-limits` (hardcoded name)
+
+Used by the rate limiter. DynamoDB TTL auto-deletes expired windows — no Redis needed.
+
+| Attribute | Type | Notes |
+|---|---|---|
+| `pk` | String (PK) | Format: `rl#<type>:<ip>` e.g. `rl#auth:1.2.3.4` |
+| `count` | Number | Atomically incremented per request |
+| `ttl` | Number | Unix epoch seconds — DynamoDB TTL attribute |
+
+> **Important:** Enable TTL on this table in DynamoDB console → Additional settings → Time to live → attribute name: `ttl`
+
+---
+
+### `src/lib/dynamodb.ts`
 
 ```typescript
-type RegistrationData = {
-  parentName: string;   // Parent/Guardian full name
-  phone: string;        // Contact mobile number
-  email: string;        // Parent email address
-  childName: string;    // Student's name
-  grade: string;        // e.g. "Grade 6"
-  course: string;       // e.g. "AI Builders"
-  date: string;         // Booking date: "YYYY-MM-DD"
-  time: string;         // Booking time: e.g. "4:00 PM - 7:00 PM"
+import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
+import { DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
+import { env } from "./env";
+
+let client: DynamoDBDocumentClient | null = null;
+
+export function getDb() {
+  if (!client) {
+    const ddb = new DynamoDBClient({
+      region: env.awsRegion,
+      credentials: {
+        accessKeyId: env.awsAccessKeyId,
+        secretAccessKey: env.awsSecretAccessKey,
+      },
+    });
+    client = DynamoDBDocumentClient.from(ddb, {
+      marshallOptions: { removeUndefinedValues: true },
+    });
+  }
+  return client;
 }
+
+export const USERS_TABLE = env.usersTable;
+export const BOOKINGS_TABLE = env.bookingsTable;
+export const RATE_LIMIT_TABLE = "akmind-rate-limits";
 ```
 
 ---
 
 ## 6. Authentication & Session Management
 
-File: **`src/lib/auth.ts`**
+**File:** `src/lib/auth.ts`
+
+Authentication uses **DynamoDB** (not Cognito) for storing user accounts, and **HMAC-SHA256 signed cookies** for sessions.
 
 ### `registerUser(name, email, password)`
-1. Validates all fields are present
-2. Normalises email (lowercase + trim)
-3. Checks `data/users.json` for duplicate email
-4. Hashes password with bcryptjs (10 rounds)
-5. Generates unique ID: `` `${Date.now()}-${Math.random().toString(36)}` ``
-6. Appends new user to `data/users.json`
-7. Returns user object (no `passwordHash` field)
+1. Normalises email (lowercase + trim)
+2. Queries `email-index` GSI — throws `"Email already registered"` if found
+3. Hashes password with bcrypt (10 rounds)
+4. Writes user to DynamoDB `users` table
+5. Returns `{ id, email, name }` — **passwordHash is never returned**
 
 ### `verifyUser(email, password)`
-1. Loads users from `data/users.json`
-2. Finds user by email (case-insensitive)
-3. Runs `bcrypt.compare(password, hash)`
-4. Returns user object on success, throws generic error on failure
+1. Queries `email-index` GSI to find user
+2. `bcrypt.compare(password, user.passwordHash)`
+3. Returns `{ id, email, name }` on match, throws on failure
 
 ### `createSessionCookiePayload(user)`
-1. Builds payload: `{ id, email, name }`
-2. Base64URL-encodes JSON payload
-3. Signs with HMAC-SHA256 using `AUTH_SESSION_SECRET`
-4. Returns: `base64url(JSON).hex(HMAC_signature)`
-5. Sets cookie as `httpOnly`, `SameSite=Lax`, 7-day expiry
+```typescript
+// Payload: { id, email, name }
+const base = JSON.stringify({ id, email, name });
+const signature = crypto
+  .createHmac("sha256", env.sessionSecret)
+  .update(base)
+  .digest("hex");
+const value = Buffer.from(base).toString("base64url") + "." + signature;
+return { name: "akmind_session", value };
+```
+Cookie is set with `secure: true` in production, `SameSite: lax`, 7-day `maxAge`.
 
 ### `parseSessionCookie(cookieHeader)`
 1. Extracts `akmind_session` from cookie header
-2. Splits value into `[payload, signature]`
-3. Recomputes HMAC signature and compares
-4. Returns parsed user object if valid, `null` if invalid/tampered
-
-### `clearSessionCookie()`
-Returns a cookie object with `maxAge: 0` to expire the session immediately.
+2. Splits on last `.` to get `[base64url payload, hex signature]`
+3. Recomputes HMAC and uses constant-time comparison
+4. Returns parsed `{ id, email, name }` or `null` if invalid/tampered
 
 ---
 
-## 7. Frontend Pages
+## 7. Rate Limiting
+
+**File:** `src/lib/rate-limit.ts`
+
+Production-grade rate limiting with **zero extra infrastructure** — uses DynamoDB atomic counters and TTL for automatic window expiry.
+
+### Limits
+
+| Route | Key | Limit | Window | 429 Message |
+|---|---|---|---|---|
+| `POST /api/auth/login` | `rl#auth:<ip>` | 5 req | 15 min | "Too many attempts. Try again in 15 minutes." |
+| `POST /api/auth/register` | `rl#auth:<ip>` | 5 req | 15 min | "Too many attempts. Try again in 15 minutes." |
+| `POST /api/register` | `rl#booking:<ip>` | 3 req | 1 hour | "Too many booking attempts. Try again in 1 hour." |
+| `GET /api/auth/me` | `rl#general:<ip>` | 60 req | 60 sec | `{ error: "Too many requests" }` |
+| `GET /api/booking/:id` | `rl#general:<ip>` | 60 req | 60 sec | `{ error: "Too many requests" }` |
+
+### How it works
+
+```typescript
+export async function checkRateLimit(
+  key: string,
+  config: LimitConfig
+): Promise<{ allowed: boolean; remaining: number }> {
+  const db = getDb();
+  const now = Math.floor(Date.now() / 1000);
+  const pk = `rl#${key}`;
+  const ttl = now + config.windowSeconds;
+
+  const res = await db.send(new UpdateCommand({
+    TableName: RATE_LIMIT_TABLE,
+    Key: { pk },
+    UpdateExpression:
+      "SET #count = if_not_exists(#count, :zero) + :inc, #ttl = :ttl",
+    ExpressionAttributeNames: { "#count": "count", "#ttl": "ttl" },
+    ExpressionAttributeValues: { ":zero": 0, ":inc": 1, ":ttl": ttl },
+    ReturnValues: "ALL_NEW",
+  }));
+
+  const count = res.Attributes?.count ?? 1;
+  return {
+    allowed: count <= config.max,
+    remaining: Math.max(0, config.max - count),
+  };
+}
+```
+
+**Fail-open:** If DynamoDB is unreachable, `checkRateLimit` catches the error and returns `{ allowed: true }` — a DynamoDB outage never blocks users.
+
+### IP extraction
+
+```typescript
+export function getIP(req: Request): string {
+  return req.headers.get("x-forwarded-for")?.split(",")[0]?.trim()
+    || req.headers.get("x-real-ip")
+    || "unknown";
+}
+```
+
+### Usage in routes
+
+```typescript
+// Top of every protected handler:
+const { allowed } = await checkRateLimit(`auth:${getIP(req)}`, LIMITS.auth);
+if (!allowed) return fail("Too many attempts. Try again in 15 minutes.", 429);
+```
+
+---
+
+## 8. Security Hardening
+
+### `src/middleware.ts` — Request Proxy
+
+Runs on every request (excluding static assets):
+
+```typescript
+import { NextRequest, NextResponse } from "next/server";
+
+export function middleware(req: NextRequest) {
+  const res = NextResponse.next();
+
+  // Block oversized payloads (10 KB limit)
+  const cl = req.headers.get("content-length");
+  if (cl && parseInt(cl) > 10000) {
+    return new NextResponse("Payload too large", { status: 413 });
+  }
+
+  // Enforce JSON content-type on all POST /api/* requests
+  if (req.method === "POST" && req.nextUrl.pathname.startsWith("/api")) {
+    const ct = req.headers.get("content-type") || "";
+    if (!ct.includes("application/json")) {
+      return new NextResponse("Unsupported Media Type", { status: 415 });
+    }
+  }
+
+  // Security headers
+  res.headers.set("X-Content-Type-Options", "nosniff");
+  res.headers.set("X-Frame-Options", "DENY");
+  res.headers.set("X-XSS-Protection", "1; mode=block");
+  res.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
+  res.headers.set("Permissions-Policy", "camera=(), microphone=(), geolocation=()");
+  return res;
+}
+
+export const config = {
+  matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
+};
+```
+
+### `next.config.ts` — HTTP Security Headers
+
+```typescript
+async headers() {
+  return [
+    {
+      source: "/(.*)",
+      headers: [
+        {
+          key: "Content-Security-Policy",
+          value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https:; connect-src 'self' https://*.amazonaws.com https://cognito-idp.*.amazonaws.com; frame-ancestors 'none';",
+        },
+        { key: "Strict-Transport-Security", value: "max-age=31536000; includeSubDomains" },
+        { key: "X-Content-Type-Options", value: "nosniff" },
+        { key: "X-Frame-Options", value: "DENY" },
+        { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+      ],
+    },
+  ];
+}
+```
+
+### `safeHandler` — Global Error Boundary
+
+**File:** `src/middleware-helpers/safe-handler.ts`
+
+Wraps every API handler. If anything throws, returns a safe generic `500` — no `err.message` or stack traces ever reach the client:
+
+```typescript
+export function safeHandler(fn: Handler): Handler {
+  return async (req, ctx) => {
+    try {
+      return await fn(req, ctx);
+    } catch (err) {
+      console.error("[API Error]", err);
+      return NextResponse.json(
+        { error: "Something went wrong. Please try again." },
+        { status: 500 }
+      );
+    }
+  };
+}
+```
+
+### Zod Validation
+
+All API route bodies are validated with Zod before any processing:
+
+```typescript
+// Example — login route
+const result = loginSchema.safeParse(await req.json());
+if (!result.success) return validationFail(result.error.flatten());
+```
+
+If validation fails, returns `422` with field-level error details. If it passes, TypeScript types are guaranteed from the schema.
+
+### `public/robots.txt`
+
+```
+User-agent: *
+Disallow: /api/
+Disallow: /confirmation
+Sitemap: https://www.akmind.com/sitemap.xml
+```
+
+### Security Summary
+
+| Protection | Implementation |
+|---|---|
+| Passwords | bcrypt, 10 rounds — never stored plain, never returned to client |
+| Sessions | HMAC-SHA256 signed cookies, 32+ char secret, 7-day expiry |
+| Rate limiting | DynamoDB TTL counters per IP per route |
+| Input validation | Zod schemas on all POST routes |
+| Error leakage | `safeHandler` returns generic 500, logs full error server-side only |
+| Payload attacks | 10 KB content-length limit in middleware |
+| MIME sniffing | `X-Content-Type-Options: nosniff` |
+| Clickjacking | `X-Frame-Options: DENY` + CSP `frame-ancestors: none` |
+| HTTPS | HSTS `max-age=31536000; includeSubDomains` |
+| XSS | `X-XSS-Protection: 1; mode=block` + strict CSP |
+| Content-type injection | 415 on non-JSON POST to /api/* |
+| Dependency CVEs | 0 vulnerabilities (`npm audit` — Next.js upgraded to 16.2.1) |
+
+---
+
+## 9. Frontend Pages
 
 ### Home — `/`
 **File:** `src/app/page.tsx`
 
-The landing page. Assembles all home-page section components in order:
-- `<HeroSection />` → `<LogoTicker />` → `<StatsRow />` → `<AIProgramsSection />` → `<TopPicks />` → `<HowItWorks />` → `<WhyChoose />` → `<SkillsForSuccess />` → `<Educators />` → `<StudentSpotlight />` → `<FAQ />`
+Landing page — assembles all home-page section components:
+`<HeroSection />` → `<LogoTicker />` → `<StatsRow />` → `<AIProgramsSection />` → `<TopPicks />` → `<HowItWorks />` → `<WhyChoose />` → `<SkillsForSuccess />` → `<Educators />` → `<StudentSpotlight />` → `<FAQ />`
 
 ---
 
 ### Login — `/login`
-**File:** `src/app/login/page.tsx` (~109 lines)
+**File:** `src/app/login/page.tsx`
 
 Parent login form.
 - Fields: Email, Password
 - On submit: `POST /api/auth/login`
 - On success: redirects to `/`
-- On failure: displays inline error message
+- On failure: displays inline error
 - Link to `/signup` for new users
 
 ---
 
 ### Sign Up — `/signup`
-**File:** `src/app/signup/page.tsx` (~128 lines)
+**File:** `src/app/signup/page.tsx`
 
-New parent account creation form.
-- Fields: Full Name, Email, Password (min 6 characters)
+New parent account creation.
+- Fields: Full Name, Email, Password (min 6 chars — enforced by Zod schema)
 - On submit: `POST /api/auth/register`
-- On success: session cookie set, redirect to `/`
-- Sends welcome email to parent via SMTP
+- On success: session cookie set, redirect to `/`, welcome email sent via SES
 - Link to `/login` for existing users
 
 ---
 
 ### Register (Demo Booking) — `/register`
-**File:** `src/app/register/page.tsx` (~222 lines)
+**File:** `src/app/register/page.tsx`
 
-A 4-step multi-page wizard for booking a free demo class:
+4-step multi-page wizard for booking a free demo class:
 
 | Step | Fields |
 |---|---|
 | **Step 1 — Parent Details** | Parent/Guardian Name, Phone Number, Email |
-| **Step 2 — Student Details** | Child's Name, Grade (5–10) |
-| **Step 3 — Course Selection** | Choose from AI Explorers / Builders / Innovators |
-| **Step 4 — Schedule** | Pick a date + time slot (4 PM – 7 PM) |
+| **Step 2 — Student Details** | Child's Name, Grade |
+| **Step 3 — Course Selection** | AI Explorers / Builders / Innovators |
+| **Step 4 — Schedule** | Pick a date + time slot (4 PM, 5 PM, 6 PM, 7 PM) |
 
-- State is preserved between steps in React state
-- On final submit: sends data to `POST /api/register`
-- Stores form data in `sessionStorage` before navigating to confirmation
+- Form data held in React state between steps
+- On final submit: `POST /api/register` → receives `{ bookingId }` → navigates to `/confirmation?id=${bookingId}`
 
 ---
 
 ### Confirmation — `/confirmation`
-**File:** `src/app/confirmation/page.tsx` (~89 lines)
+**File:** `src/app/confirmation/page.tsx`
 
 Post-booking confirmation screen.
-- Reads registration data from `sessionStorage`
-- Displays booking summary: child name, grade, course, date, time
-- Shows email confirmation status (success/failure notice)
-- CTA to return home or explore more
+
+- Reads `?id=` from URL search params (`window.location.search`)
+- Fetches `GET /api/booking/${bookingId}` to load booking data from DynamoDB
+- Shows loading skeleton while fetching
+- Displays: child name, course, date, time, parent email
+- Error state if booking ID is invalid or not found
+- CTA to return home
+
+> **v2.0 change:** Previously read from `sessionStorage`. Now fetches live from DynamoDB via the bookingId — works even if user shares the link or refreshes.
 
 ---
 
 ### About — `/about`
-**File:** `src/app/about/page.tsx` (~83 lines)
-
-Company information page.
-- Mission & Vision statements
-- Core Values
-- Key statistics: 500+ students, founded 2023
-- Team section
-
----
+Company info — mission, values, key stats, team section.
 
 ### Contact — `/contact`
-**File:** `src/app/contact/page.tsx` (~125 lines)
-
-Contact page with:
-- Contact form (name, email, message)
-- Email: info@akonnai.ai
-- Phone number
-- Office location
-- "Book Free Demo" CTA button
-
----
+Contact form + email, phone, office location, "Book Free Demo" CTA.
 
 ### Curriculum — `/curriculum`
-**File:** `src/app/curriculum/page.tsx`
-
-Detailed breakdown of what each program covers — topics, tools, projects, and learning outcomes for AI Explorers, Builders, and Innovators.
-
----
+Program breakdown — topics, tools, projects, learning outcomes for all three tiers.
 
 ### Mentors — `/mentors`
-**File:** `src/app/mentors/page.tsx`
-
-Profiles of AKMIND's mentor team — background, expertise, industry experience, and teaching philosophy.
-
----
+Mentor profiles — background, expertise, teaching philosophy.
 
 ### Become a Mentor — `/become-mentor`
-**File:** `src/app/become-mentor/page.tsx`
-
-Application page for industry professionals who want to teach on AKMIND. Form or expression-of-interest flow.
-
----
+Application page for industry professionals.
 
 ### Reviews — `/reviews`
-**File:** `src/app/reviews/page.tsx`
-
-Student and parent testimonials, success stories, and project showcases.
-
----
+Student and parent testimonials, success stories, project showcases.
 
 ### Careers — `/careers`
-**File:** `src/app/careers/page.tsx`
-
-Open positions at AKMIND — role listings, responsibilities, and application instructions.
+Open positions and application instructions.
 
 ---
 
-## 8. Components
+## 10. Components
 
 ### `Navbar.tsx` (~387 lines)
 Sticky top navigation bar.
-- **Logo** with brand name
-- **Dropdown menus:**
-  - *Programs* → AI Explorers, AI Builders, AI Innovators
-  - *AI Mentors* → Meet Mentors, Become a Mentor
-  - *About AKMIND* → About, Curriculum, Reviews, Careers, Contact
-- **Auth state display:** Shows "Login / Sign Up" buttons OR logged-in user name with profile dropdown
-- **Profile dropdown:** Displays user name, email, and Logout button
-- **Mobile menu:** Hamburger-toggled full-screen nav for small screens
-- Polls `GET /api/auth/me` on mount to detect active session
-
----
-
-### `Footer.tsx` (~132 lines)
-4-column footer.
-- Brand logo + tagline + social links (Instagram, LinkedIn, YouTube)
-- *Programs:* AI Explorers, AI Builders, AI Innovators
-- *Company:* About, Curriculum, Mentors, Careers, Contact
-- *Contact:* Email, phone
-- "Book Free Trial" CTA button
-
----
+- Dropdown menus: Programs, AI Mentors, About AKMIND
+- Auth state: polls `GET /api/auth/me` on mount → shows Login/Signup OR logged-in user dropdown
+- Profile dropdown: user name, email, Logout button
+- Mobile hamburger menu
 
 ### `HeroSection.tsx` (~215 lines)
-The landing page hero — the first thing visitors see.
-- **Animated headline** with typewriter-effect rotating phrases
-- **Gradient animated text** (8-second colour cycle)
-- **Auto-rotating image slideshow** (4 slides, auto-advances)
-- **Magnetic CTA button** — cursor attraction effect on hover
-- Two CTAs: "Book Demo Class" (`/register`) and "View Curriculum" (`/curriculum`)
+- Animated typewriter headline cycling through 4 phrases
+- Gradient animated text (8s colour cycle)
+- Auto-rotating image slideshow (4 slides, 3s interval)
+- Magnetic CTA button — cursor attraction effect on hover
 - Background: dot-grid pattern with gradient overlay
 
----
-
 ### `AIProgramsSection.tsx` (~150 lines)
-Three program cards displayed side by side.
-- Each card has a **3D tilt effect** driven by mouse cursor position (`transform: perspective(800px) rotateX() rotateY()`)
-- Gradient borders (indigo→purple, purple→pink, blue→indigo)
-- Badge labels: Beginner Friendly / Most Popular / Advanced
-- Program name, grade range, brief description
-- "Learn More" CTA per card
-
----
-
-### `TopPicks.tsx`
-Featured program highlight — showcases **AI Builders (Grades 7–8)** as the most popular choice with a larger, emphasised card design.
-
----
-
-### `HowItWorks.tsx`
-Three-step process visual:
-1. **Share Student Details** — tell us about your child
-2. **Explore Curriculum** — see what they'll learn
-3. **Start Learning** — book and begin
-Includes an embedded `intro.mp4` video.
-
----
-
-### `LogoTicker.tsx`
-Horizontally scrolling ticker of tool/technology logos — Python, TensorFlow, OpenCV, etc. Infinite loop animation at 30-second duration.
-
----
-
-### `StatsRow.tsx`
-Highlights key numbers:
-- 500+ Students
-- Expert mentors
-- Real AI projects built
-- etc.
-
----
-
-### `WhyChoose.tsx`
-USP/differentiator section explaining what sets AKMIND apart:
-- Industry expert mentors
-- Hands-on projects (not just theory)
-- Small batch sizes for personal attention
-- Certificates on completion
-
----
-
-### `SkillsForSuccess.tsx`
-Visual display of skills students will gain:
-- Python Programming
-- Machine Learning
-- Computer Vision
-- Data Analysis
-- Problem Solving
-- etc.
-
----
-
-### `Educators.tsx`
-Snapshot of mentor profiles — photos, names, industry background, and areas of expertise.
-
----
-
-### `StudentSpotlight.tsx`
-Testimonial cards from students and parents — quotes, photos, grades, and what project they built.
-
----
+- 3D tilt effect on mouse hover (`perspective(800px) rotateX rotateY`)
+- Gradient borders, badge labels, per-card CTAs
 
 ### `FAQ.tsx` (~145 lines)
-Accordion FAQ organised into 3 tabs:
-- **AI Curriculum** — What is taught, tools used, project examples
-- **Mentorship** — How 1-on-1 sessions work, mentor qualifications
-- **Class Experience** — Class duration, schedule, how to join sessions
+Accordion FAQ with 3 tabs — AI Curriculum, Mentorship, Class Experience.
 
----
+### `Footer.tsx`
+4-column footer — brand, programs, company links, contact info, social links (Instagram, LinkedIn, YouTube).
+
+### `LogoTicker.tsx`
+Horizontally scrolling tech logo ticker — Python, TensorFlow, OpenCV, etc. 30s infinite loop.
 
 ### `ScrollProgressBar.tsx`
-A thin coloured bar fixed at the top of the page that grows from 0→100% as the user scrolls down. Built with `window.scrollY` listener.
+Thin progress bar fixed at top — grows 0→100% as user scrolls.
+
+*(Other components: `TopPicks`, `HowItWorks`, `WhyChoose`, `SkillsForSuccess`, `Educators`, `StudentSpotlight`, `StatsRow`, `ChooseYourCourse`)*
 
 ---
 
-### `ChooseYourCourse.tsx`
-Interactive course selection widget — likely used on the curriculum or programs page to filter/display relevant program details based on grade selection.
+## 11. Backend API Routes
+
+All routes use `safeHandler` (global error boundary) and Zod validation. All `process.env` access goes through `env.ts`.
 
 ---
-
-## 9. Backend API Routes
 
 ### `POST /api/auth/register`
 **File:** `src/app/api/auth/register/route.ts`
 
 Creates a new parent account.
 
-**Request body:**
+**Rate limit:** 5 requests / 15 min per IP
+
+**Request body (Zod validated):**
 ```json
 {
   "name": "Priya Sharma",
@@ -554,25 +759,21 @@ Creates a new parent account.
 }
 ```
 
-**Validation:**
-- All three fields required
-- Password minimum 6 characters
-- Email must not already exist in `users.json`
+**Flow:**
+1. Rate limit check
+2. Zod validation
+3. DynamoDB GSI query — check email uniqueness
+4. `bcrypt.hash(password, 10)`
+5. DynamoDB `PutCommand` → users table
+6. `createSessionCookiePayload(user)` → set cookie
+7. `sendWelcomeEmail(email, name)` — fire and forget (no await)
 
-**On success:**
-- Hashes password (bcrypt, 10 rounds)
-- Appends user to `data/users.json`
-- Creates and sets session cookie (7-day expiry)
-- Sends welcome email to parent via SMTP
-- Returns `200`:
+**Response `201`:**
 ```json
 { "success": true, "user": { "id": "...", "email": "...", "name": "..." } }
 ```
 
-**On error:**
-- `400` — Missing fields or password too short
-- `409` — Email already registered
-- `500` — Server error
+**Errors:** `422` validation fail | `409` email taken | `429` rate limited | `500` server error
 
 ---
 
@@ -581,32 +782,33 @@ Creates a new parent account.
 
 Authenticates a parent and creates a session.
 
+**Rate limit:** 5 requests / 15 min per IP
+
 **Request body:**
 ```json
-{
-  "email": "priya@example.com",
-  "password": "mypassword123"
-}
+{ "email": "priya@example.com", "password": "mypassword123" }
 ```
 
-**Logic:**
-- Finds user by email (case-insensitive)
-- `bcrypt.compare(password, hash)`
-- Sets session cookie on match
+**Flow:**
+1. Rate limit check
+2. Zod validation
+3. DynamoDB GSI query by email
+4. `bcrypt.compare(password, hash)`
+5. `createSessionCookiePayload(user)` → set cookie
 
-**Returns `200`:**
+**Response `200`:**
 ```json
 { "success": true, "user": { "id": "...", "email": "...", "name": "..." } }
 ```
 
-**Returns `401`** on invalid credentials (generic message, no detail about which field failed — intentional for security).
+**Response `401`:** `{ "error": "Invalid email or password" }` — generic, doesn't reveal which field failed
 
 ---
 
 ### `POST /api/auth/logout`
 **File:** `src/app/api/auth/logout/route.ts`
 
-Clears the session cookie.
+Clears the session cookie (`maxAge: 0`).
 
 ```json
 { "success": true }
@@ -617,51 +819,32 @@ Clears the session cookie.
 ### `GET /api/auth/me`
 **File:** `src/app/api/auth/me/route.ts`
 
-Verifies the current session from the cookie header.
+Verifies the current session. Used by Navbar on every page load.
 
-**Returns `200` (authenticated):**
+**Rate limit:** 60 requests / 60 sec per IP
+
+**Response (authenticated):**
 ```json
 { "authenticated": true, "user": { "id": "...", "email": "...", "name": "..." } }
 ```
 
-**Returns `200` (not authenticated):**
+**Response (not authenticated):**
 ```json
 { "authenticated": false }
 ```
 
-Used by `Navbar.tsx` on every page load to check login state.
+`passwordHash` is **never** present in any response from this or any other route.
 
 ---
 
 ### `POST /api/register`
-**File:** `src/app/api/register/route.ts` (~143 lines)
+**File:** `src/app/api/register/route.ts`
 
-Handles demo class booking. Does three things in parallel:
+Handles demo class booking.
 
-**1. Forwards to Google Apps Script (CRM)**
-```
-POST https://script.google.com/macros/s/AKfycby.../exec
-Body: { parentName, phone, email, childName, grade, course, date, time }
-```
-Stores the booking in a Google Sheet for the AKMIND team.
+**Rate limit:** 3 requests / 1 hour per IP
 
-**2. Sends admin notification email**
-```
-To: admin@akonnai.ai (REGISTRATION_NOTIFY_EMAIL)
-Subject: "New Demo Booking — [childName] ([grade])"
-Body: Full booking details
-```
-
-**3. Sends parent confirmation email**
-```
-To: [parent email]
-Subject: "Your Demo Class is Booked! — AKMIND"
-Body: Booking summary with date, time, course, what to expect
-```
-
-Both emails use nodemailer with Gmail SMTP. Email failures are non-blocking — if SMTP fails, the booking still succeeds (returns `200`).
-
-**Request body:**
+**Request body (Zod validated):**
 ```json
 {
   "parentName": "Priya Sharma",
@@ -669,101 +852,172 @@ Both emails use nodemailer with Gmail SMTP. Email failures are non-blocking — 
   "email": "priya@example.com",
   "childName": "Aarav Sharma",
   "grade": "Grade 7",
-  "course": "AI Builders",
-  "date": "2024-12-01",
-  "time": "4:00 PM - 5:00 PM"
+  "course": "AI Builders (Grades 7-8)",
+  "date": "2025-04-10",
+  "time": "4:00 PM"
 }
 ```
 
-**Returns `200`:**
+**Flow:**
+1. Rate limit check
+2. Zod validation
+3. `crypto.randomUUID()` → bookingId
+4. DynamoDB `PutCommand` → bookings table
+5. `fetch(env.gasWebhookUrl, ...)` — forward to Google Sheet (non-blocking, fire-and-forget)
+6. `await Promise.allSettled([sendAdminBookingNotification(...), sendParentBookingConfirmation(...)])` — both SES emails
+
+**Response `200`:**
 ```json
-{ "success": true }
+{ "success": true, "bookingId": "550e8400-e29b-41d4-a716-446655440000" }
 ```
 
 ---
 
-## 10. Demo Booking Flow
+### `GET /api/booking/[bookingId]`
+**File:** `src/app/api/booking/[bookingId]/route.ts`
 
-End-to-end walkthrough of a parent booking a demo class:
+Fetches booking details for the confirmation page.
+
+**Rate limit:** 60 requests / 60 sec per IP
+
+**Response `200`:**
+```json
+{
+  "success": true,
+  "id": "...",
+  "childName": "Aarav Sharma",
+  "grade": "Grade 7",
+  "course": "AI Builders (Grades 7-8)",
+  "date": "2025-04-10",
+  "time": "4:00 PM",
+  "email": "priya@example.com"
+}
+```
+
+**Errors:** `400` invalid ID | `404` not found | `429` rate limited
+
+---
+
+## 12. Demo Booking Flow
+
+End-to-end walkthrough:
 
 ```
 1. Parent visits /register
+   ├── Step 1: Parent name, phone, email
+   ├── Step 2: Child name, grade
+   ├── Step 3: Select course
+   └── Step 4: Pick date + time → click "Confirm Booking"
+                │
+                ▼
+2. POST /api/register (JSON)
    │
-   ├── Step 1: Enters name, phone, email
-   ├── Step 2: Enters child name, selects grade
-   ├── Step 3: Selects program (Explorers / Builders / Innovators)
-   └── Step 4: Picks date & time slot → clicks "Confirm Booking"
+   ├── Rate limit: 3/hour per IP
+   ├── Zod validation of all 8 fields
+   ├── DynamoDB PutCommand → bookings table → get bookingId
+   ├── fetch(GAS_WEBHOOK_URL) → Google Sheet [non-blocking]
+   ├── SES: admin notification → admin@akmind.com
+   └── SES: parent confirmation → priya@example.com
                 │
                 ▼
-2. Browser: saves form data to sessionStorage
+3. Response: { success: true, bookingId: "uuid" }
                 │
                 ▼
-3. Frontend: POST /api/register  (JSON body)
-                │
-       ┌────────┴────────┐
-       ▼                 ▼
-4a. Forward to        4b. Send admin email
-    Google Apps            + parent confirmation
-    Script (GAS)           email via SMTP
-    (stores in
-     Google Sheet)
+4. Client navigates to /confirmation?id=<bookingId>
                 │
                 ▼
-5. Redirect to /confirmation
+5. GET /api/booking/<bookingId>
+   └── DynamoDB GetCommand → returns booking fields
                 │
                 ▼
-6. Confirmation page reads sessionStorage
-   → Displays booking summary to parent
+6. Confirmation page displays:
+   ✓ Child name, course, date, time
+   ✓ "Confirmation sent to priya@example.com"
 ```
 
 ---
 
-## 11. Email Notifications
+## 13. Email Notifications
 
-### Welcome Email (on signup)
-- **To:** New parent
+**File:** `src/lib/email.ts` — AWS SES via `@aws-sdk/client-ses`
+
+> **v2.0 change:** Migrated from nodemailer / Gmail SMTP to AWS SES. All emails are HTML. Sender is `hello@akmind.com`.
+
+### Welcome Email
 - **Trigger:** Successful `POST /api/auth/register`
-- **Content:** Welcome to AKMIND, link to book a demo, what to expect
+- **To:** New parent's email
+- **Subject:** `"Welcome to AKMIND! Your AI Journey Begins"`
+- **Content:** Welcome message, "Book Free Demo Class" CTA button linking to `/register`
+- **Sent as:** Fire-and-forget (doesn't block the response)
 
-### Admin Notification (on demo booking)
-- **To:** `REGISTRATION_NOTIFY_EMAIL` (default: `admin@akonnai.ai`)
-- **Trigger:** `POST /api/register`
-- **Content:** Full booking details — parent name, phone, email, child name, grade, course, date, time
-
-### Parent Booking Confirmation (on demo booking)
-- **To:** Parent's email from registration form
-- **Trigger:** `POST /api/register`
-- **Content:** Booking summary, what to expect in the demo, contact info
-
-All emails use **nodemailer** with Gmail SMTP (`smtp.gmail.com:587`, STARTTLS). Credentials set in `.env.local`.
+```typescript
+export async function sendWelcomeEmail(to: string, name: string) {
+  await sendEmail(to, "Welcome to AKMIND! Your AI Journey Begins", `
+    <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto">
+      <div style="background:#4F46E5;padding:32px;text-align:center">
+        <h1 style="color:#fff;margin:0;font-size:28px">Welcome to AKMIND</h1>
+        <p style="color:#C7D2FE;margin:8px 0 0;font-size:16px">Dream. Discover. Shine.</p>
+      </div>
+      <div style="padding:32px;background:#fff">
+        <p>Hi ${name},</p>
+        <p>Welcome to AKMIND — India's most exciting AI education program...</p>
+        <a href="https://www.akmind.com/register"
+           style="background:#4F46E5;color:#fff;padding:14px 32px;border-radius:8px;...">
+          Book Free Demo Class
+        </a>
+      </div>
+    </div>
+  `);
+}
+```
 
 ---
 
-## 12. Third-Party Integrations
+### Admin Booking Notification
+- **Trigger:** Successful `POST /api/register`
+- **To:** `SES_ADMIN_EMAIL` (`admin@akmind.com`)
+- **Subject:** `"New Demo Booking — Aarav Sharma (Grade 7)"`
+- **Content:** HTML table with all 8 booking fields
 
-### Google Apps Script (GAS)
-- **URL:** `https://script.google.com/macros/s/AKfycbyKPtz_UBvC-_Xw9SiUvxJIXQMyblihzVCiZ6OatI1Q087Dq6vvLkFDP8pmnesFE7CP/exec`
-- **Purpose:** Acts as a webhook to save demo bookings into a Google Sheet — serves as a lightweight CRM
-- **Direction:** One-way POST from `api/register/route.ts`
-- **Data:** Full registration object (parent + child + course + schedule)
+---
 
-### Gmail SMTP
-- **Provider:** Google Gmail
-- **Host:** `smtp.gmail.com`, Port `587` (STARTTLS)
-- **Account:** `hebelniraj015@gmail.com`
-- **Use:** All outbound emails — welcome, admin notification, booking confirmation
+### Parent Booking Confirmation
+- **Trigger:** Successful `POST /api/register`
+- **To:** Parent's email from the booking form
+- **Subject:** `"Your Demo Class is Booked! — AKMIND"`
+- **Content:** Booking summary card (student, course, date, time), mentor call instructions
 
-### Next.js Image Optimization
-- Images served from `/public/images/` are optimised automatically
-- Lazy loading, WebP conversion, size variants
+All three email functions return `{ success: boolean }` and catch errors internally — a failed email never blocks the API response or throws.
+
+---
+
+## 14. Third-Party Integrations
+
+### Google Apps Script (GAS) — Bookings CRM
+- **URL:** Stored in `GAS_WEBHOOK_URL` env var (no longer hardcoded)
+- **Purpose:** Forwards each booking to a Google Sheet for the AKMIND team
+- **Direction:** One-way `POST` from `api/register/route.ts`
+- **Behaviour:** Non-blocking — failure is logged but does not affect the booking response
+
+### AWS SES
+- **Sender:** `hello@akmind.com` (domain verified in SES)
+- **Admin recipient:** `admin@akmind.com` (verified)
+- **SDK:** `@aws-sdk/client-ses` → `SendEmailCommand`
+- **Mode:** Must be out of SES sandbox for production (sends to unverified addresses)
+
+### AWS Cognito
+- **File:** `src/lib/cognito.ts`
+- Exports `cognitoSignUp`, `cognitoSignIn`, `cognitoGetUser`
+- Cognito client and pool/client IDs sourced from `env.*`
+- (Currently the app uses its own DynamoDB-based auth for login/signup; Cognito integration is prepared)
 
 ### Google Fonts
-- **Outfit** font family loaded via `next/font/google` in `layout.tsx`
+- **Outfit** loaded via `next/font/google` in `layout.tsx`
 - Applied globally as the primary typeface
 
 ---
 
-## 13. Styling & Design System
+## 15. Styling & Design System
 
 ### Color Palette
 
@@ -779,49 +1033,33 @@ All emails use **nodemailer** with Gmail SMTP (`smtp.gmail.com:587`, STARTTLS). 
 | Success | Emerald | `emerald-500` |
 | Error | Red | `red-600` |
 
-### Gradients
-- Hero text: Indigo → Purple → Pink (8s animated cycle)
-- Program card borders: Indigo→Purple / Purple→Pink / Blue→Indigo
-- CTA buttons: Indigo-600 → Purple-600
-
 ### Animations (Framer Motion)
+
 | Animation | Component | Details |
 |---|---|---|
 | Typewriter effect | HeroSection | Cycles through 4 phrases |
 | Gradient text shimmer | HeroSection | 8-second infinite cycle |
 | Image slideshow | HeroSection | Auto-advances every 3s |
-| Magnetic button | HeroSection | Mouse attraction effect |
+| Magnetic button | HeroSection | Mouse attraction on hover |
 | 3D tilt cards | AIProgramsSection | `perspective(800px)` on hover |
-| Logo ticker scroll | LogoTicker | 30-second infinite loop |
+| Logo ticker scroll | LogoTicker | 30s infinite loop |
 | Scroll progress bar | ScrollProgressBar | Tracks `window.scrollY` |
-| FAQ accordion | FAQ | Expand/collapse with spring physics |
-
-### Typography
-- **Font:** Outfit (Google Fonts), sans-serif
-- **Headings:** Bold, large tracking, gradient where needed
-- **Body:** Regular weight, Slate-600/700
-
-### Layout
-- Mobile-first responsive design
-- Breakpoints: `sm` (640px), `md` (768px), `lg` (1024px), `xl` (1280px)
-- Container max-width: typically `max-w-7xl mx-auto`
-- Background texture: CSS dot-grid pattern on hero sections
+| FAQ accordion | FAQ | Spring physics expand/collapse |
+| Booking wizard steps | register/page.tsx | Slide in/out with AnimatePresence |
 
 ---
 
-## 14. Startup & Development
+## 16. Startup & Development
 
 ### Prerequisites
 - Node.js 18+ (LTS recommended)
 - npm
+- AWS account with DynamoDB, SES, Cognito configured
+- `.env.local` populated (see Section 4)
 
 ### Quick Start (Windows)
-Double-click **`start_all.cmd`** — it will:
-1. Detect if Node.js is installed; install via `winget` if missing
-2. Run `npm install` if `node_modules/` doesn't exist
-3. Start the dev server with `npm run dev`
-
-Open **http://localhost:3000** in your browser.
+Double-click **`start_all.cmd`** — detects Node.js, runs `npm install`, starts dev server.
+Open **http://localhost:3000**
 
 ### Manual Setup
 
@@ -833,6 +1071,9 @@ npm install
 npm run dev
 # → http://localhost:3000
 
+# Type check
+npx tsc --noEmit
+
 # Build for production
 npm run build
 
@@ -841,39 +1082,16 @@ npm start
 
 # Run linter
 npm run lint
+
+# Security audit
+npm audit
 ```
 
-### `start_all.cmd` (Windows Batch Script)
-```batch
-@echo off
-
-:: Step 1: Check for Node.js
-node -v >nul 2>&1
-IF ERRORLEVEL 1 (
-  echo Node.js not found. Installing via winget...
-  winget install OpenJS.NodeJS.LTS
-  echo Please restart this terminal and run start_all.cmd again.
-  pause
-  exit /b
-)
-
-:: Step 2: Install dependencies if needed
-IF NOT EXIST "node_modules\" (
-  echo Installing npm dependencies...
-  npm install
-)
-
-:: Step 3: Start development server
-echo Starting AKMIND dev server...
-npm run dev
-pause
-```
-
-### `package.json` (key fields)
+### `package.json` (current)
 
 ```json
 {
-  "name": "akmind",
+  "name": "akmind-app",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -883,13 +1101,17 @@ pause
     "lint": "eslint"
   },
   "dependencies": {
-    "next": "16.1.6",
-    "react": "^19.2.3",
-    "react-dom": "^19.2.3",
+    "next": "^16.2.1",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "@aws-sdk/client-dynamodb": "^3.1013.0",
+    "@aws-sdk/lib-dynamodb": "^3.1013.0",
+    "@aws-sdk/client-ses": "^3.1013.0",
+    "@aws-sdk/client-cognito-identity-provider": "^3.1013.0",
+    "zod": "^4.3.6",
+    "bcryptjs": "^2.4.3",
     "framer-motion": "^12.34.0",
     "lucide-react": "^0.564.0",
-    "nodemailer": "^6.9.16",
-    "bcryptjs": "^2.4.3",
     "clsx": "^2.1.1",
     "tailwind-merge": "^3.4.1"
   },
@@ -900,7 +1122,6 @@ pause
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/bcryptjs": "^2.4.6",
-    "@types/nodemailer": "^6.4.17",
     "eslint": "^9"
   }
 }
@@ -908,80 +1129,104 @@ pause
 
 ---
 
-## 15. Key Data Flows
+## 17. Key Data Flows
 
-### User Registration Flow
+### Sign Up Flow
 ```
-/signup form submit
-  → POST /api/auth/register
-    → Validate fields (name, email, password)
-    → Check email uniqueness in users.json
-    → bcrypt.hash(password, 10)
-    → Append to data/users.json
-    → createSessionCookiePayload(user)
-    → Set httpOnly cookie (7 days)
-    → nodemailer: send welcome email to parent
-  → 200 { success, user }
+POST /api/auth/register
+  → Rate limit: 5/15min per IP
+  → Zod validate: { name, email, password }
+  → DynamoDB QueryCommand (email-index GSI) — check uniqueness
+  → bcrypt.hash(password, 10)
+  → DynamoDB PutCommand → users table
+  → createSessionCookiePayload → Set-Cookie (7 days)
+  → sendWelcomeEmail(email, name) [SES, fire-and-forget]
+  → 201 { success: true, user: { id, email, name } }
   → Client: redirect to /
 ```
 
 ### Login Flow
 ```
-/login form submit
-  → POST /api/auth/login
-    → Find user in users.json by email
-    → bcrypt.compare(password, hash)
-    → createSessionCookiePayload(user)
-    → Set httpOnly cookie (7 days)
-  → 200 { success, user }
+POST /api/auth/login
+  → Rate limit: 5/15min per IP
+  → Zod validate: { email, password }
+  → DynamoDB QueryCommand (email-index GSI)
+  → bcrypt.compare(password, hash)
+  → createSessionCookiePayload → Set-Cookie (7 days)
+  → 200 { success: true, user: { id, email, name } }
   → Client: redirect to /
 ```
 
-### Session Check Flow (every page load)
+### Session Check (every page load)
 ```
 Navbar mounts
   → GET /api/auth/me
-    → Read "Cookie" header from request
-    → parseSessionCookie: verify HMAC signature
-    → Lookup user in users.json by ID
-  → { authenticated: true, user } OR { authenticated: false }
-  → Navbar: show user dropdown OR login/signup buttons
+    → Rate limit: 60/min per IP
+    → parseSessionCookie: split base64url + HMAC, verify signature
+    → 200 { authenticated: true, user: { id, email, name } }
+      OR { authenticated: false }
+  → Navbar: shows user dropdown OR Login/Signup buttons
 ```
 
 ### Demo Booking Flow
 ```
-/register (4-step form) → all fields filled → submit
-  → Save to sessionStorage
+/register (4 steps) → submit
   → POST /api/register
-    → Parallel:
-      ├── POST to GAS webhook (Google Sheet CRM)
-      ├── nodemailer: admin notification email
-      └── nodemailer: parent confirmation email
-  → 200 { success: true }
-  → Client: navigate to /confirmation
-    → Read sessionStorage → display booking summary
+    → Rate limit: 3/hour per IP
+    → Zod validate: 8 fields
+    → DynamoDB PutCommand → bookings table → bookingId
+    → fetch(GAS_WEBHOOK_URL) [non-blocking]
+    → SES: sendAdminBookingNotification → admin@akmind.com
+    → SES: sendParentBookingConfirmation → parent email
+    → 200 { success: true, bookingId }
+  → Client: /confirmation?id=<bookingId>
+    → GET /api/booking/<bookingId>
+      → Rate limit: 60/min per IP
+      → DynamoDB GetCommand → bookings table
+      → 200 { id, childName, grade, course, date, time, email }
+    → Display booking confirmation card
 ```
 
 ### Logout Flow
 ```
-User clicks Logout in Navbar profile dropdown
+User clicks Logout in Navbar
   → POST /api/auth/logout
-    → clearSessionCookie() → maxAge: 0
+    → clearSessionCookie() → Set-Cookie: maxAge=0
   → Cookie cleared in browser
-  → Client: reload or redirect to /
+  → Client: reload
 ```
 
 ---
 
-## Version History
+## 18. Version History
 
 | Commit | Description |
 |---|---|
+| `f504f68` | **feat: security hardening — rate limiting, SES email, env validation, build fixes** |
+| `d9299b7` | feat: add Zod validation and safeHandler to all API routes |
+| `4035f79` | feat: migrate auth to AWS Cognito + DynamoDB, replace JSON file DB |
+| `f4a7cb0` | docs: add PROJECT_Readme.md and update about page year to 2026 |
 | `54287de` | feat: add new pages, navbar updates, and start_all.cmd setup script |
 | `05cfd74` | feat: futuristic UI enhancements |
-| `af25a19` | baseline: before futuristic UI enhancements |
+
+### What changed in v2.0 (commit `f504f68`)
+
+| Area | v1.0 | v2.0 |
+|---|---|---|
+| Database | `data/users.json` flat file | AWS DynamoDB (3 tables) |
+| Email | nodemailer + Gmail SMTP | AWS SES — HTML templates |
+| Rate limiting | None | DynamoDB TTL (per-route, per-IP) |
+| Env validation | None | `env.ts` — fails fast on missing vars |
+| Security headers | None | CSP, HSTS, X-Frame-Options, Referrer-Policy via middleware + next.config |
+| Error handling | Raw errors potentially exposed | `safeHandler` — generic 500, server-side log only |
+| Input validation | Basic manual checks | Zod schemas on every route |
+| Booking confirmation | Read from `sessionStorage` | Fetch from DynamoDB via `bookingId` |
+| Hardcoded secrets | `AUTH_SESSION_SECRET` had a default fallback | No fallbacks — throws if missing |
+| GAS URL | Hardcoded in source | Moved to `GAS_WEBHOOK_URL` env var |
+| Next.js | 16.1.6 (5 CVEs) | 16.2.1 (0 vulnerabilities) |
+| npm audit | 4 vulnerabilities | 0 vulnerabilities |
 
 ---
 
-*AKMIND v1.0 — Built with Next.js, TypeScript, Tailwind CSS, and Framer Motion.*
-*© 2024 AKonnai AI. All rights reserved.*
+*AKMIND v2.0 — Built with Next.js, TypeScript, Tailwind CSS, Framer Motion, and AWS.*
+*© 2026 AKonnAI AI. All rights reserved.*
