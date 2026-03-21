@@ -125,6 +125,9 @@ const Footer = () => {
                         Made in India <span className="text-lg">🇮🇳</span>
                     </p>
                 </div>
+                <p className="text-center text-xs text-slate-400 mt-2">
+                    © 2026 Akonnai AI Pvt. Ltd. · Bangalore, India · Built with ❤️ for the next generation of AI builders
+                </p>
             </div>
         </footer>
     );

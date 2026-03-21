@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Sparkles } from "lucide-react";
 
 const SLIDES = [
     "/images/slide1.png",
@@ -115,6 +115,16 @@ const HeroSection = () => {
                     transition={{ duration: 0.8 }}
                     className="w-full lg:w-1/2 z-10 text-center lg:text-left"
                 >
+                    <motion.div
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6 }}
+                        className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-50 border border-indigo-200 text-indigo-700 text-sm font-medium rounded-full mb-4"
+                    >
+                        <Sparkles className="w-4 h-4" />
+                        AKMIND — Dream. Discover. Shine.
+                    </motion.div>
+
                     <motion.div
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}

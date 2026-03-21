@@ -196,7 +196,10 @@ const Navbar = () => {
                         <div className="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-bold shadow-indigo-200 shadow-lg group-hover:scale-110 transition-transform">
                             A
                         </div>
-                        <span className="text-2xl font-bold text-slate-900 tracking-tight">AKMIND</span>
+                        <div className="flex flex-col leading-none">
+                            <span className="text-2xl font-bold text-slate-900 tracking-tight">AKMIND</span>
+                            <span className="text-xs text-slate-400 font-normal">by Akonnai</span>
+                        </div>
                     </Link>
 
                     {/* Desktop Navigation */}
