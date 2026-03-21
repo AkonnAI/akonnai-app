@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { Lock, ArrowRight, CheckCircle2 } from "lucide-react";
+import ParentalGuidelines from "@/components/ParentalGuidelines";
 
 const MODULES = [
     {
@@ -118,6 +119,11 @@ export default function CurriculumPage() {
                             </button>
                         </motion.div>
                     ))}
+                </div>
+
+                {/* Parental Guidelines */}
+                <div className="mt-20">
+                    <ParentalGuidelines />
                 </div>
 
                 {/* CTA Section */}

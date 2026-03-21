@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronRight, ChevronLeft, Check, Loader2 } from "lucide-react";
+import { ChevronRight, ChevronLeft, Check, Loader2, ChevronDown } from "lucide-react";
+import ParentalGuidelines from "@/components/ParentalGuidelines";
 
 const STEPS = [
     { id: 1, title: "Parent Details", fields: ["parentName", "phone", "email"] },
@@ -21,6 +22,7 @@ const TIMES = ["4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM"];
 
 export default function RegisterPage() {
     const router = useRouter();
+    const [guidelinesOpen, setGuidelinesOpen] = useState(false);
     const [currentStep, setCurrentStep] = useState(1);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitError, setSubmitError] = useState<string | null>(null);
@@ -90,7 +92,37 @@ export default function RegisterPage() {
     };
 
     return (
-        <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
+        <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center p-4">
+
+            {/* Collapsible Parental Guidelines */}
+            <div className="w-full max-w-xl mb-4">
+                <button
+                    onClick={() => setGuidelinesOpen(prev => !prev)}
+                    className="flex items-center gap-2 text-sm text-indigo-600 font-semibold hover:text-indigo-800 transition-colors"
+                >
+                    <motion.span
+                        animate={{ rotate: guidelinesOpen ? 180 : 0 }}
+                        transition={{ duration: 0.2 }}
+                    >
+                        <ChevronDown className="w-4 h-4" />
+                    </motion.span>
+                    {guidelinesOpen ? "Hide parental guidelines" : "Show parental guidelines"}
+                </button>
+                <AnimatePresence initial={false}>
+                    {guidelinesOpen && (
+                        <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: "auto", opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.3, ease: "easeInOut" }}
+                            className="overflow-hidden"
+                        >
+                            <ParentalGuidelines />
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+            </div>
+
             <div className="w-full max-w-xl bg-white rounded-3xl shadow-xl overflow-hidden min-h-[500px] flex flex-col">
                 {/* Progress Bar */}
                 <div className="h-2 bg-slate-100 w-full">
