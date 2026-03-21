@@ -95,6 +95,83 @@ export async function sendAdminBookingNotification(b: BookingData) {
   }
 }
 
+export type CareerApplication = {
+  name: string;
+  email: string;
+  phone: string;
+  role: string;
+  linkedin?: string;
+  portfolio?: string;
+  message: string;
+  source: string;
+};
+
+export async function sendCareerApplication(app: CareerApplication) {
+  const rows = [
+    ["Full Name", app.name],
+    ["Email", app.email],
+    ["Phone", app.phone],
+    ["Role Applied For", app.role],
+    ["LinkedIn", app.linkedin || "Not provided"],
+    ["Portfolio / GitHub", app.portfolio || "Not provided"],
+    ["How they heard", app.source],
+    ["Message", app.message],
+  ];
+
+  try {
+    // Admin notification
+    await sendEmail(
+      env.sesAdmin,
+      `New Job Application — ${app.role} — ${app.name}`,
+      `<div style="font-family:Arial,sans-serif;max-width:600px">
+        <div style="background:#4F46E5;padding:20px 24px">
+          <h2 style="color:#fff;margin:0;font-size:20px">New Job Application</h2>
+          <p style="color:#C7D2FE;margin:6px 0 0;font-size:14px">${app.role}</p>
+        </div>
+        <div style="padding:24px;background:#fff">
+          <table style="width:100%;border-collapse:collapse;font-size:14px">
+            ${rows.map(([k, v], i) => `<tr style="background:${i % 2 === 0 ? "#F9FAFB" : "#fff"}">
+              <td style="padding:10px 12px;border:1px solid #E5E7EB;font-weight:600;color:#374151;width:160px">${k}</td>
+              <td style="padding:10px 12px;border:1px solid #E5E7EB;color:#374151;white-space:pre-wrap">${v}</td>
+            </tr>`).join("")}
+          </table>
+        </div>
+      </div>`
+    );
+
+    // Applicant confirmation
+    await sendEmail(
+      app.email,
+      `Application Received — AKMIND`,
+      `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto">
+        <div style="background:#4F46E5;padding:32px;text-align:center">
+          <h1 style="color:#fff;margin:0;font-size:24px">Application Received!</h1>
+          <p style="color:#C7D2FE;margin:8px 0 0;font-size:15px">Thank you for applying to AKMIND</p>
+        </div>
+        <div style="padding:32px;background:#fff">
+          <p style="font-size:16px;color:#374151">Hi ${app.name},</p>
+          <p style="font-size:15px;color:#374151;line-height:1.6">
+            Thank you for applying to AKMIND. We have received your application for
+            <strong>${app.role}</strong> and will get back to you within 3 working days.
+          </p>
+          <p style="font-size:15px;color:#374151;line-height:1.6">
+            If you have any questions in the meantime, feel free to reach out to us at
+            <a href="mailto:hello@akmind.com" style="color:#4F46E5">hello@akmind.com</a>.
+          </p>
+          <p style="color:#6B7280;font-size:13px;border-top:1px solid #E5E7EB;padding-top:16px;margin-top:24px">
+            — The AKMIND Team · <a href="https://www.akmind.com" style="color:#4F46E5">www.akmind.com</a>
+          </p>
+        </div>
+      </div>`
+    );
+
+    return { success: true };
+  } catch (err) {
+    console.error("[SES] sendCareerApplication failed:", err);
+    return { success: false };
+  }
+}
+
 export async function sendParentBookingConfirmation(to: string, b: BookingData) {
   try {
     await sendEmail(
