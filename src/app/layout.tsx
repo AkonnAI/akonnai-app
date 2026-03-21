@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Outfit } from "next/font/google";
 import "./globals.css";
+import Navbar from "@/components/Navbar";
 import ScrollProgressBar from "@/components/ScrollProgressBar";
 import FloatingCTA from "@/components/FloatingCTA";
 
@@ -29,6 +30,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={outfit.className}>
+        <Navbar />
         <ScrollProgressBar />
         {/* Spacer to push content below the fixed navbar */}
         <div className="h-14 md:h-20" />

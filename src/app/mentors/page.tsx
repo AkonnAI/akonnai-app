@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 const MENTORS = [
@@ -41,7 +40,6 @@ const cardVariants = {
 export default function MentorsPage() {
     return (
         <main className="min-h-screen flex flex-col bg-white">
-            <Navbar />
 
             {/* Hero */}
             <section className="py-14 sm:py-20 bg-gradient-to-br from-indigo-50 via-white to-purple-50 relative overflow-hidden">

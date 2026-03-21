@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
 import { Send } from "lucide-react";
@@ -26,7 +25,6 @@ export default function BecomeMentorPage() {
 
     return (
         <main className="min-h-screen flex flex-col bg-white">
-            <Navbar />
 
             {/* Hero */}
             <section className="py-20 bg-gradient-to-br from-teal-50 via-white to-emerald-50 relative overflow-hidden">

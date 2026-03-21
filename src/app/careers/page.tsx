@@ -3,7 +3,6 @@
 import { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { Briefcase, MapPin, Info } from "lucide-react";
-import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 const JOBS = [
@@ -108,7 +107,6 @@ export default function CareersPage() {
 
     return (
         <main className="min-h-screen flex flex-col bg-white">
-            <Navbar />
 
             {/* Hero */}
             <section className="bg-gradient-to-r from-indigo-600 to-purple-600 py-24 px-4">

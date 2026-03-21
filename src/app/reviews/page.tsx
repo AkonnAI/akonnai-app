@@ -1,4 +1,3 @@
-import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 export const metadata = { title: "Reviews | AKMIND™" };
@@ -25,7 +24,6 @@ function Stars({ count }: { count: number }) {
 export default function ReviewsPage() {
     return (
         <main className="min-h-screen flex flex-col bg-white">
-            <Navbar />
 
             {/* Hero */}
             <section className="py-20 bg-gradient-to-br from-amber-50 via-white to-orange-50 relative overflow-hidden">

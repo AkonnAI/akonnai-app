@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Mail, MapPin, Phone, Send } from "lucide-react";
 import { motion } from "framer-motion";
@@ -20,7 +19,6 @@ export default function ContactPage() {
 
     return (
         <main className="min-h-screen flex flex-col bg-white">
-            <Navbar />
 
             {/* Hero */}
             <section className="py-20 bg-gradient-to-br from-blue-50 via-white to-indigo-50 relative overflow-hidden">

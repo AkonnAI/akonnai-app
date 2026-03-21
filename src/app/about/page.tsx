@@ -1,4 +1,3 @@
-import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 export const metadata = { title: "Our Story | AKMIND™" };
@@ -6,7 +5,6 @@ export const metadata = { title: "Our Story | AKMIND™" };
 export default function AboutPage() {
     return (
         <main className="min-h-screen flex flex-col bg-white">
-            <Navbar />
 
             {/* Hero */}
             <section className="py-24 bg-gradient-to-br from-indigo-50 via-white to-purple-50 relative overflow-hidden">
