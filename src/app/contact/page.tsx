@@ -14,7 +14,7 @@ export default function ContactPage() {
         e.preventDefault();
         // Opens default mail client with pre-filled details
         const body = `Name: ${form.name}\nEmail: ${form.email}\n\n${form.message}`;
-        window.location.href = `mailto:admin@akonnai.ai?subject=${encodeURIComponent(form.subject || "Enquiry from AKMIND website")}&body=${encodeURIComponent(body)}`;
+        window.location.href = `mailto:hello@akmind.com?subject=${encodeURIComponent(form.subject || "Enquiry from AKMIND™ website")}&body=${encodeURIComponent(body)}`;
         setSent(true);
     };
 
@@ -40,9 +40,9 @@ export default function ContactPage() {
                         <h2 className="text-2xl font-bold text-slate-900 mb-8">Get in touch</h2>
                         <div className="space-y-6">
                             {[
-                                { icon: Mail, label: "Email", value: "admin@akonnai.ai", href: "mailto:admin@akonnai.ai" },
-                                { icon: Phone, label: "Phone", value: "+91 — available on request", href: "#" },
-                                { icon: MapPin, label: "Location", value: "India (Remote-first)", href: "#" },
+                                { icon: Mail, label: "Email", value: "hello@akmind.com", href: "mailto:hello@akmind.com" },
+                                { icon: Phone, label: "Phone", value: "+91 81956 47061", href: "tel:+918195647061" },
+                                { icon: MapPin, label: "Location", value: "Bangalore, Karnataka, India", href: "#" },
                             ].map((item) => (
                                 <a key={item.label} href={item.href} className="flex items-start gap-4 group">
                                     <div className="w-12 h-12 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-600 group-hover:bg-indigo-100 transition-colors flex-shrink-0">

@@ -5,9 +5,9 @@ import { useInView, motion } from "framer-motion";
 
 const STATS = [
     { value: 500, suffix: "+", label: "Students Enrolled", icon: "🎓" },
-    { value: 98, suffix: "%", label: "Parent Satisfaction", icon: "❤️" },
-    { value: 3, suffix: "", label: "AI Learning Tracks", icon: "🚀" },
-    { value: 12, suffix: " wks", label: "Full Curriculum", icon: "📅" },
+    { value: 4, suffix: "", label: "Expert AI Mentors", icon: "🧑‍🏫" },
+    { value: 3, suffix: "", label: "Programs Available", icon: "🚀" },
+    { value: 100, suffix: "%", label: "Live 1-on-1 Sessions", icon: "🎥" },
 ];
 
 function Counter({ target, suffix, inView }: { target: number; suffix: string; inView: boolean }) {

@@ -1,85 +1,112 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Star, PlayCircle, Quote } from "lucide-react";
+import { Star, MapPin } from "lucide-react";
+
+const TESTIMONIALS = [
+    {
+        name: "Arjun Sharma",
+        grade: "Grade 8 · AI Builders",
+        location: "Bangalore",
+        quote: "I built my first image recognition model in just 3 weeks. My mentor Akhil explained everything so clearly. I never thought I could do this at my age!",
+        initials: "AS",
+    },
+    {
+        name: "Priya Nair",
+        grade: "Grade 6 · AI Explorers",
+        location: "Chennai",
+        quote: "AKMIND™ made AI so fun and easy to understand. I trained my own Teachable Machine model to recognize my cats. My parents were so impressed!",
+        initials: "PN",
+    },
+    {
+        name: "Rohan Mehta",
+        grade: "Grade 10 · AI Innovators",
+        location: "Mumbai",
+        quote: "The curriculum is genuinely advanced. I am now working on a real NLP project for my school science fair. My mentor Nagaraj is incredible.",
+        initials: "RM",
+    },
+    {
+        name: "Ananya Reddy",
+        grade: "Grade 7 · AI Builders",
+        location: "Hyderabad",
+        quote: "I used to think coding was boring. AKMIND™ completely changed that. Every class feels like solving a puzzle. I look forward to it every week!",
+        initials: "AR",
+    },
+    {
+        name: "Karthik Iyer",
+        grade: "Grade 9 · AI Innovators",
+        location: "Pune",
+        quote: "My mentor helped me build a sentiment analysis tool for my dad's business. The project actually works and my dad uses it. That is the coolest thing ever.",
+        initials: "KI",
+    },
+];
+
+const cardVariants = {
+    hidden: { opacity: 0, y: 24 },
+    visible: (i: number) => ({
+        opacity: 1,
+        y: 0,
+        transition: { delay: i * 0.1, duration: 0.45, ease: [0.25, 0.1, 0.25, 1] as const },
+    }),
+};
 
 const StudentSpotlight = () => {
     return (
-        <section className="py-24 bg-gradient-to-br from-indigo-900 to-purple-900 text-white overflow-hidden relative">
-            {/* Background Decor */}
-            <div className="absolute top-0 left-0 w-full h-full overflow-hidden opacity-20">
-                <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] bg-purple-500 rounded-full blur-[100px]"></div>
-                <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] bg-blue-500 rounded-full blur-[100px]"></div>
-            </div>
-
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                <div className="text-center mb-16">
-                    <h2 className="text-4xl font-bold mb-4">Student Spotlight</h2>
-                    <p className="text-indigo-200">Celebrating the next generation of innovators</p>
+        <section className="py-24 bg-slate-50">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                {/* Header */}
+                <div className="text-center mb-14">
+                    <motion.div
+                        initial={{ opacity: 0, y: 16 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.5 }}
+                    >
+                        <h2 className="text-4xl font-bold text-slate-900 mb-3">Student Spotlight</h2>
+                        <p className="text-slate-500 text-lg">Real stories from real students across India</p>
+                    </motion.div>
                 </div>
 
-                <div className="flex flex-col lg:flex-row gap-8 items-center justify-center">
-
-                    {/* Video Card */}
-                    <motion.div
-                        initial={{ opacity: 0, x: -50 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        whileHover={{ scale: 1.02 }}
-                        className="w-full lg:w-1/2 max-w-lg relative group"
-                    >
-                        <div className="absolute -inset-1 bg-gradient-to-r from-yellow-400 to-pink-500 rounded-3xl blur opacity-25 group-hover:opacity-75 transition duration-500"></div>
-                        <div className="relative aspect-video bg-slate-900 rounded-2xl overflow-hidden shadow-2xl border border-white/10">
-                            {/* Placeholder for Student Video */}
-                            <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-indigo-500/20 to-purple-500/20">
-                                <div className="w-32 h-32 bg-white/10 rounded-full blur-2xl"></div>
-                            </div>
-                            <div className="absolute inset-0 flex items-center justify-center">
-                                <motion.div
-                                    whileHover={{ scale: 1.1 }}
-                                    className="bg-white/20 backdrop-blur-md p-4 rounded-full cursor-pointer hover:bg-white/30 transition-colors"
-                                >
-                                    <PlayCircle className="w-12 h-12 text-white fill-white/50" />
-                                </motion.div>
+                {/* Cards grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {TESTIMONIALS.map((t, i) => (
+                        <motion.div
+                            key={t.name}
+                            custom={i}
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true, margin: "-40px" }}
+                            variants={cardVariants}
+                            className="bg-white rounded-xl shadow-sm p-6 flex flex-col gap-4 border border-slate-100 hover:shadow-md transition-shadow"
+                        >
+                            {/* Stars */}
+                            <div className="flex gap-0.5">
+                                {[1, 2, 3, 4, 5].map((s) => (
+                                    <Star key={s} className="w-4 h-4 text-yellow-400 fill-yellow-400" />
+                                ))}
                             </div>
 
-                            <div className="absolute bottom-4 left-4">
-                                <div className="bg-black/60 backdrop-blur-md px-3 py-1 rounded-lg text-xs font-mono text-green-400 border border-white/10">
-                                    Thinking...
+                            {/* Quote */}
+                            <p className="text-slate-600 text-sm leading-relaxed italic flex-1">
+                                &ldquo;{t.quote}&rdquo;
+                            </p>
+
+                            {/* Author */}
+                            <div className="flex items-center gap-3 pt-2 border-t border-slate-100">
+                                <div className="w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center text-white text-sm font-bold shrink-0">
+                                    {t.initials}
+                                </div>
+                                <div>
+                                    <p className="font-bold text-slate-900 text-sm">{t.name}</p>
+                                    <p className="text-indigo-600 text-xs font-medium">{t.grade}</p>
+                                    <p className="text-slate-400 text-xs flex items-center gap-1 mt-0.5">
+                                        <MapPin className="w-3 h-3" />
+                                        {t.location}
+                                    </p>
                                 </div>
                             </div>
-                        </div>
-                    </motion.div>
-
-                    {/* Testimonial Content */}
-                    <motion.div
-                        initial={{ opacity: 0, x: 50 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        className="w-full lg:w-1/2 max-w-lg"
-                    >
-                        <Quote className="text-yellow-400 w-12 h-12 mb-6 opacity-80" />
-                        <h3 className="text-3xl font-bold leading-tight mb-6">
-                            &quot;At AKMIND, I built my first <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-400">AI Chatbot</span> that helps my grandma use her phone!&quot;
-                        </h3>
-
-                        <div className="flex items-center gap-1 mb-4">
-                            {[1, 2, 3, 4, 5].map((_, i) => (
-                                <Star key={i} className="w-5 h-5 text-yellow-400 fill-yellow-400" />
-                            ))}
-                        </div>
-
-                        <div className="flex items-center gap-4">
-                            <div className="w-12 h-12 bg-gray-200 rounded-full"></div>
-                            <div>
-                                <h4 className="font-bold text-lg">Aarav Patel</h4>
-                                <div className="flex items-center gap-2">
-                                    <span className="text-indigo-200 text-sm">Class 8 Student</span>
-                                    <span className="text-xs bg-white/10 px-2 py-0.5 rounded text-indigo-100">🇮🇳 India</span>
-                                </div>
-                            </div>
-                        </div>
-                    </motion.div>
+                        </motion.div>
+                    ))}
                 </div>
             </div>
         </section>

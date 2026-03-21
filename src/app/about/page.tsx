@@ -19,7 +19,7 @@ export default function AboutPage() {
                         <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 to-purple-600">deserves an AI future</span>
                     </h1>
                     <p className="text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
-                        AKMIND™ was founded with one mission — to give every young mind the skills to thrive in an AI-driven world, starting from school.
+                        AKMIND™ exists to make world-class AI education accessible to every school student in India. We believe the next generation of AI builders, researchers and entrepreneurs are sitting in classrooms right now — and they deserve expert mentorship, hands-on projects and real skills.
                     </p>
                 </div>
             </section>
@@ -30,7 +30,7 @@ export default function AboutPage() {
                     <div>
                         <h2 className="text-3xl font-bold text-slate-900 mb-6">Why we started AKMIND™</h2>
                         <p className="text-slate-600 leading-relaxed mb-4">
-                            In 2026, our founders noticed a gap — students were learning outdated curricula while the world was rapidly shifting to AI-powered everything. Schools weren&apos;t equipped to bridge that gap.
+                            In 2024, our founders noticed a gap — students were learning outdated curricula while the world was rapidly shifting to AI-powered everything. Schools weren&apos;t equipped to bridge that gap.
                         </p>
                         <p className="text-slate-600 leading-relaxed mb-4">
                             So we built AKMIND™ — a structured, hands-on AI learning platform designed specifically for students in Grades 5–10. We partnered with industry professionals to create curriculum that mirrors what real AI engineers build every day.
@@ -41,10 +41,10 @@ export default function AboutPage() {
                     </div>
                     <div className="grid grid-cols-2 gap-6">
                         {[
-                            { icon: "🎯", title: "Our Mission", desc: "Make AI education accessible, practical, and exciting for every student." },
-                            { icon: "🔭", title: "Our Vision", desc: "A generation of young innovators who shape the future with AI." },
-                            { icon: "💡", title: "Our Approach", desc: "Project-based learning with real tools and 1-on-1 expert mentorship." },
-                            { icon: "🌍", title: "Our Reach", desc: "Serving students across India with a global-standard curriculum." },
+                            { icon: "🎓", title: "500+ Students", desc: "Enrolled from across India" },
+                            { icon: "🧑‍🏫", title: "4 Expert Mentors", desc: "Industry professionals" },
+                            { icon: "🚀", title: "3 Programs", desc: "Explorers, Builders, Innovators" },
+                            { icon: "📅", title: "Founded 2024", desc: "Bangalore, Karnataka, India" },
                         ].map((item) => (
                             <div key={item.title} className="p-5 bg-slate-50 rounded-2xl border border-slate-100">
                                 <div className="text-3xl mb-3">{item.icon}</div>
@@ -74,6 +74,16 @@ export default function AboutPage() {
                         ))}
                     </div>
                 </div>
+            </section>
+
+            {/* Contact CTA */}
+            <section className="py-16 bg-white border-t border-slate-100 text-center">
+                <p className="text-slate-500 text-sm">
+                    Questions about AKMIND™? Reach us at{" "}
+                    <a href="mailto:hello@akmind.com" className="text-indigo-600 font-semibold hover:underline">
+                        hello@akmind.com
+                    </a>
+                </p>
             </section>
 
             <Footer />

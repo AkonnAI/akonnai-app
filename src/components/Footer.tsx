@@ -6,9 +6,9 @@ import { Instagram, Linkedin, Youtube, MapPin, Mail } from "lucide-react";
 
 const Footer = () => {
     const SOCIAL_LINKS = [
-        { icon: <Instagram size={20} />, href: "#" },
-        { icon: <Linkedin size={20} />, href: "#" },
-        { icon: <Youtube size={20} />, href: "#" }
+        { icon: <Instagram size={20} />, href: "https://instagram.com/akmind.ai" },
+        { icon: <Linkedin size={20} />, href: "https://linkedin.com/company/akmind" },
+        { icon: <Youtube size={20} />, href: "https://youtube.com/@akmind" }
     ];
 
     const LINKS = {
@@ -96,9 +96,9 @@ const Footer = () => {
                     <div>
                         <h3 className="font-bold text-slate-900 mb-6">Contact</h3>
                         <div className="space-y-4 mb-8">
-                            <a href="mailto:core-team@akmind.com" className="flex items-center gap-3 text-slate-600 hover:text-indigo-600 transition-colors group">
+                            <a href="mailto:hello@akmind.com" className="flex items-center gap-3 text-slate-600 hover:text-indigo-600 transition-colors group">
                                 <Mail size={18} className="text-slate-400 group-hover:text-indigo-500" />
-                                <span className="text-sm font-medium">core-team@akmind.com</span>
+                                <span className="text-sm font-medium">hello@akmind.com</span>
                             </a>
                             <div className="flex items-center gap-3 text-slate-600">
                                 <MapPin size={18} className="text-slate-400" />
