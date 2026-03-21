@@ -1,14 +1,14 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
-export const metadata = { title: "Reviews | AKMIND" };
+export const metadata = { title: "Reviews | AKMIND™" };
 
 const REVIEWS = [
     { name: "Priya Sharma", role: "Parent of Grade 7 student", stars: 5, text: "My son built his first chatbot after just 3 weeks. He now explains AI concepts to me! The mentors are incredibly patient and knowledgeable." },
-    { name: "Rahul Menon", role: "Parent of Grade 9 student", stars: 5, text: "AKMIND's curriculum is miles ahead of what schools teach. My daughter got a special mention at her school science fair for her AI project." },
+    { name: "Rahul Menon", role: "Parent of Grade 9 student", stars: 5, text: "AKMIND™'s curriculum is miles ahead of what schools teach. My daughter got a special mention at her school science fair for her AI project." },
     { name: "Anjali Nair", role: "Parent of Grade 6 student", stars: 5, text: "The 1-on-1 sessions make all the difference. The mentor personalises lessons to my child's pace. Worth every rupee." },
     { name: "Vikram Pillai", role: "Parent of Grade 8 student", stars: 5, text: "Fantastic platform! My son went from zero coding experience to building an image classifier in 8 weeks. Absolutely phenomenal progress." },
-    { name: "Deepa Krishnan", role: "Parent of Grade 10 student", stars: 5, text: "The portfolio my daughter built through AKMIND helped her get into a prestigious summer research program. Cannot recommend enough." },
+    { name: "Deepa Krishnan", role: "Parent of Grade 10 student", stars: 5, text: "The portfolio my daughter built through AKMIND™ helped her get into a prestigious summer research program. Cannot recommend enough." },
     { name: "Suresh Babu", role: "Parent of Grade 5 student", stars: 4, text: "Great introduction to AI for young kids. My son loves the Scratch-based activities and is always excited for his next class." },
 ];
 
@@ -33,7 +33,7 @@ export default function ReviewsPage() {
                 <div className="max-w-3xl mx-auto px-4 text-center relative z-10">
                     <span className="inline-block px-4 py-1.5 bg-amber-100 text-amber-700 text-sm font-bold rounded-full uppercase tracking-widest mb-6">Reviews</span>
                     <h1 className="text-5xl font-bold text-slate-900 mb-4">What parents are saying</h1>
-                    <p className="text-xl text-slate-600">Real stories from families who've seen their children transform through AKMIND.</p>
+                    <p className="text-xl text-slate-600">Real stories from families who've seen their children transform through AKMIND™.</p>
                     <div className="flex items-center justify-center gap-3 mt-6">
                         <div className="flex gap-1">
                             {Array.from({ length: 5 }).map((_, i) => <span key={i} className="text-amber-400 text-2xl">★</span>)}
@@ -67,7 +67,7 @@ export default function ReviewsPage() {
 
             {/* CTA */}
             <section className="py-16 bg-indigo-600 text-white text-center">
-                <h2 className="text-3xl font-bold mb-4">Join 500+ families already on AKMIND</h2>
+                <h2 className="text-3xl font-bold mb-4">Join 500+ families already on AKMIND™</h2>
                 <p className="text-indigo-200 mb-8">Book a free demo class and see the difference yourself.</p>
                 <a href="/register" className="inline-block px-8 py-4 bg-white text-indigo-700 font-bold rounded-full hover:bg-indigo-50 transition-colors shadow-lg">
                     Book a Free Demo →

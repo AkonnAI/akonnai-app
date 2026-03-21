@@ -39,7 +39,7 @@ const Footer = () => {
                                 A
                             </div>
                             <span className="text-xl font-bold text-slate-900 tracking-tight">
-                                AKMIND
+                                AKMIND™
                             </span>
                         </Link>
                         <p className="text-slate-500 leading-relaxed text-sm">
@@ -119,14 +119,14 @@ const Footer = () => {
                 {/* Copyright */}
                 <div className="border-t border-gray-200 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
                     <p className="text-slate-400 text-sm">
-                        © 2026 AKMIND. All rights reserved.
+                        © 2026 AKMIND™. All rights reserved.
                     </p>
                     <p className="text-slate-400 text-sm flex items-center gap-2">
                         Made in India <span className="text-lg">🇮🇳</span>
                     </p>
                 </div>
                 <p className="text-center text-xs text-slate-400 mt-2">
-                    © 2026 Akonnai AI Pvt. Ltd. · Bangalore, India · Built with ❤️ for the next generation of AI builders
+                    © 2026 Akonnai AI Pvt. Ltd. · Built for the next generation of AI builders
                 </p>
             </div>
         </footer>

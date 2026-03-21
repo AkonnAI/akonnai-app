@@ -122,7 +122,7 @@ const HeroSection = () => {
                         className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-50 border border-indigo-200 text-indigo-700 text-sm font-medium rounded-full mb-4"
                     >
                         <Sparkles className="w-4 h-4" />
-                        AKMIND — Dream. Discover. Shine.
+                        AKMIND™ — Dream. Discover. Shine.
                     </motion.div>
 
                     <motion.div

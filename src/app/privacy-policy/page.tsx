@@ -2,12 +2,12 @@ import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
-export const metadata = { title: "Privacy Policy | AKMIND" };
+export const metadata = { title: "Privacy Policy | AKMIND™" };
 
 const SECTIONS = [
     {
         heading: "1. Introduction",
-        body: 'AKMIND ("we", "us", "our") is committed to protecting the privacy of children and parents who use our platform. This Privacy Policy explains how we collect, use and protect your information when you use www.akmind.com.',
+        body: 'AKMIND™ ("we", "us", "our") is committed to protecting the privacy of children and parents who use our platform. This Privacy Policy explains how we collect, use and protect your information when you use www.akmind.com.',
     },
     {
         heading: "2. Information We Collect",
@@ -86,7 +86,7 @@ export default function PrivacyPolicyPage() {
 
                 {/* Title */}
                 <h1 className="text-4xl font-bold text-indigo-600 mb-2">Privacy Policy</h1>
-                <p className="text-sm text-slate-400 mb-10">Last updated: March 2026 · AKMIND by Akonnai AI, Bangalore, India</p>
+                <p className="text-sm text-slate-400 mb-10">Last updated: March 2026 · AKMIND™ by Akonnai AI, Bangalore, India</p>
 
                 <div className="space-y-10">
                     {SECTIONS.map((section) => (

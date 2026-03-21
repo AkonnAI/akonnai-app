@@ -8,7 +8,7 @@ const CARDS = [
         icon: <ShieldCheck className="w-6 h-6 text-indigo-600" />,
         title: "Age Suitability",
         content:
-            "AKMIND programs are designed for students aged 10 to 16. For younger students, we recommend a parent or guardian to be present during the first few sessions to help with any technical setup or questions.",
+            "AKMIND™ programs are designed for students aged 10 to 16. For younger students, we recommend a parent or guardian to be present during the first few sessions to help with any technical setup or questions.",
     },
     {
         icon: <Laptop className="w-6 h-6 text-indigo-600" />,
@@ -68,7 +68,7 @@ const ParentalGuidelines = () => {
                 >
                     <Info className="w-5 h-5 text-pink-500 shrink-0 mt-0.5" />
                     <p className="text-pink-800 text-sm leading-relaxed">
-                        AKMIND programs are best suited for students aged 10 and above. For younger learners, significant parental involvement is recommended as students will need adult assistance to manage technical aspects during live sessions.
+                        AKMIND™ programs are best suited for students aged 10 and above. For younger learners, significant parental involvement is recommended as students will need adult assistance to manage technical aspects during live sessions.
                     </p>
                 </motion.div>
             </div>

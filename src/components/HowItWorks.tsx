@@ -41,7 +41,7 @@ const HowItWorks = () => {
                         >
                             <h2 className="text-4xl font-bold text-slate-900 mb-4 tracking-tight">How It Works</h2>
                             <p className="text-lg text-slate-500 font-medium">
-                                A simple, transparent process to get started with AKMIND.
+                                A simple, transparent process to get started with AKMIND™.
                             </p>
                         </motion.div>
 

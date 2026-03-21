@@ -12,7 +12,7 @@ const FAQS: { category: Tab; question: string; answer: string }[] = [
     // ── Class Experience ──────────────────────────────────────────────────────
     {
         category: "Class Experience",
-        question: "How are AKMIND classes conducted?",
+        question: "How are AKMIND™ classes conducted?",
         answer: "All classes are conducted live on a 1-on-1 basis over video call. Each session is 60 minutes with a dedicated AI mentor who gives your child 100% personalised attention.",
     },
     {
@@ -39,7 +39,7 @@ const FAQS: { category: Tab; question: string; answer: string }[] = [
     // ── About the Program ─────────────────────────────────────────────────────
     {
         category: "About the Program",
-        question: "What will my child actually build in AKMIND?",
+        question: "What will my child actually build in AKMIND™?",
         answer: "Students build real AI projects — image classifiers, chatbots, recommendation systems, and data dashboards — using Python, TensorFlow, and other industry tools. Every student leaves with a portfolio of projects.",
     },
     {
@@ -50,7 +50,7 @@ const FAQS: { category: Tab; question: string; answer: string }[] = [
     {
         category: "About the Program",
         question: "What certificate does my child receive?",
-        answer: "Students receive an AKMIND Certificate of Completion at the end of each program phase. The certificate is digitally verifiable and can be added to school portfolios and LinkedIn profiles.",
+        answer: "Students receive an AKMIND™ Certificate of Completion at the end of each program phase. The certificate is digitally verifiable and can be added to school portfolios and LinkedIn profiles.",
     },
     {
         category: "About the Program",
@@ -76,13 +76,13 @@ const FAQS: { category: Tab; question: string; answer: string }[] = [
     },
     {
         category: "Support",
-        question: "How do I contact AKMIND support?",
+        question: "How do I contact AKMIND™ support?",
         answer: "You can reach us at hello@akmind.com or through the contact form on our website. We respond within 24 hours on all working days.",
     },
     {
         category: "Support",
         question: "Is my child's data safe?",
-        answer: "Yes. AKMIND stores only the minimum data required to provide the service. We never sell or share your data with third parties. All data is encrypted and stored securely on AWS infrastructure in India.",
+        answer: "Yes. AKMIND™ stores only the minimum data required to provide the service. We never sell or share your data with third parties. All data is encrypted and stored securely on AWS infrastructure in India.",
     },
 ];
 

@@ -197,7 +197,7 @@ const Navbar = () => {
                             A
                         </div>
                         <div className="flex flex-col leading-none">
-                            <span className="text-2xl font-bold text-slate-900 tracking-tight">AKMIND</span>
+                            <span className="text-2xl font-bold text-slate-900 tracking-tight">AKMIND™</span>
                             <span className="text-xs text-slate-400 font-normal">by Akonnai</span>
                         </div>
                     </Link>

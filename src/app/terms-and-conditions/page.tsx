@@ -2,7 +2,7 @@ import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
-export const metadata = { title: "Terms and Conditions | AKMIND" };
+export const metadata = { title: "Terms and Conditions | AKMIND™" };
 
 const SECTIONS = [
     {
@@ -11,7 +11,7 @@ const SECTIONS = [
     },
     {
         heading: "2. Our Services",
-        body: "AKMIND provides online AI education programs for students aged 10-16 through live 1-on-1 mentorship sessions and self-paced content.",
+        body: "AKMIND™ provides online AI education programs for students aged 10-16 through live 1-on-1 mentorship sessions and self-paced content.",
     },
     {
         heading: "3. Account Registration",
@@ -52,11 +52,11 @@ const SECTIONS = [
     },
     {
         heading: "7. Intellectual Property",
-        body: "All content on AKMIND including curriculum, videos and materials is the property of Akonnai AI. You may not reproduce or distribute our content without written permission.",
+        body: "All content on AKMIND™ including curriculum, videos and materials is the property of Akonnai AI. You may not reproduce or distribute our content without written permission.",
     },
     {
         heading: "8. Limitation of Liability",
-        body: "AKMIND is not liable for any indirect or consequential damages arising from use of our platform. Our maximum liability is limited to the fees paid for the current program phase.",
+        body: "AKMIND™ is not liable for any indirect or consequential damages arising from use of our platform. Our maximum liability is limited to the fees paid for the current program phase.",
     },
     {
         heading: "9. Changes to Terms",
@@ -86,7 +86,7 @@ export default function TermsPage() {
 
                 {/* Title */}
                 <h1 className="text-4xl font-bold text-indigo-600 mb-2">Terms and Conditions</h1>
-                <p className="text-sm text-slate-400 mb-10">Last updated: March 2026 · AKMIND by Akonnai AI, Bangalore, India</p>
+                <p className="text-sm text-slate-400 mb-10">Last updated: March 2026 · AKMIND™ by Akonnai AI, Bangalore, India</p>
 
                 <div className="space-y-10">
                     {SECTIONS.map((section) => (

@@ -32,7 +32,7 @@ const JOBS = [
         title: "Full Stack Developer",
         badge: "Bangalore · Full-time",
         description:
-            "Build and improve the AKMIND platform using Next.js, TypeScript and AWS. Work on features that directly impact thousands of students.",
+            "Build and improve the AKMIND™ platform using Next.js, TypeScript and AWS. Work on features that directly impact thousands of students.",
         requirements: ["Next.js", "TypeScript", "AWS", "React"],
     },
 ];
@@ -119,7 +119,7 @@ export default function CareersPage() {
                         transition={{ duration: 0.5 }}
                         className="text-4xl md:text-5xl font-bold text-white mb-5 leading-tight"
                     >
-                        Join the AKMIND Team
+                        Join the AKMIND™ Team
                     </motion.h1>
                     <motion.p
                         initial={{ opacity: 0, y: 16 }}
@@ -272,7 +272,7 @@ export default function CareersPage() {
                                     </Field>
                                 </div>
 
-                                <Field label="Why do you want to join AKMIND?" required>
+                                <Field label="Why do you want to join AKMIND™?" required>
                                     <textarea
                                         value={form.message}
                                         onChange={(e) => update("message", e.target.value)}
