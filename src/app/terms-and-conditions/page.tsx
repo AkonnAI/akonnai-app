@@ -1,7 +1,11 @@
 import Link from "next/link";
 import Footer from "@/components/Footer";
 
-export const metadata = { title: "Terms and Conditions | AKMIND™" };
+export const metadata = {
+  title: "Terms and Conditions",
+  description: "AKMIND terms and conditions of use.",
+  alternates: { canonical: "https://www.akmind.com/terms-and-conditions" }
+};
 
 const SECTIONS = [
     {

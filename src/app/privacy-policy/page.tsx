@@ -1,7 +1,11 @@
 import Link from "next/link";
 import Footer from "@/components/Footer";
 
-export const metadata = { title: "Privacy Policy | AKMIND™" };
+export const metadata = {
+  title: "Privacy Policy",
+  description: "AKMIND privacy policy — how we collect, use and protect your data.",
+  alternates: { canonical: "https://www.akmind.com/privacy-policy" }
+};
 
 const SECTIONS = [
     {

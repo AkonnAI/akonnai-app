@@ -1,6 +1,10 @@
 import Footer from "@/components/Footer";
 
-export const metadata = { title: "Our Story | AKMIND™" };
+export const metadata = {
+  title: "About AKMIND",
+  description: "Learn about AKMIND — India's most exciting AI education platform founded in 2024. Our mission is to make world-class AI education accessible to every school student in India.",
+  alternates: { canonical: "https://www.akmind.com/about" }
+};
 
 export default function AboutPage() {
     return (

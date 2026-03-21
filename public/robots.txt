@@ -1,4 +1,5 @@
 User-agent: *
+Allow: /
 Disallow: /api/
 Disallow: /confirmation
 Sitemap: https://www.akmind.com/sitemap.xml

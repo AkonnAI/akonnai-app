@@ -8,18 +8,67 @@ import FloatingCTA from "@/components/FloatingCTA";
 const outfit = Outfit({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "AKMIND — AI Education for School Students in India",
-  description:
-    "India's most exciting AI education platform for students in Grades 5-10. Learn Python, Machine Learning, Computer Vision and more with expert 1-on-1 mentors. Book your free demo class today.",
-  keywords:
-    "AI education India, coding for kids, machine learning for students, AI classes Bangalore, Python for kids, AKMIND",
-  openGraph: {
-    title: "AKMIND — AI Education for School Students",
-    description:
-      "Learn AI with expert mentors. Python, ML, Computer Vision and more for students aged 10-16.",
-    url: "https://www.akmind.com",
-    type: "website",
+  metadataBase: new URL("https://www.akmind.com"),
+  title: {
+    default: "AKMIND — AI Education for School Students in India",
+    template: "%s | AKMIND"
   },
+  description: "India's most exciting AI education platform for students aged 10-16. Learn Python, Machine Learning, Computer Vision and more with expert 1-on-1 mentors in Bangalore. Book your free demo class today.",
+  keywords: [
+    "AI education India",
+    "AI classes for kids",
+    "machine learning for students",
+    "coding classes Bangalore",
+    "Python for kids India",
+    "AI mentors India",
+    "AKMIND",
+    "AI Explorers",
+    "AI Builders",
+    "AI Innovators",
+    "online AI classes",
+    "AI education grade 5 to 10",
+    "artificial intelligence for school students"
+  ],
+  authors: [{ name: "AKMIND by Akonnai AI" }],
+  creator: "Akonnai AI",
+  publisher: "Akonnai AI",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+    }
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_IN",
+    url: "https://www.akmind.com",
+    siteName: "AKMIND",
+    title: "AKMIND — AI Education for School Students in India",
+    description: "Learn AI with expert 1-on-1 mentors. Python, Machine Learning, Computer Vision for students aged 10-16 in India.",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "AKMIND — AI Education for School Students"
+      }
+    ]
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "AKMIND — AI Education for School Students in India",
+    description: "Learn AI with expert 1-on-1 mentors. Python, ML, Computer Vision for students aged 10-16.",
+    images: ["/og-image.png"],
+    creator: "@akmind"
+  },
+  alternates: {
+    canonical: "https://www.akmind.com"
+  },
+  verification: {
+    google: "ADD_YOUR_GOOGLE_VERIFICATION_CODE_HERE"
+  }
 };
 
 export default function RootLayout({

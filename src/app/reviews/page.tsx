@@ -1,6 +1,10 @@
 import Footer from "@/components/Footer";
 
-export const metadata = { title: "Reviews | AKMIND™" };
+export const metadata = {
+  title: "Reviews",
+  description: "Read what parents say about AKMIND. 4.9 stars from 500+ families across India.",
+  alternates: { canonical: "https://www.akmind.com/reviews" }
+};
 
 const REVIEWS = [
     { name: "Priya Sharma", role: "Parent", stars: 5, text: "My son built his first chatbot after just 3 weeks. He now explains AI concepts to me! The mentors are incredibly patient and knowledgeable." },
