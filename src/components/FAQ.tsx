@@ -2,57 +2,109 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, ChevronUp, HelpCircle } from "lucide-react";
+import { ChevronDown, HelpCircle } from "lucide-react";
 import { clsx } from "clsx";
 
-const TABS = ["AI Curriculum", "Mentorship", "Class Experience"];
+const TABS = ["Class Experience", "About the Program", "Support"] as const;
+type Tab = typeof TABS[number];
 
-const FAQS = [
+const FAQS: { category: Tab; question: string; answer: string }[] = [
+    // ── Class Experience ──────────────────────────────────────────────────────
     {
-        category: "AI Curriculum",
-        question: "Do students need coding experience for AI?",
-        answer: "No prior experience is needed for our AI Explorers (Grades 5-6) program. We start with block-based coding and transition to Python. For AI Builders and Innovators, basic logical thinking is helpful but not mandatory as we cover foundations."
-    },
-    {
-        category: "AI Curriculum",
-        question: "What tools are used in AI classes?",
-        answer: "Students use industry-standard tools like Python, TensorFlow (simplified), OpenAI APIs, and custom visual coding platforms designed for kids to build real AI models."
-    },
-    {
-        category: "AI Curriculum",
-        question: "Will students build real AI apps?",
-        answer: "Yes! Every module ends with a Capstone Project. Students build Chatbots, Image Classifiers, Game AIs, and Voice Assistants that they can share with friends and family."
-    },
-    {
-        category: "Mentorship",
-        question: "Who are the mentors?",
-        answer: "Our mentors are selected from top tech companies and universities. They have real-world experience in Data Science, Machine Learning, and Software Engineering."
+        category: "Class Experience",
+        question: "How are AKMIND classes conducted?",
+        answer: "All classes are conducted live on a 1-on-1 basis over video call. Each session is 60 minutes with a dedicated AI mentor who gives your child 100% personalised attention.",
     },
     {
         category: "Class Experience",
-        question: "Are classes live or recorded?",
-        answer: "All classes are 100% Live and 1:1. We believe personalized attention is crucial for mastering complex topics like Artificial Intelligence."
+        question: "What devices does my child need?",
+        answer: "A laptop or desktop with a stable internet connection is required. Mobile phones are not recommended. We will guide you with any software setup before the first class.",
     },
     {
         category: "Class Experience",
-        question: "Is Python required?",
-        answer: "Python is the language of AI. We introduce Python syntax gradually, focusing on its application in AI rather than just dry theory. By Grade 8, students are comfortable writing Python scripts."
-    }
+        question: "Can I get a recording of the class?",
+        answer: "To protect student privacy we do not provide recordings. However detailed notes, project files and activity summaries are shared after every session.",
+    },
+    {
+        category: "Class Experience",
+        question: "Can I reschedule a class?",
+        answer: "Yes. Classes can be rescheduled up to 12 hours before the session through your parent dashboard. We offer flexible scheduling to fit your child's routine.",
+    },
+    {
+        category: "Class Experience",
+        question: "Is there homework after each class?",
+        answer: "There is no mandatory homework. We do share optional practice challenges and mini-projects that reinforce what was learned in class in a fun way.",
+    },
+
+    // ── About the Program ─────────────────────────────────────────────────────
+    {
+        category: "About the Program",
+        question: "What will my child actually build in AKMIND?",
+        answer: "Students build real AI projects — image classifiers, chatbots, recommendation systems, and data dashboards — using Python, TensorFlow, and other industry tools. Every student leaves with a portfolio of projects.",
+    },
+    {
+        category: "About the Program",
+        question: "Do I need any prior coding experience?",
+        answer: "No prior experience is needed for AI Explorers. For AI Builders and AI Innovators, basic familiarity with computers is helpful but not required. Our mentors adapt to every student's pace.",
+    },
+    {
+        category: "About the Program",
+        question: "What certificate does my child receive?",
+        answer: "Students receive an AKMIND Certificate of Completion at the end of each program phase. The certificate is digitally verifiable and can be added to school portfolios and LinkedIn profiles.",
+    },
+    {
+        category: "About the Program",
+        question: "What is the difference between the 3 programs?",
+        answer: "AI Explorers is for complete beginners focusing on no-code AI tools and fundamentals. AI Builders introduces Python and ML projects. AI Innovators covers advanced deep learning, NLP and computer vision for students ready for a real challenge.",
+    },
+    {
+        category: "About the Program",
+        question: "How long is each program?",
+        answer: "Each program phase consists of 60 micro-lessons combining live sessions and self-paced content. Most students complete a phase in 4 to 6 months depending on their pace.",
+    },
+
+    // ── Support ───────────────────────────────────────────────────────────────
+    {
+        category: "Support",
+        question: "How do I book a free demo class?",
+        answer: "Click the \"Book Free Demo\" button anywhere on the site, fill in your child's details and pick a convenient date and time. A mentor will join you for a free 60-minute trial class with no obligation.",
+    },
+    {
+        category: "Support",
+        question: "What is your cancellation and refund policy?",
+        answer: "We offer a full refund within 7 days of enrollment if you are not satisfied. After 7 days, unused sessions can be refunded on a pro-rata basis. Please email hello@akmind.com for refund requests.",
+    },
+    {
+        category: "Support",
+        question: "How do I contact AKMIND support?",
+        answer: "You can reach us at hello@akmind.com or through the contact form on our website. We respond within 24 hours on all working days.",
+    },
+    {
+        category: "Support",
+        question: "Is my child's data safe?",
+        answer: "Yes. AKMIND stores only the minimum data required to provide the service. We never sell or share your data with third parties. All data is encrypted and stored securely on AWS infrastructure in India.",
+    },
 ];
 
 const FAQ = () => {
-    const [activeTab, setActiveTab] = useState("AI Curriculum");
+    const [activeTab, setActiveTab] = useState<Tab>("Class Experience");
     const [openIndex, setOpenIndex] = useState<number | null>(null);
 
-    const toggleAccordion = (index: number) => {
-        setOpenIndex(openIndex === index ? null : index);
+    const filteredFaqs = FAQS.filter((faq) => faq.category === activeTab);
+
+    const handleTab = (tab: Tab) => {
+        setActiveTab(tab);
+        setOpenIndex(null);
     };
 
-    const filteredFaqs = FAQS.filter(faq => faq.category === activeTab);
+    const toggle = (index: number) => {
+        setOpenIndex(openIndex === index ? null : index);
+    };
 
     return (
         <section className="py-20 bg-white">
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+
                 {/* Header */}
                 <div className="text-center mb-12">
                     <div className="flex justify-center mb-6">
@@ -61,25 +113,28 @@ const FAQ = () => {
                                 animate={{ y: [0, -10, 0] }}
                                 transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
                             >
-                                <HelpCircle className="w-24 h-24 text-purple-200" />
+                                <HelpCircle className="w-24 h-24 text-indigo-100" />
                             </motion.div>
                             <div className="absolute top-0 right-0 text-pink-300 text-4xl animate-bounce">?</div>
                             <div className="absolute bottom-0 left-0 text-blue-300 text-3xl">?</div>
                         </div>
                     </div>
-                    <h2 className="text-4xl font-bold text-slate-900 mb-8">Frequently Asked <span className="text-purple-600">Questions</span></h2>
+                    <h2 className="text-4xl font-bold text-slate-900 mb-8">
+                        Frequently Asked{" "}
+                        <span className="text-indigo-600">Questions</span>
+                    </h2>
 
-                    {/* Tabs */}
-                    <div className="inline-flex flex-wrap justify-center gap-4 border border-gray-100 p-2 rounded-full shadow-sm bg-white">
+                    {/* Tab buttons */}
+                    <div className="inline-flex flex-wrap justify-center gap-3 border border-gray-100 p-2 rounded-full shadow-sm bg-white">
                         {TABS.map((tab) => (
                             <button
                                 key={tab}
-                                onClick={() => { setActiveTab(tab); setOpenIndex(null); }}
+                                onClick={() => handleTab(tab)}
                                 className={clsx(
                                     "px-6 py-2 rounded-full text-sm font-bold transition-all",
                                     activeTab === tab
-                                        ? "bg-purple-600 text-white shadow-md"
-                                        : "bg-transparent text-purple-600 hover:bg-purple-50"
+                                        ? "bg-indigo-600 text-white shadow-md"
+                                        : "bg-transparent text-indigo-600 hover:bg-indigo-50"
                                 )}
                             >
                                 {tab}
@@ -88,54 +143,79 @@ const FAQ = () => {
                     </div>
                 </div>
 
-                {/* FAQ List */}
-                <div className="space-y-4 min-h-[400px]">
+                {/* FAQ accordion list */}
+                <div className="min-h-[400px]">
                     <AnimatePresence mode="wait">
                         <motion.div
                             key={activeTab}
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -10 }}
-                            transition={{ duration: 0.3 }}
+                            transition={{ duration: 0.25 }}
                             className="space-y-4"
                         >
-                            {filteredFaqs.map((faq, index) => (
-                                <motion.div
-                                    key={index}
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    transition={{ delay: index * 0.1 }}
-                                    className="border border-gray-200 rounded-xl overflow-hidden hover:border-purple-300 transition-colors bg-white"
-                                >
-                                    <button
-                                        onClick={() => toggleAccordion(index)}
-                                        className="w-full px-6 py-5 flex items-center justify-between text-left focus:outline-none bg-white hover:bg-gray-50 transition-colors"
-                                    >
-                                        <span className={clsx("font-bold text-lg", openIndex === index ? "text-purple-700" : "text-slate-700")}>
-                                            {faq.question}
-                                        </span>
-                                        {openIndex === index ? (
-                                            <ChevronUp className="w-5 h-5 text-purple-600 flex-shrink-0" />
-                                        ) : (
-                                            <ChevronDown className="w-5 h-5 text-gray-400 flex-shrink-0" />
-                                        )}
-                                    </button>
-
-                                    <div
+                            {filteredFaqs.map((faq, index) => {
+                                const isOpen = openIndex === index;
+                                return (
+                                    <motion.div
+                                        key={index}
+                                        initial={{ opacity: 0, y: 8 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: index * 0.06 }}
                                         className={clsx(
-                                            "px-6 overflow-hidden transition-all duration-300 ease-in-out",
-                                            openIndex === index ? "max-h-48 pb-6 opacity-100" : "max-h-0 opacity-0"
+                                            "rounded-xl border overflow-hidden transition-colors duration-200",
+                                            isOpen
+                                                ? "border-indigo-300 bg-indigo-50"
+                                                : "border-gray-200 bg-white hover:border-indigo-200"
                                         )}
                                     >
-                                        <p className="text-slate-600 leading-relaxed">
-                                            {faq.answer}
-                                        </p>
-                                    </div>
-                                </motion.div>
-                            ))}
+                                        {/* Question row */}
+                                        <button
+                                            onClick={() => toggle(index)}
+                                            className="w-full px-6 py-5 flex items-center justify-between text-left focus:outline-none"
+                                        >
+                                            <span className={clsx(
+                                                "font-bold text-base pr-4",
+                                                isOpen ? "text-indigo-700" : "text-slate-800"
+                                            )}>
+                                                {faq.question}
+                                            </span>
+                                            <motion.span
+                                                animate={{ rotate: isOpen ? 180 : 0 }}
+                                                transition={{ duration: 0.2 }}
+                                                className="shrink-0"
+                                            >
+                                                <ChevronDown className={clsx(
+                                                    "w-5 h-5 transition-colors",
+                                                    isOpen ? "text-indigo-600" : "text-gray-400"
+                                                )} />
+                                            </motion.span>
+                                        </button>
+
+                                        {/* Answer — animated height */}
+                                        <AnimatePresence initial={false}>
+                                            {isOpen && (
+                                                <motion.div
+                                                    key="answer"
+                                                    initial={{ height: 0, opacity: 0 }}
+                                                    animate={{ height: "auto", opacity: 1 }}
+                                                    exit={{ height: 0, opacity: 0 }}
+                                                    transition={{ duration: 0.25, ease: "easeInOut" }}
+                                                    className="overflow-hidden"
+                                                >
+                                                    <p className="px-6 pb-5 text-slate-600 leading-relaxed text-sm">
+                                                        {faq.answer}
+                                                    </p>
+                                                </motion.div>
+                                            )}
+                                        </AnimatePresence>
+                                    </motion.div>
+                                );
+                            })}
                         </motion.div>
                     </AnimatePresence>
                 </div>
+
             </div>
         </section>
     );

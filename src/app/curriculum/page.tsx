@@ -7,7 +7,7 @@ import { Lock, ArrowRight, CheckCircle2 } from "lucide-react";
 const MODULES = [
     {
         id: "explorers",
-        title: "AI Explorers (Grades 5-6)",
+        title: "AI Explorers",
         description: "Introduction to AI, Logic & Coding",
         topics: [
             "Introduction to Artificial Intelligence",
@@ -20,7 +20,7 @@ const MODULES = [
     },
     {
         id: "builders",
-        title: "AI Builders (Grades 7-8)",
+        title: "AI Builders",
         description: "Building Real-World AI Apps",
         topics: [
             "Python Programming Basics",
@@ -33,7 +33,7 @@ const MODULES = [
     },
     {
         id: "innovators",
-        title: "AI Innovators (Grades 9-10)",
+        title: "AI Innovators",
         description: "Deep Learning & Generative AI",
         topics: [
             "Advanced Python & Data Science",

@@ -56,7 +56,7 @@ const TopPicks = () => {
                         <div className="w-full md:w-1/2 p-10 flex flex-col justify-center">
                             <div className="mb-6">
                                 <h3 className="text-3xl font-bold text-slate-900 mb-2">AI Builders</h3>
-                                <p className="text-sm font-bold text-purple-600 uppercase tracking-wider mb-4">Grades 7–8</p>
+                                <p className="text-sm font-bold text-purple-600 uppercase tracking-wider mb-4">Most Popular</p>
                                 <p className="text-slate-600 text-lg leading-relaxed">
                                     Building Real-World AI Apps. Learn to create smart chatbots, games, and intelligent systems.
                                 </p>

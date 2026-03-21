@@ -13,16 +13,17 @@ const Footer = () => {
 
     const LINKS = {
         programs: [
-            { label: "AI Explorers (Grades 5-6)", href: "/programs" },
-            { label: "AI Builders (Grades 7-8)", href: "/programs" },
-            { label: "AI Innovators (Grades 9-10)", href: "/programs" }
+            { label: "AI Explorers", href: "/programs" },
+            { label: "AI Builders", href: "/programs" },
+            { label: "AI Innovators", href: "/programs" }
         ],
         company: [
             { label: "About AKMIND", href: "#" },
             { label: "Our Educators", href: "#" },
             { label: "Careers", href: "#" },
             { label: "Blog", href: "#" },
-            { label: "Privacy Policy", href: "#" }
+            { label: "Privacy Policy", href: "/privacy-policy" },
+            { label: "Terms & Conditions", href: "/terms-and-conditions" },
         ]
     };
 

@@ -12,7 +12,11 @@ const STEPS = [
     { id: 4, title: "Schedule", fields: ["date", "time"] },
 ];
 
-const COURSES = ["AI Explorers (Grades 5-6)", "AI Builders (Grades 7-8)", "AI Innovators (Grades 9-10)"];
+const COURSES = [
+    { name: "AI Explorers", desc: "Perfect for beginners — no prior experience needed" },
+    { name: "AI Builders", desc: "Hands-on ML and Python projects — our most popular program" },
+    { name: "AI Innovators", desc: "Advanced AI, Deep Learning and real-world applications" },
+];
 const TIMES = ["4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM"];
 
 export default function RegisterPage() {
@@ -133,12 +137,15 @@ export default function RegisterPage() {
                                         <label className="block text-sm font-bold text-slate-700 mb-1">Select Program</label>
                                         {COURSES.map((course) => (
                                             <div
-                                                key={course}
-                                                onClick={() => updateField("course", course)}
-                                                className={`p-4 rounded-xl border cursor-pointer transition-all flex items-center justify-between ${formData.course === course ? "border-purple-600 bg-purple-50" : "border-slate-200 hover:border-purple-300"}`}
+                                                key={course.name}
+                                                onClick={() => updateField("course", course.name)}
+                                                className={`p-4 rounded-xl border cursor-pointer transition-all flex items-center justify-between ${formData.course === course.name ? "border-purple-600 bg-purple-50" : "border-slate-200 hover:border-purple-300"}`}
                                             >
-                                                <span className={`font-medium ${formData.course === course ? "text-purple-700" : "text-slate-600"}`}>{course}</span>
-                                                {formData.course === course && <Check className="w-5 h-5 text-purple-600" />}
+                                                <div>
+                                                    <p className={`font-bold ${formData.course === course.name ? "text-purple-700" : "text-slate-700"}`}>{course.name}</p>
+                                                    <p className={`text-xs mt-0.5 ${formData.course === course.name ? "text-purple-500" : "text-slate-400"}`}>{course.desc}</p>
+                                                </div>
+                                                {formData.course === course.name && <Check className="w-5 h-5 text-purple-600 shrink-0" />}
                                             </div>
                                         ))}
                                     </div>

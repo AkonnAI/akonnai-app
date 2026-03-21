@@ -5,27 +5,21 @@ import { Linkedin } from "lucide-react";
 
 const MENTORS = [
     {
-        name: "Dr. Nagaraj Ethirajulu",
+        name: "Nagaraj Ethirajulu",
         role: "AI PhD | Research & Advanced Machine Learning",
         description: "Specializes in Deep Learning, Neural Networks, and Applied AI Research. Guides advanced AI curriculum and research-driven learning.",
         imageBg: "bg-slate-200"
     },
     {
-        name: "Abhishek Vinayak",
-        role: "Senior AI Developer",
-        description: "Expert in Generative AI, Python, LLM applications, and real-world AI product development.",
+        name: "Jebian",
+        role: "AI Mentor & Industry Expert",
+        description: "A creative AI practitioner who makes deep learning accessible and thrilling for school students. Known for turning abstract AI ideas into tangible projects.",
         imageBg: "bg-slate-200"
     },
     {
-        name: "Hebel Niraj",
-        role: "Senior AI Developer",
-        description: "Focused on AI systems engineering, deployment, and building scalable AI-powered applications.",
-        imageBg: "bg-slate-200"
-    },
-    {
-        name: "Jais Jose",
-        role: "Critical Thinking & Communication",
-        description: "Empowers students with logical reasoning, effective communication, and the critical thinking skills needed for the AI era.",
+        name: "Akhil",
+        role: "AI Mentor & Industry Expert",
+        description: "Passionate about sparking curiosity in school students through hands-on AI projects. Brings real-world industry experience into every session.",
         imageBg: "bg-slate-200"
     }
 ];
@@ -50,7 +44,7 @@ const Educators = () => {
                 </div>
 
                 {/* Mentors Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
                     {MENTORS.map((mentor, index) => (
                         <motion.div
                             key={mentor.name}
