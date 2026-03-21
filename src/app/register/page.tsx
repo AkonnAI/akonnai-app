@@ -197,7 +197,7 @@ export default function RegisterPage() {
                     />
                 </div>
 
-                <div className="p-8 flex flex-col">
+                <div className="p-4 sm:p-8 flex flex-col">
                     {/* Step progress dots */}
                     <StepBar current={currentStep} completed={completedSteps} />
 
@@ -324,11 +324,11 @@ export default function RegisterPage() {
                     )}
 
                     {/* Navigation buttons */}
-                    <div className="mt-8 flex justify-between items-center gap-3">
+                    <div className="mt-6 sm:mt-8 flex flex-col-reverse sm:flex-row justify-between items-stretch sm:items-center gap-3">
                         {currentStep > 1 ? (
                             <button
                                 onClick={prevStep}
-                                className="flex items-center gap-2 px-5 py-3 rounded-full font-bold text-slate-600 border border-slate-200 hover:border-slate-300 hover:text-slate-900 transition-all"
+                                className="flex items-center justify-center gap-2 w-full sm:w-auto px-5 py-3 rounded-full font-bold text-slate-600 border border-slate-200 hover:border-slate-300 hover:text-slate-900 transition-all"
                             >
                                 <ChevronLeft className="w-5 h-5" /> Back
                             </button>
@@ -339,7 +339,7 @@ export default function RegisterPage() {
                         <button
                             onClick={nextStep}
                             disabled={!isStepValid() || isSubmitting}
-                            className={`flex items-center gap-2 px-8 py-3 rounded-full font-bold text-white transition-all sm:w-auto w-full justify-center ${
+                            className={`flex items-center gap-2 px-8 py-3 rounded-full font-bold text-white transition-all w-full justify-center ${
                                 !isStepValid() || isSubmitting
                                     ? "bg-slate-300 cursor-not-allowed"
                                     : "bg-indigo-600 hover:bg-indigo-700 shadow-lg shadow-indigo-200 hover:shadow-indigo-300"

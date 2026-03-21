@@ -1,78 +1,66 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Brain, Bot, FileText, Smartphone, ShieldCheck, Database, Sparkles } from "lucide-react";
+import { Code2, Brain, Eye, MessageSquare, BarChart2, Cpu, ShieldCheck, Lightbulb, Wrench, Target, GitBranch, FileText } from "lucide-react";
 
 const SKILLS = [
-    { name: "Machine Learning", icon: <Brain />, color: "bg-blue-100 text-blue-600" },
-    { name: "Generative AI", icon: <Sparkles />, color: "bg-purple-100 text-purple-600" },
-    { name: "Prompt Engineering", icon: <FileText />, color: "bg-pink-100 text-pink-600" },
-    { name: "AI Automation", icon: <Bot />, color: "bg-orange-100 text-orange-600" },
-    { name: "AI Ethics", icon: <ShieldCheck />, color: "bg-green-100 text-green-600" },
-    { name: "Data Thinking", icon: <Database />, color: "bg-indigo-100 text-indigo-600" }
+    { name: "Python Programming", Icon: Code2 },
+    { name: "Machine Learning", Icon: Brain },
+    { name: "Computer Vision", Icon: Eye },
+    { name: "Natural Language Processing", Icon: MessageSquare },
+    { name: "Data Analysis", Icon: BarChart2 },
+    { name: "Deep Learning", Icon: Cpu },
+    { name: "AI Ethics", Icon: ShieldCheck },
+    { name: "Problem Solving", Icon: Lightbulb },
+    { name: "Project Building", Icon: Wrench },
+    { name: "Critical Thinking", Icon: Target },
+    { name: "Neural Networks", Icon: GitBranch },
+    { name: "Prompt Engineering", Icon: FileText },
 ];
 
 const SkillsForSuccess = () => {
     return (
-        <section className="py-24 bg-gray-50 relative overflow-hidden">
-            {/* Decorative Background Elements */}
-            <div className="absolute top-10 right-0 opacity-20 pointer-events-none">
-                <img src="/media/abstract.gif" className="w-40" alt="" />
-            </div>
-            <div className="absolute bottom-20 left-10 opacity-20 pointer-events-none">
-                <img src="/media/arrows.gif" className="w-24" alt="" />
-            </div>
-            <div className="absolute top-1/3 left-20 opacity-15 pointer-events-none">
-                <img src="/media/question.gif" className="w-16 rotate-12" alt="" />
-            </div>
-            <div className="absolute bottom-10 right-1/4 opacity-15 pointer-events-none">
-                <img src="/media/stars.gif" className="w-20" alt="" />
-            </div>
+        <section className="py-24 bg-white overflow-hidden">
+            <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
 
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                <div className="text-center mb-16">
-                    <motion.h2
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="text-4xl font-bold text-slate-900 mb-4"
-                    >
-                        Skills for the <span className="text-purple-600">AI Era</span>
-                    </motion.h2>
-                    <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-                        We don&apos;t just teach coding. We teach students how to think, create, and innovate with Artificial Intelligence.
-                    </p>
-                </div>
+                {/* Heading */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5 }}
+                    className="text-center mb-12"
+                >
+                    <span className="inline-block px-4 py-1 bg-indigo-50 text-indigo-600 border border-indigo-100 rounded-full text-sm font-medium mb-5">
+                        SKILLS YOU WILL GAIN
+                    </span>
+                    <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-3">
+                        Skills that prepare your child for{" "}
+                        <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                            tomorrow&apos;s world
+                        </span>
+                    </h2>
+                </motion.div>
 
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
-                    {SKILLS.map((skill, index) => (
+                {/* Skills pills */}
+                <div className="flex flex-wrap justify-center gap-3">
+                    {SKILLS.map((skill, i) => (
                         <motion.div
                             key={skill.name}
-                            initial={{ opacity: 0, y: 20 }}
+                            initial={{ opacity: 0, y: 16 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
-                            transition={{ delay: index * 0.1 }}
-                            whileHover={{ y: -5, boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1)" }}
-                            className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex flex-col items-center justify-center text-center gap-4 transition-all hover:border-purple-200"
+                            transition={{ delay: i * 0.05, duration: 0.4 }}
+                            className="flex items-center gap-2 bg-white border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50 hover:text-indigo-700 rounded-full px-5 py-3 transition-all duration-200 cursor-default group"
                         >
-                            <div className={`w-14 h-14 rounded-full flex items-center justify-center ${skill.color}`}>
-                                {/* Clone element to enforce size if needed, though class setup handles it */}
-                                <div className="w-7 h-7 flex items-center justify-center">{skill.icon}</div>
-                            </div>
-                            <h3 className="font-bold text-slate-800">{skill.name}</h3>
+                            <skill.Icon className="w-4 h-4 text-indigo-500 group-hover:text-indigo-600 shrink-0" />
+                            <span className="text-slate-700 group-hover:text-indigo-700 text-sm font-medium whitespace-nowrap transition-colors">
+                                {skill.name}
+                            </span>
                         </motion.div>
                     ))}
                 </div>
 
-                <div className="mt-12 text-center">
-                    <motion.button
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        className="text-purple-600 font-bold hover:text-purple-700 flex items-center justify-center gap-2 mx-auto"
-                    >
-                        View Curriculum Details <span className="text-xl">→</span>
-                    </motion.button>
-                </div>
             </div>
         </section>
     );

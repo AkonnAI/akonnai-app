@@ -64,10 +64,7 @@ function MagneticButton({ children, onClick, className }: { children: React.Reac
         y.set((e.clientY - (rect.top + rect.height / 2)) * 0.25);
     };
 
-    const handleMouseLeave = () => {
-        x.set(0);
-        y.set(0);
-    };
+    const handleMouseLeave = () => { x.set(0); y.set(0); };
 
     return (
         <motion.button
@@ -75,7 +72,7 @@ function MagneticButton({ children, onClick, className }: { children: React.Reac
             style={{ x: springX, y: springY }}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
-            whileTap={{ scale: 0.95 }}
+            whileTap={{ scale: 0.96 }}
             onClick={onClick}
             className={className}
         >
@@ -97,96 +94,145 @@ const HeroSection = () => {
     }, []);
 
     return (
-        <div className="relative bg-white overflow-hidden">
-            {/* Dot grid pattern */}
-            <div className="absolute inset-0 bg-dot-pattern opacity-40 pointer-events-none z-0" />
+        <div className="relative bg-gradient-to-br from-slate-950 via-indigo-950 to-slate-900 overflow-hidden">
+            {/* Float keyframe */}
+            <style>{`
+                @keyframes float {
+                    0%, 100% { transform: translateY(0px); }
+                    50% { transform: translateY(-20px); }
+                }
+            `}</style>
 
-            {/* Soft color blobs */}
-            <div className="absolute top-0 right-1/3 w-[500px] h-[500px] bg-indigo-100 rounded-full blur-3xl opacity-50 pointer-events-none z-0" />
-            <div className="absolute bottom-0 left-1/4 w-[400px] h-[400px] bg-purple-100 rounded-full blur-3xl opacity-40 pointer-events-none z-0" />
-            <div className="absolute top-1/2 right-0 w-64 h-64 bg-pink-100 rounded-full blur-2xl opacity-30 pointer-events-none z-0" />
+            {/* Grid pattern overlay */}
+            <div
+                className="absolute inset-0 pointer-events-none z-0"
+                style={{
+                    backgroundImage: `linear-gradient(rgba(99,102,241,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(99,102,241,0.08) 1px, transparent 1px)`,
+                    backgroundSize: `60px 60px`,
+                }}
+            />
 
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-20 flex flex-col-reverse lg:flex-row items-center gap-12 lg:gap-20 relative z-10">
+            {/* Floating orbs */}
+            <div
+                className="absolute top-20 left-10 w-48 h-48 md:w-96 md:h-96 bg-indigo-600/20 rounded-full blur-3xl pointer-events-none z-0"
+                style={{ animation: "float 6s ease-in-out infinite" }}
+            />
+            <div
+                className="absolute top-40 right-10 w-40 h-40 md:w-80 md:h-80 bg-purple-600/20 rounded-full blur-3xl pointer-events-none z-0"
+                style={{ animation: "float 6s ease-in-out 2s infinite" }}
+            />
+            <div
+                className="absolute bottom-20 left-1/3 w-64 h-64 bg-pink-600/15 rounded-full blur-3xl pointer-events-none z-0 hidden md:block"
+                style={{ animation: "float 6s ease-in-out 4s infinite" }}
+            />
 
-                {/* Left Side */}
-                <motion.div
-                    initial={{ opacity: 0, x: -50 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.8 }}
-                    className="w-full lg:w-1/2 z-10 text-center lg:text-left"
-                >
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-28 flex flex-col lg:flex-row items-center gap-12 lg:gap-16 relative z-10">
+
+                {/* ── Left column ── */}
+                <div className="w-full lg:w-1/2 text-center lg:text-left">
+
+                    {/* Badge */}
                     <motion.div
-                        initial={{ opacity: 0, y: -10 }}
+                        initial={{ opacity: 0, y: 16 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6 }}
-                        className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-50 border border-indigo-200 text-indigo-700 text-sm font-medium rounded-full mb-4"
+                        className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-950/60 border border-indigo-500/30 text-indigo-300 text-sm font-medium rounded-full mb-6 backdrop-blur-sm"
                     >
                         <Sparkles className="w-4 h-4" />
                         AKMIND™ — Dream. Discover. Shine.
                     </motion.div>
 
-                    <motion.div
-                        initial={{ opacity: 0, y: -10 }}
+                    {/* Headline */}
+                    <motion.h1
+                        initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.2 }}
-                        className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-50 border border-indigo-100 rounded-full mb-6"
+                        transition={{ delay: 0.1, duration: 0.6 }}
+                        className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-4 tracking-tight"
                     >
-                        <span className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse" />
-                        <span className="text-sm font-bold text-indigo-600 tracking-wide uppercase">Future-Ready AI Education</span>
-                    </motion.div>
-
-                    <h1 className="text-5xl lg:text-7xl font-bold mb-6 text-slate-900 leading-tight tracking-tight">
-                        Dream. Discover. <br />
-                        <span className="bg-clip-text text-transparent bg-gradient-to-r from-red-500 via-purple-500 via-blue-500 via-green-500 to-red-500 animate-gradient-text">
-                            Build with AI
+                        Build the Mind<br />
+                        of an{" "}
+                        <span className="bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+                            AI Builder
                         </span>
-                    </h1>
+                    </motion.h1>
 
-                    {/* Typewriter subtitle */}
-                    <p className="text-xl text-slate-600 mb-10 leading-relaxed max-w-lg mx-auto lg:mx-0 font-medium min-h-[2rem]">
+                    {/* Typewriter */}
+                    <motion.p
+                        initial={{ opacity: 0, y: 16 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.15, duration: 0.6 }}
+                        className="text-indigo-300 text-base sm:text-xl font-medium mb-5 min-h-[2rem]"
+                    >
                         {typewriterText}
-                        <span className="inline-block w-[2px] h-5 bg-indigo-500 ml-1 animate-pulse align-middle" />
-                    </p>
+                        <span className="inline-block w-[2px] h-5 bg-indigo-400 ml-1 animate-pulse align-middle" />
+                    </motion.p>
 
-                    <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-10">
+                    {/* Subheading */}
+                    <motion.p
+                        initial={{ opacity: 0, y: 16 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.2, duration: 0.6 }}
+                        className="text-slate-300 text-sm sm:text-base lg:text-lg max-w-lg mx-auto lg:mx-0 mb-8 leading-relaxed"
+                    >
+                        India&apos;s most exciting AI education for students aged 10–16. Learn Python, Machine Learning and real AI with expert 1-on-1 mentors.
+                    </motion.p>
+
+                    {/* CTA buttons */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 16 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.3, duration: 0.6 }}
+                        className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-6"
+                    >
                         <MagneticButton
                             onClick={() => router.push("/register")}
-                            className="px-8 py-4 bg-slate-900 text-white rounded-full font-bold hover:bg-indigo-700 transition-colors flex items-center justify-center gap-2 shadow-lg shadow-slate-300 hover:shadow-indigo-200 hover:shadow-xl"
+                            className="bg-indigo-600 hover:bg-indigo-500 text-white px-8 py-4 rounded-xl font-semibold text-lg flex items-center justify-center gap-2 transition-colors shadow-lg shadow-indigo-900/40"
                         >
-                            Book Demo Class <ArrowRight className="w-5 h-5" />
+                            Book Free Demo <ArrowRight className="w-5 h-5" />
                         </MagneticButton>
 
                         <motion.button
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.97 }}
                             onClick={() => router.push("/curriculum")}
-                            className="px-8 py-4 bg-white text-slate-900 border-2 border-slate-200 rounded-full font-bold hover:border-indigo-300 hover:text-indigo-700 transition-all shadow-sm hover:shadow-md"
+                            className="border border-slate-600 hover:border-indigo-400 text-slate-300 hover:text-white px-8 py-4 rounded-xl font-semibold text-lg bg-transparent hover:bg-slate-800/50 transition-all"
                         >
                             View Curriculum
                         </motion.button>
-                    </div>
+                    </motion.div>
 
-                    <div className="flex items-center gap-2 justify-center lg:justify-start">
-                        <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                        <span className="text-sm text-slate-500 font-medium">Global Curriculum · Live Classes · 1-on-1 Mentorship</span>
-                    </div>
-                </motion.div>
+                    {/* Trust strip */}
+                    <motion.p
+                        initial={{ opacity: 0, y: 12 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.4, duration: 0.6 }}
+                        className="text-slate-500 text-sm hidden sm:block"
+                    >
+                        ✓ Free demo class &nbsp;·&nbsp; ✓ No credit card &nbsp;·&nbsp; ✓ Live 1-on-1 &nbsp;·&nbsp; ✓ Expert mentors
+                    </motion.p>
+                </div>
 
-                {/* Right Side - Slideshow */}
+                {/* ── Right column — slideshow ── */}
                 <motion.div
-                    initial={{ opacity: 0, x: 50 }}
+                    initial={{ opacity: 0, x: 40 }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.8, delay: 0.2 }}
-                    className="w-full lg:w-1/2 h-[500px] lg:h-[600px] relative rounded-bl-[80px] rounded-tr-[80px] rounded-tl-3xl rounded-br-3xl overflow-hidden shadow-2xl shadow-indigo-100"
+                    transition={{ delay: 0.2, duration: 0.7 }}
+                    className="w-full lg:w-1/2"
                 >
-                    {/* Glow ring around image */}
-                    <div className="absolute -inset-1 bg-gradient-to-br from-indigo-300 via-purple-300 to-pink-300 rounded-bl-[82px] rounded-tr-[82px] rounded-tl-[14px] rounded-br-[14px] opacity-40 blur-sm z-0" />
+                    <div
+                        className="relative h-56 sm:h-72 lg:h-[500px] rounded-2xl overflow-hidden border border-slate-700/50"
+                        style={{ boxShadow: "0 0 60px rgba(99,102,241,0.3)" }}
+                    >
+                        {/* Live badge */}
+                        <div className="absolute top-4 left-4 z-20 bg-slate-900/80 backdrop-blur-sm border border-slate-700/50 rounded-full px-3 py-1 hidden sm:block">
+                            <span className="text-white text-xs">🔴 Live Class in Progress</span>
+                        </div>
 
-                    <div className="absolute inset-0 z-10 rounded-bl-[80px] rounded-tr-[80px] rounded-tl-3xl rounded-br-3xl overflow-hidden">
+                        {/* Slides */}
                         <AnimatePresence mode="wait">
                             <motion.div
                                 key={currentSlide}
-                                initial={{ opacity: 0, scale: 1.1 }}
+                                initial={{ opacity: 0, scale: 1.05 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 exit={{ opacity: 0 }}
                                 transition={{ duration: 0.8 }}
@@ -199,17 +245,17 @@ const HeroSection = () => {
                                     className="object-cover"
                                     priority
                                 />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
                             </motion.div>
                         </AnimatePresence>
 
-                        {/* Dots */}
-                        <div className="absolute bottom-6 left-0 right-0 flex justify-center gap-3 z-10">
+                        {/* Slide dots */}
+                        <div className="absolute bottom-5 left-0 right-0 flex justify-center gap-2 z-10">
                             {SLIDES.map((_, index) => (
                                 <button
                                     key={index}
                                     onClick={() => setCurrentSlide(index)}
-                                    className={`h-2.5 rounded-full transition-all duration-300 ${index === currentSlide ? "bg-white w-8" : "bg-white/50 w-2.5 hover:bg-white/80"}`}
+                                    className={`h-2 rounded-full transition-all duration-300 ${index === currentSlide ? "bg-white w-7" : "bg-white/40 w-2 hover:bg-white/70"}`}
                                     aria-label={`Go to slide ${index + 1}`}
                                 />
                             ))}

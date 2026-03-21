@@ -53,12 +53,12 @@ export default function CurriculumPage() {
     return (
         <div className="min-h-screen bg-white">
             {/* Header */}
-            <div className="bg-slate-900 text-white py-20 px-4">
+            <div className="bg-slate-900 text-white py-14 sm:py-20 px-4">
                 <div className="max-w-4xl mx-auto text-center">
                     <motion.h1
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="text-4xl md:text-5xl font-bold mb-6"
+                        className="text-3xl md:text-5xl font-bold mb-6"
                     >
                         Detailed AI Curriculum
                     </motion.h1>
@@ -69,7 +69,7 @@ export default function CurriculumPage() {
             </div>
 
             {/* Modules Grid */}
-            <div className="max-w-6xl mx-auto px-4 py-20">
+            <div className="max-w-6xl mx-auto px-4 py-12 sm:py-20">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {MODULES.map((module, index) => (
                         <motion.div

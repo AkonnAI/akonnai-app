@@ -15,30 +15,36 @@ const TOOLS = [
     { name: "Matplotlib", emoji: "📊" },
 ];
 
-// Duplicate for seamless infinite loop
 const ITEMS = [...TOOLS, ...TOOLS];
 
 export default function LogoTicker() {
     return (
-        <div className="py-14 bg-white overflow-hidden border-y border-slate-100 relative">
+        <div className="bg-slate-900 overflow-hidden relative">
             {/* Fade edges */}
-            <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
-            <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
+            <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-slate-900 to-transparent z-10 pointer-events-none" />
+            <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-slate-900 to-transparent z-10 pointer-events-none" />
 
-            <p className="text-center text-xs font-bold text-slate-400 uppercase tracking-[0.2em] mb-8">
-                Tools You&apos;ll Master
-            </p>
+            <div className="py-8">
+                <p className="text-center text-xs font-medium text-slate-500 uppercase tracking-[0.2em] mb-6">
+                    Tools and technologies used in our curriculum
+                </p>
 
-            <div className="flex gap-6 animate-ticker w-max">
-                {ITEMS.map((tool, i) => (
-                    <div
-                        key={i}
-                        className="flex items-center gap-3 px-5 py-3 bg-slate-50 hover:bg-indigo-50 border border-slate-200 hover:border-indigo-200 rounded-full shadow-sm transition-all duration-200 flex-shrink-0 cursor-default"
-                    >
-                        <span className="text-xl">{tool.emoji}</span>
-                        <span className="font-semibold text-slate-700 text-sm whitespace-nowrap">{tool.name}</span>
+                <div className="bg-slate-800/30 backdrop-blur-sm border-y border-slate-700/30 py-5">
+                    <div className="flex gap-6 animate-ticker w-max">
+                        {ITEMS.map((tool, i) => (
+                            <div
+                                key={i}
+                                className="flex items-center gap-2 flex-shrink-0 cursor-default"
+                            >
+                                <span className="text-lg">{tool.emoji}</span>
+                                <span className="text-slate-400 hover:text-slate-200 transition-colors text-sm font-medium whitespace-nowrap">
+                                    {tool.name}
+                                </span>
+                                <span className="text-slate-600 ml-4">·</span>
+                            </div>
+                        ))}
                     </div>
-                ))}
+                </div>
             </div>
         </div>
     );

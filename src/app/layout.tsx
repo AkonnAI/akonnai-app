@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Outfit } from "next/font/google";
 import "./globals.css";
 import ScrollProgressBar from "@/components/ScrollProgressBar";
+import FloatingCTA from "@/components/FloatingCTA";
 
 const outfit = Outfit({ subsets: ["latin"] });
 
@@ -29,7 +30,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={outfit.className}>
         <ScrollProgressBar />
+        {/* Spacer to push content below the fixed navbar */}
+        <div className="h-14 md:h-20" />
         {children}
+        <FloatingCTA />
       </body>
     </html>
   );

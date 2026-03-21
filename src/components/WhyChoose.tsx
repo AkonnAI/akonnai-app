@@ -1,97 +1,98 @@
 "use client";
 
-import Image from "next/image";
 import { motion } from "framer-motion";
+import { Users, Code, User, Award, Zap, Globe } from "lucide-react";
 
 const FEATURES = [
     {
-        title: "Real-world AI Projects",
-        description: "Students don’t just learn theory — they build real AI applications from chatbots to computer vision systems.",
-        icon: "/media/icon-projects.gif"
+        Icon: Users,
+        iconBg: "bg-indigo-500/20",
+        iconColor: "text-indigo-400",
+        title: "Expert AI Mentors",
+        description: "Learn from industry professionals with real-world AI experience. Top 1% of educators.",
     },
     {
-        title: "Industry Expert Mentors",
-        description: "Learn directly from experienced AI professionals and senior developers working on real-world systems.",
-        icon: "/media/icon-mentors.gif"
+        Icon: Code,
+        iconBg: "bg-purple-500/20",
+        iconColor: "text-purple-400",
+        title: "Hands-on Projects",
+        description: "No theory-only classes. Every session involves building something real with actual code.",
     },
     {
-        title: "Portfolio Certification",
-        description: "Earn structured certification and build a strong AI portfolio for future academic and career growth.",
-        icon: "/media/icon-certification.gif"
-    }
+        Icon: User,
+        iconBg: "bg-blue-500/20",
+        iconColor: "text-blue-400",
+        title: "1-on-1 Attention",
+        description: "Fully personalised sessions. Your child gets 100% of the mentor's focus every class.",
+    },
+    {
+        Icon: Award,
+        iconBg: "bg-pink-500/20",
+        iconColor: "text-pink-400",
+        title: "Verifiable Certificate",
+        description: "AKMIND™ certificates are digitally verifiable and add real value to school portfolios.",
+    },
+    {
+        Icon: Zap,
+        iconBg: "bg-amber-500/20",
+        iconColor: "text-amber-400",
+        title: "Flexible Scheduling",
+        description: "Classes scheduled around your child's timetable. Reschedule anytime with 12 hours notice.",
+    },
+    {
+        Icon: Globe,
+        iconBg: "bg-green-500/20",
+        iconColor: "text-green-400",
+        title: "India-Focused Curriculum",
+        description: "Case studies and projects built around Indian context — agriculture, healthcare, education.",
+    },
 ];
 
 const WhyChoose = () => {
     return (
-        <section className="py-24 bg-gray-50">
+        <section className="bg-slate-900 py-16 md:py-28 overflow-hidden">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
 
-                    {/* Left Side - Image */}
-                    <motion.div
-                        initial={{ opacity: 0, x: -50 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.8 }}
-                        className="relative h-[600px] w-full rounded-3xl overflow-hidden shadow-xl group"
-                    >
-                        <Image
-                            src="/media/why-side-image.png"
-                            alt="Why Choose AKMIND"
-                            fill
-                            className="object-cover transition-transform duration-700 group-hover:scale-105"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
-                    </motion.div>
+                {/* Heading */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5 }}
+                    className="text-center mb-16"
+                >
+                    <span className="inline-block px-4 py-1 bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 rounded-full text-sm font-medium mb-5">
+                        WHY AKMIND™
+                    </span>
+                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
+                        Everything your child needs to{" "}
+                        <span className="bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+                            succeed in AI
+                        </span>
+                    </h2>
+                </motion.div>
 
-                    {/* Right Side - Content */}
-                    <div>
+                {/* Feature grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                    {FEATURES.map((feature, i) => (
                         <motion.div
-                            initial={{ opacity: 0, y: 20 }}
+                            key={feature.title}
+                            initial={{ opacity: 0, y: 24 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
-                            transition={{ duration: 0.6 }}
-                            className="mb-12"
+                            transition={{ delay: i * 0.08, duration: 0.45 }}
+                            whileHover={{ y: -2, borderColor: "rgba(100,116,139,0.8)" }}
+                            className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-2xl p-4 md:p-6 transition-all duration-300"
                         >
-                            <h2 className="text-4xl lg:text-5xl font-bold text-slate-900 mb-6 leading-tight">
-                                Why Choose <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">AKMIND?</span>
-                            </h2>
-                            <p className="text-lg text-slate-600 leading-relaxed">
-                                We go beyond coding basics. Our curriculum is designed to create the next generation of AI innovators.
-                            </p>
+                            <div className={`w-12 h-12 rounded-xl ${feature.iconBg} flex items-center justify-center mb-4`}>
+                                <feature.Icon className={`w-6 h-6 ${feature.iconColor}`} />
+                            </div>
+                            <h3 className="text-white font-semibold text-lg mt-4 mb-2">{feature.title}</h3>
+                            <p className="text-slate-400 text-sm leading-relaxed">{feature.description}</p>
                         </motion.div>
-
-                        <div className="space-y-6">
-                            {FEATURES.map((feature, index) => (
-                                <motion.div
-                                    key={feature.title}
-                                    initial={{ opacity: 0, x: 50 }}
-                                    whileInView={{ opacity: 1, x: 0 }}
-                                    viewport={{ once: true }}
-                                    transition={{ duration: 0.6, delay: index * 0.15 }}
-                                    whileHover={{ y: -4, backgroundColor: "#ffffff" }}
-                                    className="flex items-start gap-6 p-6 rounded-2xl bg-white shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100"
-                                >
-                                    <div className="flex-shrink-0 w-14 h-14 rounded-xl bg-purple-50 flex items-center justify-center overflow-hidden">
-                                        <Image
-                                            src={feature.icon}
-                                            alt={feature.title}
-                                            width={56}
-                                            height={56}
-                                            className="w-full h-full object-cover"
-                                        />
-                                    </div>
-                                    <div>
-                                        <h3 className="text-xl font-bold text-slate-900 mb-2">{feature.title}</h3>
-                                        <p className="text-slate-600 leading-relaxed text-sm lg:text-base">
-                                            {feature.description}
-                                        </p>
-                                    </div>
-                                </motion.div>
-                            ))}
-                        </div>
-                    </div>
+                    ))}
                 </div>
+
             </div>
         </section>
     );

@@ -4,12 +4,12 @@ import Footer from "@/components/Footer";
 export const metadata = { title: "Reviews | AKMIND™" };
 
 const REVIEWS = [
-    { name: "Priya Sharma", role: "Parent of Grade 7 student", stars: 5, text: "My son built his first chatbot after just 3 weeks. He now explains AI concepts to me! The mentors are incredibly patient and knowledgeable." },
-    { name: "Rahul Menon", role: "Parent of Grade 9 student", stars: 5, text: "AKMIND™'s curriculum is miles ahead of what schools teach. My daughter got a special mention at her school science fair for her AI project." },
-    { name: "Anjali Nair", role: "Parent of Grade 6 student", stars: 5, text: "The 1-on-1 sessions make all the difference. The mentor personalises lessons to my child's pace. Worth every rupee." },
-    { name: "Vikram Pillai", role: "Parent of Grade 8 student", stars: 5, text: "Fantastic platform! My son went from zero coding experience to building an image classifier in 8 weeks. Absolutely phenomenal progress." },
-    { name: "Deepa Krishnan", role: "Parent of Grade 10 student", stars: 5, text: "The portfolio my daughter built through AKMIND™ helped her get into a prestigious summer research program. Cannot recommend enough." },
-    { name: "Suresh Babu", role: "Parent of Grade 5 student", stars: 4, text: "Great introduction to AI for young kids. My son loves the Scratch-based activities and is always excited for his next class." },
+    { name: "Priya Sharma", role: "Parent", stars: 5, text: "My son built his first chatbot after just 3 weeks. He now explains AI concepts to me! The mentors are incredibly patient and knowledgeable." },
+    { name: "Rahul Menon", role: "Parent", stars: 5, text: "AKMIND™'s curriculum is miles ahead of what schools teach. My daughter got a special mention at her school science fair for her AI project." },
+    { name: "Anjali Nair", role: "Parent", stars: 5, text: "The 1-on-1 sessions make all the difference. The mentor personalises lessons to my child's pace. Worth every rupee." },
+    { name: "Vikram Pillai", role: "Parent", stars: 5, text: "Fantastic platform! My son went from zero coding experience to building an image classifier in 8 weeks. Absolutely phenomenal progress." },
+    { name: "Deepa Krishnan", role: "Parent", stars: 5, text: "The portfolio my daughter built through AKMIND™ helped her get into a prestigious summer research program. Cannot recommend enough." },
+    { name: "Suresh Babu", role: "Parent", stars: 4, text: "Great introduction to AI for young kids. My son loves the Scratch-based activities and is always excited for his next class." },
 ];
 
 function Stars({ count }: { count: number }) {

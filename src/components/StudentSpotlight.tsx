@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Star, MapPin } from "lucide-react";
 
@@ -51,24 +52,26 @@ const cardVariants = {
 };
 
 const StudentSpotlight = () => {
+    const [showAll, setShowAll] = useState(false);
+
     return (
-        <section className="py-24 bg-slate-50">
+        <section className="py-16 md:py-24 bg-white">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 {/* Header */}
-                <div className="text-center mb-14">
+                <div className="text-center mb-10 md:mb-14">
                     <motion.div
                         initial={{ opacity: 0, y: 16 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.5 }}
                     >
-                        <h2 className="text-4xl font-bold text-slate-900 mb-3">Student Spotlight</h2>
-                        <p className="text-slate-500 text-lg">Real stories from real students across India</p>
+                        <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">Student Spotlight</h2>
+                        <p className="text-slate-500 text-base md:text-lg">Real stories from real students across India</p>
                     </motion.div>
                 </div>
 
                 {/* Cards grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
                     {TESTIMONIALS.map((t, i) => (
                         <motion.div
                             key={t.name}
@@ -77,7 +80,9 @@ const StudentSpotlight = () => {
                             whileInView="visible"
                             viewport={{ once: true, margin: "-40px" }}
                             variants={cardVariants}
-                            className="bg-white rounded-xl shadow-sm p-6 flex flex-col gap-4 border border-slate-100 hover:shadow-md transition-shadow"
+                            className={`bg-white rounded-xl shadow-sm p-5 flex flex-col gap-4 border border-slate-100 hover:shadow-md transition-shadow ${
+                                i >= 3 && !showAll ? "hidden sm:flex" : "flex"
+                            }`}
                         >
                             {/* Stars */}
                             <div className="flex gap-0.5">
@@ -98,7 +103,6 @@ const StudentSpotlight = () => {
                                 </div>
                                 <div>
                                     <p className="font-bold text-slate-900 text-sm">{t.name}</p>
-                                    <p className="text-indigo-600 text-xs font-medium">{t.grade}</p>
                                     <p className="text-slate-400 text-xs flex items-center gap-1 mt-0.5">
                                         <MapPin className="w-3 h-3" />
                                         {t.location}
@@ -108,6 +112,18 @@ const StudentSpotlight = () => {
                         </motion.div>
                     ))}
                 </div>
+
+                {/* Show more button — mobile only */}
+                {!showAll && (
+                    <div className="mt-6 text-center sm:hidden">
+                        <button
+                            onClick={() => setShowAll(true)}
+                            className="px-6 py-3 border border-slate-200 rounded-full text-slate-600 font-semibold text-sm hover:border-indigo-300 hover:text-indigo-600 transition-colors"
+                        >
+                            Show more stories
+                        </button>
+                    </div>
+                )}
             </div>
         </section>
     );

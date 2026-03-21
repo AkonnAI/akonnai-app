@@ -1,102 +1,120 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { UserCheck, BookOpen, Rocket } from "lucide-react";
+import { UserPlus, Calendar, Laptop, Trophy, PlayCircle } from "lucide-react";
 
 const STEPS = [
     {
-        icon: <UserCheck className="w-8 h-8 text-blue-600" />,
-        title: "1. Share Student Details",
-        description: "Tell us about your child’s interests and learning goals.",
-        bg: "bg-blue-50 border-blue-100"
+        number: "01",
+        Icon: UserPlus,
+        title: "Share Your Details",
+        description: "Tell us about your child — name, age and which program interests them most.",
     },
     {
-        icon: <BookOpen className="w-8 h-8 text-purple-600" />,
-        title: "2. Explore Curriculum",
-        description: "Discover a structured AI pathway designed for progressive skill development.",
-        bg: "bg-purple-50 border-purple-100"
+        number: "02",
+        Icon: Calendar,
+        title: "Book Free Demo",
+        description: "Pick a date and time that suits you. A qualified AI mentor joins you for a free 60-min class.",
     },
     {
-        icon: <Rocket className="w-8 h-8 text-pink-600" />,
-        title: "3. Start Learning",
-        description: "Begin hands-on AI projects guided by expert mentors.",
-        bg: "bg-pink-50 border-pink-100"
-    }
+        number: "03",
+        Icon: Laptop,
+        title: "Start Learning",
+        description: "Your child dives into hands-on AI projects with expert 1-on-1 guidance every session.",
+    },
+    {
+        number: "04",
+        Icon: Trophy,
+        title: "Get Certified",
+        description: "Complete the program and receive an AKMIND™ certificate. Build a portfolio of real AI projects.",
+    },
 ];
 
 const HowItWorks = () => {
     return (
-        <section className="py-24 bg-white">
+        <section className="py-16 md:py-28 bg-slate-50">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex flex-col lg:flex-row items-center gap-16">
 
-                    {/* Left Side: Steps */}
-                    <div className="w-full lg:w-1/2">
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6 }}
-                            className="mb-12"
-                        >
-                            <h2 className="text-4xl font-bold text-slate-900 mb-4 tracking-tight">How It Works</h2>
-                            <p className="text-lg text-slate-500 font-medium">
-                                A simple, transparent process to get started with AKMIND™.
-                            </p>
-                        </motion.div>
+                {/* Heading */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5 }}
+                    className="text-center mb-20"
+                >
+                    <span className="inline-block px-4 py-1 bg-indigo-50 text-indigo-600 border border-indigo-100 rounded-full text-sm font-medium mb-5">
+                        HOW IT WORKS
+                    </span>
+                    <h2 className="text-3xl md:text-5xl font-bold text-slate-900 mb-4">
+                        Your child&apos;s AI journey starts here
+                    </h2>
+                    <p className="text-slate-500 max-w-xl mx-auto leading-relaxed">
+                        From booking a free demo to building real AI projects in just a few simple steps
+                    </p>
+                </motion.div>
 
-                        <div className="space-y-6">
-                            {STEPS.map((step, index) => (
-                                <motion.div
-                                    key={index}
-                                    initial={{ opacity: 0, x: -20 }}
-                                    whileInView={{ opacity: 1, x: 0 }}
-                                    viewport={{ once: true }}
-                                    transition={{ delay: index * 0.1, duration: 0.5 }}
-                                    whileHover={{ x: 10, backgroundColor: "rgba(249, 250, 251, 1)" }}
-                                    className={`flex items-start gap-6 p-6 rounded-2xl border border-transparent hover:border-gray-100 transition-all cursor-default`}
-                                >
-                                    <div className={`p-4 rounded-xl ${step.bg} flex-shrink-0`}>
-                                        {step.icon}
-                                    </div>
-                                    <div>
-                                        <h3 className="text-xl font-bold text-slate-900 mb-2">{step.title}</h3>
-                                        <p className="text-slate-600 leading-relaxed">
-                                            {step.description}
-                                        </p>
-                                    </div>
-                                </motion.div>
-                            ))}
-                        </div>
-                    </div>
+                {/* Steps — horizontal timeline */}
+                <div className="relative">
+                    {/* Connecting dashed line (desktop only) */}
+                    <div className="hidden md:block absolute top-8 left-[12.5%] right-[12.5%] h-px border-t-2 border-dashed border-indigo-200 z-0" />
 
-                    {/* Right Side: Video Embed */}
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.8 }}
-                        className="w-full lg:w-1/2"
-                    >
-                        <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-gray-100 bg-black aspect-video group">
-                            <video
-                                className="w-full h-full object-cover"
-                                autoPlay
-                                muted
-                                loop
-                                playsInline
-                                poster="/images/slide1.png" // Fallback image if video fails/loads
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-8 relative z-10">
+                        {STEPS.map((step, i) => (
+                            <motion.div
+                                key={step.number}
+                                initial={{ opacity: 0, y: 24 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ delay: i * 0.12, duration: 0.45 }}
+                                whileHover={{ y: -4, boxShadow: "0 8px 30px rgba(0,0,0,0.08)" }}
+                                className="bg-white rounded-2xl p-4 md:p-6 border border-slate-100 shadow-sm hover:border-indigo-100 transition-all duration-300 flex flex-col sm:flex-row sm:items-start md:flex-col md:items-center md:text-center items-start text-left gap-4"
                             >
-                                <source src="/media/intro.mp4" type="video/mp4" />
-                                Your browser does not support the video tag.
-                            </video>
+                                {/* Number circle */}
+                                <div className="w-12 h-12 md:w-16 md:h-16 rounded-2xl bg-indigo-50 flex items-center justify-center mb-5 relative z-10 shrink-0">
+                                    <span className="text-lg md:text-2xl font-bold text-indigo-600">{step.number}</span>
+                                </div>
 
-                            {/* Optional: Overlay gradient for better integration if needed */}
-                            <div className="absolute inset-0 bg-gradient-to-tr from-black/20 to-transparent pointer-events-none"></div>
-                        </div>
-                    </motion.div>
+                                {/* Icon */}
+                                <div className="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center md:mb-4 shrink-0">
+                                    <step.Icon className="w-5 h-5 text-white" />
+                                </div>
 
+                                <h3 className="font-bold text-slate-900 text-base mb-2">{step.title}</h3>
+                                <p className="text-slate-500 text-sm leading-relaxed">{step.description}</p>
+                            </motion.div>
+                        ))}
+                    </div>
                 </div>
+
+                {/* Video */}
+                <motion.div
+                    initial={{ opacity: 0, y: 24 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, delay: 0.2 }}
+                    className="mt-20"
+                >
+                    <div className="flex items-center gap-2 justify-center mb-4">
+                        <PlayCircle className="w-4 h-4 text-indigo-500" />
+                        <span className="text-indigo-600 text-sm font-semibold">See AKMIND™ in action</span>
+                    </div>
+                    <div className="relative rounded-xl md:rounded-2xl overflow-hidden shadow-xl border-2 border-indigo-100 bg-black aspect-video max-w-4xl mx-auto">
+                        <video
+                            className="w-full h-full object-cover"
+                            autoPlay
+                            muted
+                            loop
+                            playsInline
+                            poster="/images/slide1.png"
+                        >
+                            <source src="/media/intro.mp4" type="video/mp4" />
+                            Your browser does not support the video tag.
+                        </video>
+                        <div className="absolute inset-0 bg-gradient-to-tr from-black/20 to-transparent pointer-events-none" />
+                    </div>
+                </motion.div>
+
             </div>
         </section>
     );

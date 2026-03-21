@@ -102,7 +102,7 @@ const FAQ = () => {
     };
 
     return (
-        <section className="py-20 bg-white">
+        <section className="py-14 md:py-20 bg-slate-50">
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
 
                 {/* Header */}
@@ -125,13 +125,13 @@ const FAQ = () => {
                     </h2>
 
                     {/* Tab buttons */}
-                    <div className="inline-flex flex-wrap justify-center gap-3 border border-gray-100 p-2 rounded-full shadow-sm bg-white">
+                    <div className="flex overflow-x-auto gap-2 sm:gap-3 border border-gray-100 p-2 rounded-2xl shadow-sm bg-white w-full sm:w-auto sm:inline-flex sm:justify-center sm:rounded-full">
                         {TABS.map((tab) => (
                             <button
                                 key={tab}
                                 onClick={() => handleTab(tab)}
                                 className={clsx(
-                                    "px-6 py-2 rounded-full text-sm font-bold transition-all",
+                                    "px-4 sm:px-6 py-2 rounded-full text-sm font-bold transition-all whitespace-nowrap",
                                     activeTab === tab
                                         ? "bg-indigo-600 text-white shadow-md"
                                         : "bg-transparent text-indigo-600 hover:bg-indigo-50"

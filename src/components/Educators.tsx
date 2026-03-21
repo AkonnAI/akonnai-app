@@ -1,32 +1,33 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { Linkedin } from "lucide-react";
 
 const MENTORS = [
     {
         name: "Nagaraj Ethirajulu",
+        photo: "/images/mentors/nagaraj.jpg",
         role: "AI PhD | Research & Advanced Machine Learning",
         description: "Specializes in Deep Learning, Neural Networks, and Applied AI Research. Guides advanced AI curriculum and research-driven learning.",
-        imageBg: "bg-slate-200"
     },
     {
-        name: "Jebian",
+        name: "Jebin Jose",
+        photo: "/images/mentors/jebian.jpg",
         role: "AI Mentor & Industry Expert",
         description: "A creative AI practitioner who makes deep learning accessible and thrilling for school students. Known for turning abstract AI ideas into tangible projects.",
-        imageBg: "bg-slate-200"
     },
     {
         name: "Akhil",
+        photo: "/images/mentors/akhil.jpg",
         role: "AI Mentor & Industry Expert",
         description: "Passionate about sparking curiosity in school students through hands-on AI projects. Brings real-world industry experience into every session.",
-        imageBg: "bg-slate-200"
     }
 ];
 
 const Educators = () => {
     return (
-        <section className="py-24 bg-white border-t border-gray-50">
+        <section className="py-24 bg-slate-50">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 {/* Section Header */}
                 <div className="text-center mb-20">
@@ -55,12 +56,15 @@ const Educators = () => {
                             whileHover={{ y: -4 }}
                             className="bg-white rounded-xl p-8 shadow-[0_4px_20px_-12px_rgba(0,0,0,0.1)] border border-gray-100 hover:shadow-xl transition-all duration-300 flex flex-col items-center text-center"
                         >
-                            {/* Profile Image Placeholder */}
-                            <div className={`w-32 h-32 rounded-full ${mentor.imageBg} mb-6 flex items-center justify-center shadow-inner relative overflow-hidden`}>
-                                <div className="absolute inset-0 bg-gradient-to-tr from-black/5 to-transparent"></div>
-                                <span className="text-4xl text-slate-400 font-bold opacity-30">
-                                    {mentor.name.charAt(0)}
-                                </span>
+                            {/* Profile Photo */}
+                            <div className="relative w-32 h-32 rounded-full overflow-hidden mb-6 ring-4 ring-indigo-50 shadow-md">
+                                <Image
+                                    src={mentor.photo}
+                                    alt={mentor.name}
+                                    fill
+                                    className="object-cover object-top"
+                                    sizes="128px"
+                                />
                             </div>
 
                             {/* Content */}

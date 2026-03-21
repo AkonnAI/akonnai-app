@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 
 const TopPicks = () => {
     return (
-        <section className="py-24 bg-white relative overflow-hidden">
+        <section className="py-24 bg-slate-50 relative overflow-hidden">
             {/* Decorative Background Elements */}
             <div className="absolute top-20 right-10 opacity-20 pointer-events-none">
                 <img src="/media/abstract.gif" className="w-32" alt="" />

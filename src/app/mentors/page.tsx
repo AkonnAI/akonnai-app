@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -7,26 +8,23 @@ import Footer from "@/components/Footer";
 const MENTORS = [
     {
         name: "Nagaraj Ethirajulu",
-        initials: "NE",
-        photoComment: "// TODO: Replace with real photo from /public/images/mentors/nagaraj.jpg",
+        photo: "/images/mentors/nagaraj.jpg",
         title: "AI Mentor & Industry Expert",
         bio: "A seasoned AI professional who transforms complex machine learning concepts into exciting discoveries for young minds across India. Nagaraj believes every student has the potential to build the future with AI.",
         tags: ["Python", "Machine Learning", "Deep Learning"],
     },
     {
         name: "Akhil",
-        initials: "A",
-        photoComment: "// TODO: Replace with real photo from /public/images/mentors/akhil.jpg",
+        photo: "/images/mentors/akhil.jpg",
         title: "AI Mentor & Industry Expert",
         bio: "Passionate about sparking curiosity in school students through hands-on AI projects. Akhil brings real-world industry experience into every session, making AI practical, fun, and deeply inspiring.",
         tags: ["Computer Vision", "AI Projects", "Python"],
     },
     {
-        name: "Jebian",
-        initials: "J",
-        photoComment: "// TODO: Replace with real photo from /public/images/mentors/jebian.jpg",
+        name: "Jebin Jose",
+        photo: "/images/mentors/jebian.jpg",
         title: "AI Mentor & Industry Expert",
-        bio: "A creative AI practitioner who makes deep learning accessible and thrilling for school students. Jebian is known for turning abstract AI ideas into tangible projects students are proud to show the world.",
+        bio: "A creative AI practitioner who makes deep learning accessible and thrilling for school students. Jebin Jose is known for turning abstract AI ideas into tangible projects students are proud to show the world.",
         tags: ["Deep Learning", "Computer Vision", "AI Projects"],
     },
 ];
@@ -46,14 +44,14 @@ export default function MentorsPage() {
             <Navbar />
 
             {/* Hero */}
-            <section className="py-20 bg-gradient-to-br from-indigo-50 via-white to-purple-50 relative overflow-hidden">
+            <section className="py-14 sm:py-20 bg-gradient-to-br from-indigo-50 via-white to-purple-50 relative overflow-hidden">
                 <div className="absolute top-10 right-10 w-72 h-72 bg-indigo-100 rounded-full blur-3xl opacity-50 pointer-events-none" />
                 <div className="absolute bottom-0 left-10 w-56 h-56 bg-purple-100 rounded-full blur-3xl opacity-40 pointer-events-none" />
                 <div className="max-w-3xl mx-auto px-4 text-center relative z-10">
                     <span className="inline-block px-4 py-1.5 bg-indigo-100 text-indigo-700 text-sm font-bold rounded-full uppercase tracking-widest mb-6">
                         Our Mentors
                     </span>
-                    <h1 className="text-5xl font-bold text-slate-900 mb-5 leading-tight">
+                    <h1 className="text-3xl sm:text-5xl font-bold text-slate-900 mb-5 leading-tight">
                         Meet Your{" "}
                         <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 to-purple-600">
                             AI Mentors
@@ -67,7 +65,7 @@ export default function MentorsPage() {
             </section>
 
             {/* Mentor Cards — 2x2 grid */}
-            <section className="py-20 bg-white">
+            <section className="py-14 sm:py-20 bg-white">
                 <div className="max-w-5xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
                     {MENTORS.map((mentor, i) => (
                         <motion.div
@@ -79,12 +77,15 @@ export default function MentorsPage() {
                             variants={cardVariants}
                             className="bg-white rounded-3xl shadow-md hover:shadow-xl border border-slate-100 hover:border-indigo-100 transition-all duration-300 p-8 flex flex-col items-center text-center"
                         >
-                            {/* Avatar */}
-                            {/* {mentor.photoComment} */}
-                            <div className="w-24 h-24 rounded-full bg-indigo-600 flex items-center justify-center mb-5 shadow-lg shadow-indigo-200">
-                                <span className="text-white text-2xl font-bold tracking-wide">
-                                    {mentor.initials}
-                                </span>
+                            {/* Photo */}
+                            <div className="relative w-28 h-28 rounded-full overflow-hidden mb-5 ring-4 ring-indigo-100 shadow-lg">
+                                <Image
+                                    src={mentor.photo}
+                                    alt={mentor.name}
+                                    fill
+                                    className="object-cover object-top"
+                                    sizes="112px"
+                                />
                             </div>
 
                             {/* Name & Title */}

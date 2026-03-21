@@ -11,22 +11,55 @@ import StudentSpotlight from "@/components/StudentSpotlight";
 import FAQ from "@/components/FAQ";
 import LogoTicker from "@/components/LogoTicker";
 import StatsRow from "@/components/StatsRow";
+import ScrollReveal from "@/components/ScrollReveal";
 
 export default function Home() {
   return (
     <main className="min-h-screen flex flex-col bg-white">
       <Navbar />
+
+      {/* Dark hero → dark stats (seamless) */}
       <HeroSection />
-      <LogoTicker />
       <StatsRow />
+      <ScrollReveal><LogoTicker /></ScrollReveal>
+
+      {/* Dark programs section */}
       <AIProgramsSection />
-      <TopPicks />
+
+      {/* Wave: dark slate-950 → light slate-50 */}
+      <div className="bg-slate-950">
+        <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full block">
+          <path d="M0 0L1440 0L1440 20C1200 60 960 60 720 40 480 20 240 20 0 60Z" fill="#f8fafc" />
+        </svg>
+      </div>
+
+      {/* Light how-it-works */}
       <HowItWorks />
+
+      {/* TopPicks — still light, before dark wave */}
+      <ScrollReveal delay={0.1}><TopPicks /></ScrollReveal>
+
+      {/* Wave: light → dark slate-900 */}
+      <div className="bg-slate-50">
+        <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full block">
+          <path d="M0 60L1440 60L1440 40C1200 0 960 0 720 20 480 40 240 40 0 0Z" fill="#0f172a" />
+        </svg>
+      </div>
+
+      {/* Dark why-choose */}
       <WhyChoose />
-      <SkillsForSuccess />
-      <Educators />
-      <StudentSpotlight />
-      <FAQ />
+
+      {/* Wave: dark slate-900 → light white */}
+      <div className="bg-slate-900">
+        <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full block">
+          <path d="M0 60L1440 60L1440 40C1200 0 960 0 720 20 480 40 240 40 0 0Z" fill="white" />
+        </svg>
+      </div>
+
+      <ScrollReveal><SkillsForSuccess /></ScrollReveal>
+      <ScrollReveal delay={0.1}><Educators /></ScrollReveal>
+      <ScrollReveal><StudentSpotlight /></ScrollReveal>
+      <ScrollReveal><FAQ /></ScrollReveal>
       <Footer />
     </main>
   );
