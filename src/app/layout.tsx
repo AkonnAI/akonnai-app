@@ -10,10 +10,10 @@ const outfit = Outfit({ subsets: ["latin"] });
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.akmind.com"),
   title: {
-    default: "AKMIND — AI Education for School Students in India",
+    default: "AKMIND — AI Education for Schools in India",
     template: "%s | AKMIND"
   },
-  description: "India's most exciting AI education platform for students aged 10-16. Learn Python, Machine Learning, Computer Vision and more with expert 1-on-1 mentors in Bangalore. Book your free demo class today.",
+  description: "India's most exciting AI education platform. Learn Python, Machine Learning and Computer Vision with expert 1-on-1 mentors. Book your free demo class today.",
   keywords: [
     "AI education India",
     "AI classes for kids",
@@ -45,8 +45,8 @@ export const metadata: Metadata = {
     locale: "en_IN",
     url: "https://www.akmind.com",
     siteName: "AKMIND",
-    title: "AKMIND — AI Education for School Students in India",
-    description: "Learn AI with expert 1-on-1 mentors. Python, Machine Learning, Computer Vision for students aged 10-16 in India.",
+    title: "AKMIND — AI Education for Schools",
+    description: "Learn AI with expert 1-on-1 mentors. Python, Machine Learning and Computer Vision for school students in India.",
     images: [
       {
         url: "/og-image.png",
@@ -58,8 +58,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "AKMIND — AI Education for School Students in India",
-    description: "Learn AI with expert 1-on-1 mentors. Python, ML, Computer Vision for students aged 10-16.",
+    title: "AKMIND — AI Education for Schools",
+    description: "Learn AI with expert 1-on-1 mentors. Python, Machine Learning and Computer Vision for school students in India.",
     images: ["/og-image.png"],
     creator: "@akmind"
   },
