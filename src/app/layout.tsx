@@ -10,7 +10,7 @@ const outfit = Outfit({ subsets: ["latin"] });
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.akmind.com"),
   title: {
-    default: "AKMIND — AI Education for Schools in India",
+    default: "AKMIND — AI Education for Schools",
     template: "%s | AKMIND"
   },
   description: "India's most exciting AI education platform. Learn Python, Machine Learning and Computer Vision with expert 1-on-1 mentors. Book your free demo class today.",
