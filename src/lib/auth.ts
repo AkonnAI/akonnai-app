@@ -2,6 +2,7 @@ import crypto from "node:crypto";
 import bcrypt from "bcryptjs";
 import { GetCommand, PutCommand, QueryCommand } from "@aws-sdk/lib-dynamodb";
 import { getDb, USERS_TABLE } from "@/lib/dynamodb";
+import { env } from "@/lib/env";
 
 export async function registerUser(name: string, email: string, password: string) {
   const normalizedEmail = email.toLowerCase().trim();
@@ -75,7 +76,6 @@ export async function getUserById(id: string) {
 // ─── Session cookie (HMAC-SHA256) ────────────────────────────────────────────
 
 const SESSION_COOKIE_NAME = "akmind_session";
-const SESSION_SECRET = process.env.AUTH_SESSION_SECRET || "development-secret-change-me";
 
 export function createSessionCookiePayload(user: { id: string; email: string; name: string }) {
   const base = JSON.stringify({
@@ -83,7 +83,7 @@ export function createSessionCookiePayload(user: { id: string; email: string; na
     email: user.email,
     name: user.name,
   });
-  const signature = crypto.createHmac("sha256", SESSION_SECRET).update(base).digest("hex");
+  const signature = crypto.createHmac("sha256", env.sessionSecret).update(base).digest("hex");
   // base64url avoids +, /, = which would be percent-encoded in cookie values
   const value = Buffer.from(base).toString("base64url") + "." + signature;
   return { name: SESSION_COOKIE_NAME, value };
@@ -110,7 +110,7 @@ export function parseSessionCookie(cookieHeader: string | null | undefined) {
   if (!encoded || !signature) return null;
 
   const base = Buffer.from(encoded, "base64url").toString("utf-8");
-  const expectedSignature = crypto.createHmac("sha256", SESSION_SECRET).update(base).digest("hex");
+  const expectedSignature = crypto.createHmac("sha256", env.sessionSecret).update(base).digest("hex");
 
   if (expectedSignature !== signature) return null;
 
