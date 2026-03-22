@@ -12,77 +12,87 @@ const FAQS: { category: Tab; question: string; answer: string }[] = [
     // ── Class Experience ──────────────────────────────────────────────────────
     {
         category: "Class Experience",
-        question: "How are AKMIND™ classes conducted?",
-        answer: "All classes are conducted live on a 1-on-1 basis over video call. Each session is 60 minutes with a dedicated AI mentor who gives your child 100% personalised attention.",
+        question: "How are AKMIND classes conducted?",
+        answer: "AKMIND uses a unique micro-learning format. Each lesson consists of an 11-minute pre-recorded concept video, followed by an interactive story-based game that reinforces what you learned, and a 5-minute recap. Every module also includes 2 live sessions — either 1-on-1 or group — with an expert AI mentor for doubt clearing, project reviews and interactive activities. Students have complete freedom to learn at their own pace.",
+    },
+    {
+        category: "Class Experience",
+        question: "Can my child rewatch lessons?",
+        answer: "Absolutely. All lessons are pre-recorded and available 24/7 on the AKMIND platform. Students can rewatch any lesson as many times as they need. There is no pressure to keep up with a fixed schedule — learning happens at your child's pace.",
     },
     {
         category: "Class Experience",
         question: "What devices does my child need?",
-        answer: "Any device — laptop, desktop, tablet, iOS or Android — with a stable internet connection works perfectly. Available on web, iOS and Android. We will guide you with any software setup before the first class.",
+        answer: "AKMIND works on any device — web browser, iOS, Android and tablet. There are no device restrictions. All you need is a stable internet connection and you are ready to learn.",
     },
     {
         category: "Class Experience",
-        question: "Can I get a recording of the class?",
-        answer: "To protect student privacy we do not provide recordings. However detailed notes, project files and activity summaries are shared after every session.",
+        question: "How long are the live sessions?",
+        answer: "Each live session is 60 minutes. Every module includes 2 live sessions — these are used for kickoffs, doubt clearing, project reviews and interactive group activities. Live sessions can be 1-on-1 or group depending on the program and availability.",
     },
     {
         category: "Class Experience",
-        question: "Can I reschedule a class?",
-        answer: "Yes. Classes can be rescheduled up to 12 hours before the session through your parent dashboard. We offer flexible scheduling to fit your child's routine.",
-    },
-    {
-        category: "Class Experience",
-        question: "Is there homework after each class?",
-        answer: "There is no mandatory homework. We do share optional practice challenges and mini-projects that reinforce what was learned in class in a fun way.",
+        question: "Can I reschedule a live session?",
+        answer: "Yes. Live sessions can be rescheduled up to 12 hours before the session. Since the rest of the program is self-paced, your child can continue learning through lessons and games while waiting for the next live session.",
     },
 
     // ── About the Program ─────────────────────────────────────────────────────
     {
         category: "About the Program",
-        question: "What will my child actually build in AKMIND™?",
-        answer: "Students build real AI projects — image classifiers, chatbots, recommendation systems, and data dashboards — using Python, TensorFlow, and other industry tools. Every student leaves with a portfolio of projects.",
+        question: "What will my child actually build in AKMIND?",
+        answer: "Students build real AI projects throughout the program — image classifiers, chatbots, recommendation systems, data dashboards and more. Every project uses real tools like Python and TensorFlow. Students finish with a portfolio of projects they actually built themselves.",
     },
     {
         category: "About the Program",
-        question: "Do I need any prior coding experience?",
-        answer: "No prior experience is needed for AI Explorers. For AI Builders and AI Innovators, basic familiarity with computers is helpful but not required. Our mentors adapt to every student's pace.",
+        question: "Do I need any prior experience?",
+        answer: "None at all. AKMIND is designed for complete beginners and advanced learners alike. Our AI guide and mentors adapt to every student's pace. Any AI enthusiast can join and thrive regardless of background.",
+    },
+    {
+        category: "About the Program",
+        question: "How does the gamified learning work?",
+        answer: "After every 11-minute lesson video, students enter an interactive story-based game that brings the concept to life. Students earn XP points, unlock badges, maintain learning streaks and climb leaderboards. Learning feels like playing — but the skills gained are very real.",
+    },
+    {
+        category: "About the Program",
+        question: "What is the student dashboard?",
+        answer: "The AKMIND student dashboard is where the entire learning experience lives. Students access their lessons, games, live session schedule, progress tracking, badges, XP points and their AI guide — all in one place. Parents can also view their child's progress from the dashboard.",
     },
     {
         category: "About the Program",
         question: "What certificate does my child receive?",
-        answer: "Students receive an AKMIND™ Certificate of Completion at the end of each program phase. The certificate is digitally verifiable and can be added to school portfolios and LinkedIn profiles.",
-    },
-    {
-        category: "About the Program",
-        question: "What is the difference between the 3 programs?",
-        answer: "AI Explorers is for complete beginners focusing on no-code AI tools and fundamentals. AI Builders introduces Python and ML projects. AI Innovators covers advanced deep learning, NLP and computer vision for students ready for a real challenge.",
+        answer: "Students receive an AKMIND Certificate of Completion at the end of each program phase. The certificate is digitally verifiable and can be added to school portfolios, college applications and LinkedIn profiles.",
     },
     {
         category: "About the Program",
         question: "How long is each program?",
-        answer: "Each program phase consists of 60 micro-lessons combining live sessions and self-paced content. Most students complete a phase in 4 to 6 months depending on their pace.",
+        answer: "Each program phase has 60 micro-lessons combining self-paced lessons and live sessions. Most students complete a phase in 4 to 6 months. Since the program is self-paced, faster learners can finish sooner.",
     },
 
     // ── Support ───────────────────────────────────────────────────────────────
     {
         category: "Support",
+        question: "What is the AKMIND AI Guide?",
+        answer: "The AKMIND AI Guide is your child's personal learning companion available 24 hours a day, 7 days a week. It takes smart notes during lessons, answers questions instantly, tracks progress across all modules, sends personalised tips and celebrates milestones. Think of it as a brilliant study buddy that never sleeps.",
+    },
+    {
+        category: "Support",
         question: "How do I book a free demo class?",
-        answer: "Click the \"Book Free Demo\" button anywhere on the site, fill in your child's details and pick a convenient date and time. A mentor will join you for a free 60-minute trial class with no obligation.",
+        answer: "Click the Book Free Demo button anywhere on the site, fill in your details and pick a convenient date and time. A mentor will join you for a free 60-minute trial session with no obligation and no credit card required.",
     },
     {
         category: "Support",
-        question: "What is your cancellation and refund policy?",
-        answer: "We offer a full refund within 7 days of enrollment if you are not satisfied. After 7 days, unused sessions can be refunded on a pro-rata basis. Please email hello@akmind.com for refund requests.",
-    },
-    {
-        category: "Support",
-        question: "How do I contact AKMIND™ support?",
-        answer: "You can reach us at hello@akmind.com or through the contact form on our website. We respond within 24 hours on all working days.",
+        question: "What is your refund policy?",
+        answer: "We offer a full refund within 7 days of enrollment if you are not satisfied. After 7 days, unused sessions are refunded on a pro-rata basis. Email hello@akmind.com for any refund requests and we will respond within 24 hours.",
     },
     {
         category: "Support",
         question: "Is my child's data safe?",
-        answer: "Yes. AKMIND™ stores only the minimum data required to provide the service. We never sell or share your data with third parties. All data is encrypted and stored securely on AWS infrastructure in India.",
+        answer: "Yes. AKMIND stores only the minimum data required to provide the service. All data is encrypted and stored securely on AWS infrastructure. We never sell or share your data with any third party.",
+    },
+    {
+        category: "Support",
+        question: "How do I contact AKMIND support?",
+        answer: "Email us at hello@akmind.com or use the contact form on our website. We respond within 24 hours on all working days. For urgent queries during live sessions, your mentor is directly reachable through the dashboard.",
     },
 ];
 

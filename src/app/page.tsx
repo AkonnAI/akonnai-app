@@ -5,6 +5,9 @@ import WhyChoose from "@/components/WhyChoose";
 import SkillsForSuccess from "@/components/SkillsForSuccess";
 import TopPicks from "@/components/TopPicks";
 import HowItWorks from "@/components/HowItWorks";
+import HowAKMINDWorks from "@/components/HowAKMINDWorks";
+import GamificationShowcase from "@/components/GamificationShowcase";
+import AIBotCinematic from "@/components/AIBotCinematic";
 import Educators from "@/components/Educators";
 import StudentSpotlight from "@/components/StudentSpotlight";
 import FAQ from "@/components/FAQ";
@@ -40,8 +43,36 @@ export default function Home() {
       {/* Wave: light → dark slate-900 */}
       <div className="bg-slate-50">
         <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full block">
-          <path d="M0 60L1440 60L1440 40C1200 0 960 0 720 20 480 40 240 40 0 0Z" fill="#0f172a" />
+          <path d="M0 60L1440 60L1440 40C1200 0 960 0 720 20 480 40 240 40 0 0Z" fill="#020617" />
         </svg>
+      </div>
+
+      {/* How AKMIND Works — cinematic 5-step method */}
+      <HowAKMINDWorks />
+
+      {/* Wave: dark slate-950 → white */}
+      <div className="bg-slate-950">
+        <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full block">
+          <path d="M0 60L1440 60L1440 40C1200 0 960 0 720 20 480 40 240 40 0 0Z" fill="white" />
+        </svg>
+      </div>
+
+      {/* Gamification showcase */}
+      <GamificationShowcase />
+
+      {/* Wave: white → dark slate-950 */}
+      <div className="bg-white">
+        <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full block">
+          <path d="M0 60L1440 60L1440 40C1200 0 960 0 720 20 480 40 240 40 0 0Z" fill="#020617" />
+        </svg>
+      </div>
+
+      {/* AI bot cinematic section */}
+      <AIBotCinematic />
+
+      {/* Subtle divider between dark sections */}
+      <div className="bg-slate-950 h-px">
+        <div className="h-px bg-gradient-to-r from-transparent via-indigo-500/30 to-transparent" />
       </div>
 
       {/* Dark why-choose */}
