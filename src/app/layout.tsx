@@ -13,21 +13,17 @@ export const metadata: Metadata = {
     default: "AKMIND — AI Education for Schools",
     template: "%s | AKMIND"
   },
-  description: "India's most exciting AI education platform. Learn Python, Machine Learning and Computer Vision with expert 1-on-1 mentors. Book your free demo class today.",
+  description: "The most exciting AI education platform. Learn Python, Machine Learning, Computer Vision and more with expert 1-on-1 mentors. Book your free demo class today.",
   keywords: [
-    "AI education India",
-    "AI classes for kids",
+    "AI education",
     "machine learning for students",
-    "coding classes Bangalore",
-    "Python for kids India",
-    "AI mentors India",
+    "Python for kids",
     "AKMIND",
     "AI Explorers",
     "AI Builders",
     "AI Innovators",
     "online AI classes",
-    "AI education grade 5 to 10",
-    "artificial intelligence for school students"
+    "artificial intelligence for students"
   ],
   authors: [{ name: "AKMIND by Akonnai AI" }],
   creator: "Akonnai AI",
@@ -46,7 +42,7 @@ export const metadata: Metadata = {
     url: "https://www.akmind.com",
     siteName: "AKMIND",
     title: "AKMIND — AI Education for Schools",
-    description: "Learn AI with expert 1-on-1 mentors. Python, Machine Learning and Computer Vision for school students in India.",
+    description: "Learn AI with expert 1-on-1 mentors. Python, Machine Learning and Computer Vision for students worldwide.",
     images: [
       {
         url: "/og-image.png",
@@ -59,7 +55,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "AKMIND — AI Education for Schools",
-    description: "Learn AI with expert 1-on-1 mentors. Python, Machine Learning and Computer Vision for school students in India.",
+    description: "Learn AI with expert 1-on-1 mentors. Python, Machine Learning and Computer Vision for students worldwide.",
     images: ["/og-image.png"],
     creator: "@akmind"
   },

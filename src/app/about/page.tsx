@@ -2,7 +2,7 @@ import Footer from "@/components/Footer";
 
 export const metadata = {
   title: "About AKMIND",
-  description: "Learn about AKMIND — India's most exciting AI education platform founded in 2024. Our mission is to make world-class AI education accessible to every school student in India.",
+  description: "Learn about AKMIND — the most exciting AI education platform founded in 2024. Our mission is to make world-class AI education accessible to every student.",
   alternates: { canonical: "https://www.akmind.com/about" }
 };
 
@@ -21,7 +21,7 @@ export default function AboutPage() {
                         <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 to-purple-600">deserves an AI future</span>
                     </h1>
                     <p className="text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
-                        AKMIND™ exists to make world-class AI education accessible to every school student in India. We believe the next generation of AI builders, researchers and entrepreneurs are sitting in classrooms right now — and they deserve expert mentorship, hands-on projects and real skills.
+                        AKMIND™ exists to make world-class AI education accessible to every student. We believe the next generation of AI builders, researchers and entrepreneurs are sitting in classrooms right now — and they deserve expert mentorship, hands-on projects and real skills.
                     </p>
                 </div>
             </section>
@@ -35,15 +35,15 @@ export default function AboutPage() {
                             In 2024, our founders noticed a gap — students were learning outdated curricula while the world was rapidly shifting to AI-powered everything. Schools weren&apos;t equipped to bridge that gap.
                         </p>
                         <p className="text-slate-600 leading-relaxed mb-4">
-                            So we built AKMIND™ — a structured, hands-on AI learning platform designed specifically for students in Grades 5–10. We partnered with industry professionals to create curriculum that mirrors what real AI engineers build every day.
+                            So we built AKMIND™ — a structured, hands-on AI learning platform designed for students and AI enthusiasts of all backgrounds. We partnered with industry professionals to create curriculum that mirrors what real AI engineers build every day.
                         </p>
                         <p className="text-slate-600 leading-relaxed">
-                            Today, 500+ students across India have learned to build chatbots, image classifiers, voice assistants, and more — with real portfolios to show for it.
+                            Today, 500+ students worldwide have learned to build chatbots, image classifiers, voice assistants, and more — with real portfolios to show for it.
                         </p>
                     </div>
                     <div className="grid grid-cols-2 gap-6">
                         {[
-                            { icon: "🎓", title: "500+ Students", desc: "Enrolled from across India" },
+                            { icon: "🎓", title: "500+ Students", desc: "Enrolled from worldwide" },
                             { icon: "🧑‍🏫", title: "4 Expert Mentors", desc: "Industry professionals" },
                             { icon: "🚀", title: "3 Programs", desc: "Explorers, Builders, Innovators" },
                             { icon: "📅", title: "Founded 2024", desc: "Bangalore, Karnataka, India" },

@@ -66,7 +66,7 @@ const StudentSpotlight = () => {
                         transition={{ duration: 0.5 }}
                     >
                         <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">Student Spotlight</h2>
-                        <p className="text-slate-500 text-base md:text-lg">Real stories from real students across India</p>
+                        <p className="text-slate-500 text-base md:text-lg">Real stories from real students worldwide</p>
                     </motion.div>
                 </div>
 

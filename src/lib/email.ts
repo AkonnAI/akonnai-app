@@ -38,7 +38,7 @@ export async function sendWelcomeEmail(to: string, name: string) {
         </div>
         <div style="padding:32px;background:#fff">
           <p style="font-size:16px;color:#374151">Hi ${name},</p>
-          <p style="font-size:15px;color:#374151;line-height:1.6">Welcome to AKMIND — India's most exciting AI education program for school students in Grades 5 to 10.</p>
+          <p style="font-size:15px;color:#374151;line-height:1.6">Welcome to AKMIND — the most exciting AI education program for students and AI enthusiasts worldwide.</p>
           <p style="font-size:15px;color:#374151">Ready to book your free demo class?</p>
           <div style="text-align:center;margin:28px 0">
             <a href="https://www.akmind.com/register"

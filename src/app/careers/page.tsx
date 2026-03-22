@@ -10,8 +10,8 @@ const JOBS = [
         title: "AI Mentor (Part-time / Freelance)",
         badge: "Remote · Part-time",
         description:
-            "Conduct live 1-on-1 AI sessions with students aged 10-16. Must have strong Python and ML knowledge and a passion for teaching.",
-        requirements: ["Python", "Machine Learning", "Teaching experience preferred"],
+            "Conduct live 1-on-1 AI sessions with students. A passion for teaching and interest in AI is all you need. We will train you on the rest.",
+        requirements: ["Passion for teaching", "Interest in AI", "Communication skills"],
     },
     {
         title: "Curriculum Designer",
@@ -125,7 +125,7 @@ export default function CareersPage() {
                         transition={{ delay: 0.15, duration: 0.5 }}
                         className="text-indigo-100 text-lg leading-relaxed max-w-2xl mx-auto"
                     >
-                        Help us build the future of AI education in India. We are looking for passionate
+                        Help us build the future of AI education worldwide. We are looking for passionate
                         people who love teaching, technology and making a difference in young lives.
                     </motion.p>
                 </div>

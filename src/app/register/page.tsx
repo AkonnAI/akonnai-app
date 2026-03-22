@@ -157,7 +157,7 @@ export default function RegisterPage() {
         <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center p-4">
 
             {/* Collapsible Parental Guidelines */}
-            <div className="w-full max-w-xl mb-4">
+            <div className="w-full max-w-5xl mb-4">
                 <button
                     onClick={() => setGuidelinesOpen((prev) => !prev)}
                     className="flex items-center gap-2 text-sm text-indigo-600 font-semibold hover:text-indigo-800 transition-colors"

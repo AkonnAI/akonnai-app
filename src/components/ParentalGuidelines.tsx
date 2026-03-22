@@ -8,13 +8,13 @@ const CARDS = [
         icon: <ShieldCheck className="w-6 h-6 text-indigo-600" />,
         title: "Age Suitability",
         content:
-            "AKMIND™ programs are designed for students aged 10 to 16. For younger students, we recommend a parent or guardian to be present during the first few sessions to help with any technical setup or questions.",
+            "AKMIND programs are designed for all students and AI enthusiasts. We recommend a parent or guardian to be present during the first few sessions to help with any setup or questions.",
     },
     {
         icon: <Laptop className="w-6 h-6 text-indigo-600" />,
         title: "Device Requirements",
         content:
-            "A laptop or desktop computer with a stable internet connection is required for all sessions. Mobile phones and tablets are not supported. Please ensure the device is set up and tested before the first class.",
+            "AKMIND is available on web, iOS, Android and tablet. Any device with a stable internet connection works perfectly. Please ensure your device is set up before the first class.",
     },
     {
         icon: <Heart className="w-6 h-6 text-indigo-600" />,
@@ -27,7 +27,7 @@ const CARDS = [
 const ParentalGuidelines = () => {
     return (
         <section className="py-16 px-4 bg-white">
-            <div className="max-w-5xl mx-auto">
+            <div className="max-w-6xl mx-auto">
                 {/* Header */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -41,7 +41,7 @@ const ParentalGuidelines = () => {
                 </motion.div>
 
                 {/* Cards */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
                     {CARDS.map((card, index) => (
                         <motion.div
                             key={card.title}
@@ -49,10 +49,10 @@ const ParentalGuidelines = () => {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ delay: index * 0.12, duration: 0.5 }}
-                            className="bg-white border-l-4 border-indigo-600 rounded-xl shadow-sm p-6"
+                            className="bg-white border-l-4 border-indigo-600 rounded-xl shadow-sm p-8 flex flex-col"
                         >
                             <div className="mb-4">{card.icon}</div>
-                            <h3 className="font-bold text-slate-900 text-lg mb-2">{card.title}</h3>
+                            <h3 className="font-bold text-slate-900 text-xl mb-3 leading-tight">{card.title}</h3>
                             <p className="text-slate-500 text-sm leading-relaxed">{card.content}</p>
                         </motion.div>
                     ))}
@@ -68,7 +68,7 @@ const ParentalGuidelines = () => {
                 >
                     <Info className="w-5 h-5 text-pink-500 shrink-0 mt-0.5" />
                     <p className="text-pink-800 text-sm leading-relaxed">
-                        AKMIND™ programs are best suited for students aged 10 and above. For younger learners, significant parental involvement is recommended as students will need adult assistance to manage technical aspects during live sessions.
+                        AKMIND programs are best suited for AI enthusiasts of all ages. For younger learners, we recommend a parent or guardian to be present during the first few sessions.
                     </p>
                 </motion.div>
             </div>

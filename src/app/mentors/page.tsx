@@ -9,7 +9,7 @@ const MENTORS = [
         name: "Nagaraj Ethirajulu",
         photo: "/images/mentors/nagaraj.jpg",
         title: "AI Mentor & Industry Expert",
-        bio: "A seasoned AI professional who transforms complex machine learning concepts into exciting discoveries for young minds across India. Nagaraj believes every student has the potential to build the future with AI.",
+        bio: "A seasoned AI professional who transforms complex machine learning concepts into exciting discoveries for young minds worldwide. Nagaraj believes every student has the potential to build the future with AI.",
         tags: ["Python", "Machine Learning", "Deep Learning"],
     },
     {
@@ -125,7 +125,7 @@ export default function MentorsPage() {
                     </h2>
                     <p className="text-indigo-100 text-lg mb-8 leading-relaxed">
                         Join our mentor community and help shape the next generation of
-                        AI innovators in India. Make an impact — one session at a time.
+                        AI innovators worldwide. Make an impact — one session at a time.
                     </p>
                     <a
                         href="/become-mentor"

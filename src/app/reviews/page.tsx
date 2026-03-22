@@ -2,7 +2,7 @@ import Footer from "@/components/Footer";
 
 export const metadata = {
   title: "Reviews",
-  description: "Read what parents say about AKMIND. 4.9 stars from 500+ families across India.",
+  description: "Read what parents say about AKMIND. 4.9 stars from 500+ families worldwide.",
   alternates: { canonical: "https://www.akmind.com/reviews" }
 };
 

@@ -18,7 +18,7 @@ const FAQS: { category: Tab; question: string; answer: string }[] = [
     {
         category: "Class Experience",
         question: "What devices does my child need?",
-        answer: "A laptop or desktop with a stable internet connection is required. Mobile phones are not recommended. We will guide you with any software setup before the first class.",
+        answer: "Any device — laptop, desktop, tablet, iOS or Android — with a stable internet connection works perfectly. Available on web, iOS and Android. We will guide you with any software setup before the first class.",
     },
     {
         category: "Class Experience",

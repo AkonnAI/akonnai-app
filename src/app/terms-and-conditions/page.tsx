@@ -14,7 +14,7 @@ const SECTIONS = [
     },
     {
         heading: "2. Our Services",
-        body: "AKMIND™ provides online AI education programs for students aged 10-16 through live 1-on-1 mentorship sessions and self-paced content.",
+        body: "AKMIND™ provides online AI education programs for students and AI enthusiasts through live 1-on-1 mentorship sessions and self-paced content.",
     },
     {
         heading: "3. Account Registration",

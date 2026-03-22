@@ -77,7 +77,7 @@ const Footer = () => {
                         </Link>
                         <p className="text-indigo-400 text-sm font-medium">Dream. Discover. Shine.</p>
                         <p className="text-slate-500 text-sm leading-relaxed max-w-xs">
-                            India&apos;s most exciting AI education platform for students aged 10–16. Building the next generation of AI innovators.
+                            The most exciting AI education platform for students and AI enthusiasts worldwide. Building the next generation of AI innovators.
                         </p>
                         <div className="flex gap-3 pt-1">
                             {SOCIAL.map(({ Icon, href, label }) => (

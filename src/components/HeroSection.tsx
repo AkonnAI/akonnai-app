@@ -174,7 +174,7 @@ const HeroSection = () => {
                         transition={{ delay: 0.2, duration: 0.6 }}
                         className="text-slate-300 text-sm sm:text-base lg:text-lg max-w-lg mx-auto lg:mx-0 mb-8 leading-relaxed"
                     >
-                        India&apos;s most exciting AI education for students aged 10–16. Learn Python, Machine Learning and real AI with expert 1-on-1 mentors.
+                        The most exciting AI education platform. Learn Python, Machine Learning and real AI with expert 1-on-1 mentors.
                     </motion.p>
 
                     {/* CTA buttons */}
