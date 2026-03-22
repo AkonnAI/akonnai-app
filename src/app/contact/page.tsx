@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Footer from "@/components/Footer";
-import { Mail, MapPin, Phone, Send } from "lucide-react";
+import { Mail, MapPin, Send } from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function ContactPage() {
@@ -39,7 +39,6 @@ export default function ContactPage() {
                         <div className="space-y-6">
                             {[
                                 { icon: Mail, label: "Email", value: "hello@akmind.com", href: "mailto:hello@akmind.com" },
-                                { icon: Phone, label: "Phone", value: "+91 81956 47061", href: "tel:+918195647061" },
                                 { icon: MapPin, label: "Location", value: "Bangalore, Karnataka, India", href: "#" },
                             ].map((item) => (
                                 <a key={item.label} href={item.href} className="flex items-start gap-4 group">
