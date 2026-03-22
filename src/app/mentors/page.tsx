@@ -20,10 +20,10 @@ const MENTORS = [
         tags: ["Computer Vision", "AI Projects", "Python"],
     },
     {
-        name: "Jebin Jose",
+        name: "Jaibin Jose",
         photo: "/images/mentors/jebian.jpg",
         title: "AI Mentor & Industry Expert",
-        bio: "A creative AI practitioner who makes deep learning accessible and thrilling for school students. Jebin Jose is known for turning abstract AI ideas into tangible projects students are proud to show the world.",
+        bio: "A creative AI practitioner who makes deep learning accessible and thrilling for school students. Jaibin Jose is known for turning abstract AI ideas into tangible projects students are proud to show the world.",
         tags: ["Deep Learning", "Computer Vision", "AI Projects"],
     },
 ];

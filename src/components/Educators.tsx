@@ -12,7 +12,7 @@ const MENTORS = [
         description: "Specializes in Deep Learning, Neural Networks, and Applied AI Research. Guides advanced AI curriculum and research-driven learning.",
     },
     {
-        name: "Jebin Jose",
+        name: "Jaibin Jose",
         photo: "/images/mentors/jebian.jpg",
         role: "AI Mentor & Industry Expert",
         description: "A creative AI practitioner who makes deep learning accessible and thrilling for school students. Known for turning abstract AI ideas into tangible projects.",
