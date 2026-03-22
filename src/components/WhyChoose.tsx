@@ -1,50 +1,50 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Users, Code, User, Award, Zap, Globe } from "lucide-react";
+import { Play, Gamepad2, Bot, Trophy, Users, Award } from "lucide-react";
 
 const FEATURES = [
     {
-        Icon: Users,
+        Icon: Play,
         iconBg: "bg-indigo-500/20",
         iconColor: "text-indigo-400",
-        title: "Expert AI Mentors",
-        description: "Learn from industry professionals with real-world AI experience. Top 1% of educators.",
+        title: "Micro-Learning Format",
+        description: "11-minute concept videos designed for how the brain actually learns. Short, sharp and packed with real demos and animations.",
     },
     {
-        Icon: Code,
+        Icon: Gamepad2,
         iconBg: "bg-purple-500/20",
         iconColor: "text-purple-400",
-        title: "Hands-on Projects",
-        description: "No theory-only classes. Every session involves building something real with actual code.",
+        title: "Story-Based Games",
+        description: "After every lesson, an interactive story game puts you inside the concept. You are not watching AI — you are living it.",
     },
     {
-        Icon: User,
+        Icon: Bot,
+        iconBg: "bg-green-500/20",
+        iconColor: "text-green-400",
+        title: "AI Learning Guide",
+        description: "Your personal AI companion available 24/7. Takes notes, answers questions, tracks progress and keeps you motivated throughout.",
+    },
+    {
+        Icon: Trophy,
+        iconBg: "bg-amber-500/20",
+        iconColor: "text-amber-400",
+        title: "XP, Badges & Leaderboards",
+        description: "Earn XP for every lesson completed, unlock achievement badges and compete on leaderboards. Learning has never felt this good.",
+    },
+    {
+        Icon: Users,
         iconBg: "bg-blue-500/20",
         iconColor: "text-blue-400",
-        title: "1-on-1 Attention",
-        description: "Fully personalised sessions. Your child gets 100% of the mentor's focus every class.",
+        title: "Live Mentor Sessions",
+        description: "2 live sessions per module with expert AI mentors — for doubt clearing, project reviews and interactive group activities.",
     },
     {
         Icon: Award,
         iconBg: "bg-pink-500/20",
         iconColor: "text-pink-400",
         title: "Verifiable Certificate",
-        description: "AKMIND™ certificates are digitally verifiable and add real value to school portfolios.",
-    },
-    {
-        Icon: Zap,
-        iconBg: "bg-amber-500/20",
-        iconColor: "text-amber-400",
-        title: "Flexible Scheduling",
-        description: "Classes scheduled around your child's timetable. Reschedule anytime with 12 hours notice.",
-    },
-    {
-        Icon: Globe,
-        iconBg: "bg-green-500/20",
-        iconColor: "text-green-400",
-        title: "India-Focused Curriculum",
-        description: "Case studies and projects built around Indian context — agriculture, healthcare, education.",
+        description: "Complete a program phase and earn a digitally verifiable AKMIND certificate — recognised in school portfolios and beyond.",
     },
 ];
 
@@ -65,11 +65,14 @@ const WhyChoose = () => {
                         WHY AKMIND™
                     </span>
                     <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
-                        Everything your child needs to{" "}
+                        Everything that makes{" "}
                         <span className="bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
-                            succeed in AI
+                            AKMIND different
                         </span>
                     </h2>
+                    <p className="text-slate-400 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
+                        Pre-recorded micro-lessons. Story-based games. Live mentor sessions. An AI guide that never sleeps. This is not just another online course.
+                    </p>
                 </motion.div>
 
                 {/* Feature grid */}
