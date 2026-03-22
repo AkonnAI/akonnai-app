@@ -13,10 +13,10 @@ const MENTORS = [
         tags: ["Python", "Machine Learning", "Deep Learning"],
     },
     {
-        name: "Akhil",
+        name: "Akhil Raj",
         photo: "/images/mentors/akhil.jpg",
         title: "AI Mentor & Industry Expert",
-        bio: "Passionate about sparking curiosity in school students through hands-on AI projects. Akhil brings real-world industry experience into every session, making AI practical, fun, and deeply inspiring.",
+        bio: "Passionate about sparking curiosity in school students through hands-on AI projects. Akhil Raj brings real-world industry experience into every session, making AI practical, fun, and deeply inspiring.",
         tags: ["Computer Vision", "AI Projects", "Python"],
     },
     {
@@ -73,7 +73,7 @@ export default function MentorsPage() {
                             whileInView="visible"
                             viewport={{ once: true, margin: "-60px" }}
                             variants={cardVariants}
-                            className="bg-white rounded-3xl shadow-md hover:shadow-xl border border-slate-100 hover:border-indigo-100 transition-all duration-300 p-8 flex flex-col items-center text-center"
+                            className="bg-white rounded-3xl shadow-md hover:shadow-xl border border-slate-100 hover:border-indigo-100 transition-all duration-300 p-8 flex flex-col items-center text-center justify-between"
                         >
                             {/* Photo */}
                             <div className="relative w-28 h-28 rounded-full overflow-hidden mb-5 ring-4 ring-indigo-100 shadow-lg">
@@ -94,7 +94,7 @@ export default function MentorsPage() {
                             <p className="text-slate-500 text-sm leading-relaxed mb-6">{mentor.bio}</p>
 
                             {/* Expertise Tags */}
-                            <div className="flex flex-wrap justify-center gap-2 mb-7">
+                            <div className="flex flex-wrap justify-center gap-2">
                                 {mentor.tags.map((tag) => (
                                     <span
                                         key={tag}
@@ -104,14 +104,6 @@ export default function MentorsPage() {
                                     </span>
                                 ))}
                             </div>
-
-                            {/* CTA */}
-                            <a
-                                href="/register"
-                                className="w-full py-3 rounded-xl bg-indigo-600 text-white text-sm font-bold hover:bg-indigo-700 transition-colors shadow-md shadow-indigo-100 text-center"
-                            >
-                                Book Free Demo
-                            </a>
                         </motion.div>
                     ))}
                 </div>
