@@ -128,7 +128,15 @@ export default function RegisterPage() {
             const res = await fetch("/api/register", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(formData),
+                body: JSON.stringify({
+                    parentName: formData.parentName,
+                    phone: formData.phone,
+                    email: formData.email,
+                    childName: formData.childName,
+                    course: formData.course,
+                    date: formData.date,
+                    time: formData.time,
+                }),
             });
             if (!res.ok) {
                 const errData = await res.json().catch(() => ({}));

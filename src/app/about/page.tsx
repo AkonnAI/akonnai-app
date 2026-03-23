@@ -32,7 +32,7 @@ export default function AboutPage() {
                     <div>
                         <h2 className="text-3xl font-bold text-slate-900 mb-6">Why we started AKMIND™</h2>
                         <p className="text-slate-600 leading-relaxed mb-4">
-                            In 2024, our founders noticed a gap — students were learning outdated curricula while the world was rapidly shifting to AI-powered everything. Schools weren&apos;t equipped to bridge that gap.
+                            In 2026, our founders noticed a gap — students were learning outdated curricula while the world was rapidly shifting to AI-powered everything. Schools weren&apos;t equipped to bridge that gap.
                         </p>
                         <p className="text-slate-600 leading-relaxed mb-4">
                             So we built AKMIND™ — a structured, hands-on AI learning platform designed for students and AI enthusiasts of all backgrounds. We partnered with industry professionals to create curriculum that mirrors what real AI engineers build every day.
@@ -44,7 +44,7 @@ export default function AboutPage() {
                     <div className="grid grid-cols-2 gap-6">
                         {[
                             { icon: "🎓", title: "500+ Students", desc: "Enrolled from worldwide" },
-                            { icon: "🧑‍🏫", title: "4 Expert Mentors", desc: "Industry professionals" },
+                            { icon: "🧑‍🏫", title: "3 Expert Mentors", desc: "Industry professionals" },
                             { icon: "🚀", title: "3 Programs", desc: "Explorers, Builders, Innovators" },
                             { icon: "📅", title: "Founded 2024", desc: "Bangalore, Karnataka, India" },
                         ].map((item) => (
