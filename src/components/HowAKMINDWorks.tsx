@@ -350,7 +350,7 @@ const STEPS = [
         headline: "Ask. Clarify. Go Deeper.",
         description:
             "Live Q&A sessions with your mentor after key modules. Got stuck? Confused? Your dedicated mentor is there to answer every question and push you further.",
-        tags: ["Live Q&A", "1-on-1 mentor", "Module reviews"],
+        tags: ["Live Q&A", "Expert mentor", "Module reviews"],
         badge: null as string | null,
         Visual: ChatMockup,
     },

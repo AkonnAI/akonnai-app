@@ -10,7 +10,7 @@ const JOBS = [
         title: "AI Mentor (Part-time / Freelance)",
         badge: "Remote · Part-time",
         description:
-            "Conduct live 1-on-1 AI sessions with students. A passion for teaching and interest in AI is all you need. We will train you on the rest.",
+            "Conduct live AI sessions with students using our gamified learning platform. A passion for teaching and interest in AI is all you need. We will train you on the rest.",
         requirements: ["Passion for teaching", "Interest in AI", "Communication skills"],
     },
     {

@@ -1,6 +1,6 @@
 export const metadata = {
   title: "Meet Our AI Mentors",
-  description: "Learn from India's top AI professionals. Our mentors bring real industry experience to every 1-on-1 session.",
+  description: "Learn from expert AI professionals. Our mentors bring real industry experience and gamified learning to every session.",
   alternates: { canonical: "https://www.akmind.com/mentors" }
 };
 

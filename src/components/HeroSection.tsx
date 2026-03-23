@@ -174,7 +174,7 @@ const HeroSection = () => {
                         transition={{ delay: 0.2, duration: 0.6 }}
                         className="text-slate-300 text-sm sm:text-base lg:text-lg max-w-lg mx-auto lg:mx-0 mb-8 leading-relaxed"
                     >
-                        The most exciting AI education platform. Learn Python, Machine Learning and real AI with expert 1-on-1 mentors.
+                        The most exciting AI education platform. Learn Python, Machine Learning and real AI with Gamificiation & Expert Mentors.
                     </motion.p>
 
                     {/* CTA buttons */}
@@ -208,7 +208,7 @@ const HeroSection = () => {
                         transition={{ delay: 0.4, duration: 0.6 }}
                         className="text-slate-500 text-sm hidden sm:block"
                     >
-                        ✓ Free demo class &nbsp;·&nbsp; ✓ No credit card &nbsp;·&nbsp; ✓ Live 1-on-1 &nbsp;·&nbsp; ✓ Expert mentors
+                        ✓ Free demo class &nbsp;·&nbsp; ✓ No credit card &nbsp;·&nbsp; ✓ Gamification &nbsp;·&nbsp; ✓ Expert mentors
                     </motion.p>
                 </div>
 

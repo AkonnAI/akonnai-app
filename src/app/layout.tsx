@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     default: "AKMIND — AI Education for Schools",
     template: "%s | AKMIND"
   },
-  description: "The most exciting AI education platform. Learn Python, Machine Learning, Computer Vision and more with expert 1-on-1 mentors. Book your free demo class today.",
+  description: "The most exciting AI education platform. Learn Python, Machine Learning, Computer Vision and more with expert mentors and gamified learning. Book your free demo class today.",
   keywords: [
     "AI education",
     "machine learning for students",
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     url: "https://www.akmind.com",
     siteName: "AKMIND",
     title: "AKMIND — AI Education for Schools",
-    description: "Learn AI with expert 1-on-1 mentors. Python, Machine Learning and Computer Vision for students worldwide.",
+    description: "Learn AI with expert mentors and gamified learning. Python, Machine Learning and Computer Vision for students worldwide.",
     images: [
       {
         url: "/og-image.png",
@@ -55,7 +55,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "AKMIND — AI Education for Schools",
-    description: "Learn AI with expert 1-on-1 mentors. Python, Machine Learning and Computer Vision for students worldwide.",
+    description: "Learn AI with expert mentors and gamified learning. Python, Machine Learning and Computer Vision for students worldwide.",
     images: ["/og-image.png"],
     creator: "@akmind"
   },

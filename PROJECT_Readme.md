@@ -1,4 +1,4 @@
-# AKMIND v2.0 — Project Documentation
+# AKMIND v2.1 — Project Documentation
 
 > **"Dream. Discover. Shine."**
 > Exciting and effective AI programs, curated by experts!
@@ -30,26 +30,30 @@
 
 ## 1. Project Overview
 
-**AKMIND** is a full-stack AI education platform targeting students in **Grades 5–10 across India**. It enables parents and students to discover structured AI learning programs, book free demo classes, and enroll in 1-on-1 mentorship sessions with industry experts.
+**AKMIND™** is a full-stack AI education platform targeting students **worldwide**. It enables parents and students to discover structured AI learning programs, book free demo classes, and enroll in 1-on-1 mentorship sessions with industry experts.
 
 ### Mission & Goals
-- Bridge the gap in AI education for young learners
+- Bridge the gap in AI education for young learners globally
 - Provide hands-on, project-based learning (not just theory)
 - Connect students with expert mentors for personalised guidance
-- Make AI accessible and exciting for kids aged 10–16
+- Make AI accessible and exciting through micro-learning, gamification, and an AI guide
 
 ### Key Stats
 - **500+ students** have built real AI projects
-- **Founded in 2023**
-- Focused on practical skills: Python, Machine Learning, Computer Vision, NLP
+- **4 Expert Mentors**
+- **3 Programs** (Beginner / Most Popular / Advanced)
+- **100% Gamification** sessions
+- Founded in **2024** — by **Akonnai AI Pvt. Ltd.**
 
 ### Three Core Programs
 
-| Program | Grades | Level |
+| Program | Level | Description |
 |---|---|---|
-| **AI Explorers** | 5–6 | Beginner Friendly |
-| **AI Builders** | 7–8 | Most Popular |
-| **AI Innovators** | 9–10 | Advanced |
+| **AI Explorers** | Beginner Friendly | Introduction to AI concepts, Python basics, and creative projects |
+| **AI Builders** | Most Popular | Machine Learning, Computer Vision, real-world AI apps |
+| **AI Innovators** | Advanced | NLP, Deep Learning, capstone research projects |
+
+> **v2.1 change:** Removed all age/grade/India-specific restrictions. Platform is worldwide, open to all learner levels.
 
 ---
 
@@ -107,65 +111,91 @@ akmind-v1.0-master/
 │   │   │   │   └── register/route.ts     # POST /api/auth/register
 │   │   │   ├── booking/
 │   │   │   │   └── [bookingId]/route.ts  # GET /api/booking/:id
+│   │   │   ├── careers/
+│   │   │   │   └── route.ts              # ★ NEW — POST /api/careers (job applications)
 │   │   │   └── register/route.ts         # POST /api/register (demo booking)
 │   │   │
 │   │   ├── about/page.tsx
 │   │   ├── become-mentor/page.tsx
-│   │   ├── careers/page.tsx
+│   │   ├── careers/
+│   │   │   ├── layout.tsx                # ★ NEW — route-level metadata (client page)
+│   │   │   └── page.tsx                  # ★ UPDATED — job cards + application form
 │   │   ├── confirmation/page.tsx         # Booking confirmation (reads ?id= from URL)
-│   │   ├── contact/page.tsx
-│   │   ├── curriculum/page.tsx
+│   │   ├── contact/
+│   │   │   ├── layout.tsx                # ★ NEW — route-level metadata
+│   │   │   └── page.tsx                  # ★ UPDATED — email only, no phone
+│   │   ├── curriculum/
+│   │   │   ├── layout.tsx                # ★ NEW — route-level metadata
+│   │   │   └── page.tsx                  # ★ UPDATED — includes ParentalGuidelines
 │   │   ├── login/page.tsx
-│   │   ├── mentors/page.tsx
-│   │   ├── register/page.tsx             # 4-step booking wizard
+│   │   ├── mentors/
+│   │   │   ├── layout.tsx                # ★ NEW — route-level metadata
+│   │   │   └── page.tsx                  # ★ UPDATED — real photos, 3-col grid, no CTA button
+│   │   ├── privacy-policy/page.tsx       # ★ NEW — 8-section Privacy Policy
+│   │   ├── register/
+│   │   │   ├── layout.tsx                # ★ NEW — route-level metadata
+│   │   │   └── page.tsx                  # ★ UPDATED — upgraded wizard with step bar + animations
 │   │   ├── reviews/page.tsx
 │   │   ├── signup/page.tsx
-│   │   ├── page.tsx                      # Home / Landing page
-│   │   ├── layout.tsx
-│   │   └── globals.css
+│   │   ├── terms-and-conditions/page.tsx # ★ NEW — 10-section Terms & Conditions
+│   │   ├── page.tsx                      # ★ UPDATED — Home / Landing page with new sections
+│   │   ├── layout.tsx                    # ★ UPDATED — Navbar global, full SEO metadata
+│   │   └── globals.css                   # ★ UPDATED — mobile fixes, smooth scroll
 │   │
 │   ├── components/                       # Reusable React components
-│   │   ├── AIProgramsSection.tsx
+│   │   ├── AIBotCinematic.tsx            # ★ NEW — full-screen AI chat demo section
+│   │   ├── AIProgramsSection.tsx         # ★ UPDATED — full mobile responsiveness
 │   │   ├── ChooseYourCourse.tsx
-│   │   ├── Educators.tsx
-│   │   ├── FAQ.tsx
-│   │   ├── Footer.tsx
-│   │   ├── HeroSection.tsx
-│   │   ├── HowItWorks.tsx
-│   │   ├── LogoTicker.tsx
-│   │   ├── Navbar.tsx
+│   │   ├── Educators.tsx                 # ★ UPDATED — real mentor photos (3-col grid)
+│   │   ├── FAQ.tsx                       # ★ UPDATED — 3 tabs, 16 Q&As, new content
+│   │   ├── FloatingCTA.tsx               # ★ NEW — sticky "Book Free Demo" floating button
+│   │   ├── Footer.tsx                    # ★ UPDATED — real social URLs, legal links, Akonnai copyright
+│   │   ├── GamificationShowcase.tsx      # ★ NEW — XP progress, badges, leaderboard section
+│   │   ├── HeroSection.tsx               # ★ UPDATED — sparkle badge, mobile responsive
+│   │   ├── HowAKMINDWorks.tsx            # ★ NEW — cinematic 5-step method with count-up stats
+│   │   ├── HowItWorks.tsx                # ★ UPDATED — mobile responsive
+│   │   ├── LogoTicker.tsx                # ★ UPDATED — mobile responsive
+│   │   ├── Navbar.tsx                    # ★ UPDATED — fixed pos, full-screen mobile overlay, global layout
+│   │   ├── ParentalGuidelines.tsx        # ★ NEW — age suitability, device req, parent involvement
 │   │   ├── ScrollProgressBar.tsx
-│   │   ├── SkillsForSuccess.tsx
-│   │   ├── StatsRow.tsx
-│   │   ├── StudentSpotlight.tsx
-│   │   ├── TopPicks.tsx
-│   │   └── WhyChoose.tsx
+│   │   ├── ScrollReveal.tsx              # ★ NEW — scroll-triggered reveal animation wrapper
+│   │   ├── SkillsForSuccess.tsx          # ★ UPDATED — mobile responsive
+│   │   ├── StatsRow.tsx                  # ★ UPDATED — 500+ Students, 4 Mentors, 3 Programs, 100% Live
+│   │   ├── StudentSpotlight.tsx          # ★ UPDATED — 5 new testimonials, show-more on mobile
+│   │   ├── TopPicks.tsx                  # ★ UPDATED — removed grade references
+│   │   └── WhyChoose.tsx                 # ★ UPDATED — new 6 feature cards, new headline
 │   │
 │   ├── lib/
-│   │   ├── env.ts            # ★ NEW — validates all 11 required env vars at startup
-│   │   ├── dynamodb.ts       # ★ UPDATED — DynamoDB client + table name exports
-│   │   ├── cognito.ts        # ★ UPDATED — Cognito sign up / sign in helpers
-│   │   ├── auth.ts           # ★ UPDATED — session cookie (HMAC-SHA256)
-│   │   ├── email.ts          # ★ NEW — AWS SES email functions
-│   │   ├── rate-limit.ts     # ★ NEW — DynamoDB TTL rate limiter
+│   │   ├── env.ts            # Validates all 11 required env vars at startup
+│   │   ├── dynamodb.ts       # DynamoDB client + table name exports
+│   │   ├── cognito.ts        # Cognito sign up / sign in helpers
+│   │   ├── auth.ts           # Session cookie (HMAC-SHA256)
+│   │   ├── email.ts          # ★ UPDATED — AWS SES; added sendCareerApplication
+│   │   ├── rate-limit.ts     # DynamoDB TTL rate limiter
 │   │   ├── validators.ts     # Zod schemas for all API inputs
 │   │   └── api-response.ts   # ok() / fail() / validationFail() helpers
 │   │
 │   └── middleware-helpers/
 │       └── safe-handler.ts   # Wraps handlers in try/catch, returns 500 on throw
 │
-├── src/middleware.ts          # ★ NEW — payload size, content-type, security headers
+├── src/middleware.ts          # Payload size, content-type, security headers
 │
 ├── public/
-│   ├── robots.txt             # ★ NEW — disallows /api/ and /confirmation from crawlers
+│   ├── robots.txt             # Disallows /api/ and /confirmation from crawlers
+│   ├── sitemap.xml            # ★ NEW — 10 routes with changefreq and priority
+│   ├── og-image.png           # ★ NEW — 1200×630 branded OG image for social sharing
 │   ├── images/
+│   │   └── mentors/
+│   │       ├── akhil.jpg      # ★ NEW — real mentor photo
+│   │       ├── jebian.jpg     # ★ NEW — real mentor photo
+│   │       └── nagaraj.jpg    # ★ NEW — real mentor photo
 │   └── media/
 │
 ├── .env.local                 # Local secrets (gitignored)
-├── .env.local.example         # ★ NEW — safe-to-commit template for all 11 vars
-├── next.config.ts             # ★ UPDATED — CSP + security headers via headers()
-├── DEPLOYMENT.md              # ★ NEW — AWS setup checklist + pre-launch test list
-├── ARCHITECTURE.md            # ★ NEW — schemas, rate limit rules, data flows
+├── .env.local.example         # Safe-to-commit template for all 11 vars
+├── next.config.ts             # CSP + security headers via headers()
+├── DEPLOYMENT.md              # AWS setup checklist + pre-launch test list
+├── ARCHITECTURE.md            # Schemas, rate limit rules, data flows
 ├── package.json
 └── tsconfig.json
 ```
@@ -201,10 +231,10 @@ SES_ADMIN_EMAIL=admin@akmind.com
 
 # Session signing key — must be 32+ characters
 # Generate with: node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
-AUTH_SESSION_SECRET=838c111179138ebef6610d6822b2cf3533ef14b146c1bec621ac27fee992619f
+AUTH_SESSION_SECRET=your-32-char-minimum-secret-here
 
 # Google Apps Script webhook URL (bookings → Google Sheet)
-GAS_WEBHOOK_URL=https://script.google.com/macros/s/AKfycbyKPtz_UBvC-_Xw9SiUvxJIXQMyblihzVCiZ6OatI1Q087Dq6vvLkFDP8pmnesFE7CP/exec
+GAS_WEBHOOK_URL=https://script.google.com/macros/s/your-script-id/exec
 ```
 
 ### Where each variable comes from
@@ -271,7 +301,7 @@ All library files (`dynamodb.ts`, `cognito.ts`, `email.ts`, `auth.ts`, `rate-lim
 
 ## 5. Database & Data Storage
 
-> **v1.0 used a flat `data/users.json` file. v2.0 is fully on AWS DynamoDB.**
+> **v1.0 used a flat `data/users.json` file. v2.0+ is fully on AWS DynamoDB.**
 
 ### Table: `users` (DYNAMODB_USERS_TABLE)
 
@@ -311,8 +341,7 @@ Stores all demo class bookings.
 | `phone` | String | |
 | `email` | String | Parent email |
 | `childName` | String | |
-| `grade` | String | e.g. `"Grade 7"` |
-| `course` | String | e.g. `"AI Builders (Grades 7-8)"` |
+| `course` | String | e.g. `"AI Builders"` |
 | `date` | String | Selected demo date `"YYYY-MM-DD"` |
 | `time` | String | Selected time slot e.g. `"4:00 PM"` |
 | `createdAt` | String | ISO 8601 timestamp |
@@ -325,8 +354,7 @@ Stores all demo class bookings.
   "phone": "9876543210",
   "email": "priya@example.com",
   "childName": "Aarav Sharma",
-  "grade": "Grade 7",
-  "course": "AI Builders (Grades 7-8)",
+  "course": "AI Builders",
   "date": "2025-04-10",
   "time": "4:00 PM",
   "createdAt": "2025-03-21T10:00:00.000Z"
@@ -433,6 +461,7 @@ Production-grade rate limiting with **zero extra infrastructure** — uses Dynam
 | `POST /api/auth/login` | `rl#auth:<ip>` | 5 req | 15 min | "Too many attempts. Try again in 15 minutes." |
 | `POST /api/auth/register` | `rl#auth:<ip>` | 5 req | 15 min | "Too many attempts. Try again in 15 minutes." |
 | `POST /api/register` | `rl#booking:<ip>` | 3 req | 1 hour | "Too many booking attempts. Try again in 1 hour." |
+| `POST /api/careers` | `rl#careers:<ip>` | 3 req | 1 hour | "Too many applications. Try again in 1 hour." |
 | `GET /api/auth/me` | `rl#general:<ip>` | 60 req | 60 sec | `{ error: "Too many requests" }` |
 | `GET /api/booking/:id` | `rl#general:<ip>` | 60 req | 60 sec | `{ error: "Too many requests" }` |
 
@@ -593,6 +622,10 @@ Disallow: /confirmation
 Sitemap: https://www.akmind.com/sitemap.xml
 ```
 
+### `public/sitemap.xml`
+
+Covers all 10 public routes with `changefreq` and `priority` attributes. Generated manually and committed to `public/`.
+
 ### Security Summary
 
 | Protection | Implementation |
@@ -608,7 +641,7 @@ Sitemap: https://www.akmind.com/sitemap.xml
 | HTTPS | HSTS `max-age=31536000; includeSubDomains` |
 | XSS | `X-XSS-Protection: 1; mode=block` + strict CSP |
 | Content-type injection | 415 on non-JSON POST to /api/* |
-| Dependency CVEs | 0 vulnerabilities (`npm audit` — Next.js upgraded to 16.2.1) |
+| Dependency CVEs | 0 vulnerabilities (`npm audit` — Next.js 16.2.1) |
 
 ---
 
@@ -617,8 +650,25 @@ Sitemap: https://www.akmind.com/sitemap.xml
 ### Home — `/`
 **File:** `src/app/page.tsx`
 
-Landing page — assembles all home-page section components:
-`<HeroSection />` → `<LogoTicker />` → `<StatsRow />` → `<AIProgramsSection />` → `<TopPicks />` → `<HowItWorks />` → `<WhyChoose />` → `<SkillsForSuccess />` → `<Educators />` → `<StudentSpotlight />` → `<FAQ />`
+Landing page — assembles all home-page section components in this order:
+
+```
+<HeroSection />
+<LogoTicker />
+<StatsRow />
+<AIProgramsSection />
+<TopPicks />
+<HowAKMINDWorks />       ← NEW cinematic 5-step section
+<WhyChoose />
+<GamificationShowcase /> ← NEW gamification section
+<SkillsForSuccess />
+<AIBotCinematic />       ← NEW AI chat demo section
+<Educators />
+<StudentSpotlight />
+<FAQ />
+```
+
+Wave-shaped SVG dividers separate each section for a smooth visual flow.
 
 ---
 
@@ -647,18 +697,25 @@ New parent account creation.
 
 ### Register (Demo Booking) — `/register`
 **File:** `src/app/register/page.tsx`
+**Metadata:** `src/app/register/layout.tsx`
 
-4-step multi-page wizard for booking a free demo class:
+Upgraded 4-step multi-page wizard for booking a free demo class.
 
-| Step | Fields |
-|---|---|
-| **Step 1 — Parent Details** | Parent/Guardian Name, Phone Number, Email |
-| **Step 2 — Student Details** | Child's Name, Grade |
-| **Step 3 — Course Selection** | AI Explorers / Builders / Innovators |
-| **Step 4 — Schedule** | Pick a date + time slot (4 PM, 5 PM, 6 PM, 7 PM) |
+**Step progress bar** — indigo/green circles with labels (Step 1–4), advances on each Next click.
+**Directional slide animations** — `AnimatePresence` slides steps in/out correctly on forward and back navigation.
 
+| Step | Heading | Fields |
+|---|---|---|
+| **Step 1** | Who's booking? | Parent/Guardian Name, Phone Number, Email |
+| **Step 2** | Tell us about your child | Child's Name |
+| **Step 3** | Pick your program | AI Explorers (Beginner) / AI Builders (Most Popular) / AI Innovators (Advanced) — displayed as cards with level badges |
+| **Step 4** | Schedule your demo | Pick a date + time slot (4 PM, 5 PM, 6 PM, 7 PM) + Video call note |
+
+- Back button: ghost/outline style
+- Next/Confirm button: indigo filled
 - Form data held in React state between steps
 - On final submit: `POST /api/register` → receives `{ bookingId }` → navigates to `/confirmation?id=${bookingId}`
+- **ParentalGuidelines** section included (collapsible toggle, default collapsed)
 
 ---
 
@@ -666,7 +723,6 @@ New parent account creation.
 **File:** `src/app/confirmation/page.tsx`
 
 Post-booking confirmation screen.
-
 - Reads `?id=` from URL search params (`window.location.search`)
 - Fetches `GET /api/booking/${bookingId}` to load booking data from DynamoDB
 - Shows loading skeleton while fetching
@@ -674,66 +730,131 @@ Post-booking confirmation screen.
 - Error state if booking ID is invalid or not found
 - CTA to return home
 
-> **v2.0 change:** Previously read from `sessionStorage`. Now fetches live from DynamoDB via the bookingId — works even if user shares the link or refreshes.
-
 ---
 
 ### About — `/about`
-Company info — mission, values, key stats, team section.
+Company info — mission statement, founding year (2024), key stats grid, team section, contact email (`hello@akmind.com`).
 
 ### Contact — `/contact`
-Contact form + email, phone, office location, "Book Free Demo" CTA.
+**Updated:** Email-only contact (`hello@akmind.com`), Bangalore office address. Phone number removed.
 
 ### Curriculum — `/curriculum`
 Program breakdown — topics, tools, projects, learning outcomes for all three tiers.
+Includes **`<ParentalGuidelines />`** section before the CTA.
 
 ### Mentors — `/mentors`
-Mentor profiles — background, expertise, teaching philosophy.
+**Updated:** Real mentor photos (Nagaraj, Akhil Raj, Jaibin Jose). 3-column grid layout. No "Book Free Demo" button on cards.
+
+Active mentors:
+- **Nagaraj** — `public/images/mentors/nagaraj.jpg`
+- **Akhil Raj** — `public/images/mentors/akhil.jpg`
+- **Jaibin Jose** — `public/images/mentors/jebian.jpg`
 
 ### Become a Mentor — `/become-mentor`
 Application page for industry professionals.
 
 ### Reviews — `/reviews`
-Student and parent testimonials, success stories, project showcases.
+Student and parent testimonials. Role labels simplified to "Parent". Grade references removed.
 
 ### Careers — `/careers`
-Open positions and application instructions.
+**Fully rewritten.** Indigo hero section + 4 job cards (left `border-l-4` accent) + full application form with validation and success state.
+
+Job cards include: role title, type (Full-time/Part-time/Contract), location. On submission, `POST /api/careers` sends admin notification + applicant confirmation via SES.
+
+### Privacy Policy — `/privacy-policy`
+**New page.** 8 sections covering: data collection, use, storage, sharing, cookies, children's privacy, user rights, contact.
+
+### Terms & Conditions — `/terms-and-conditions`
+**New page.** 10 sections covering: acceptance, services, intellectual property, user conduct, payment, disclaimers, limitation of liability, governing law, changes, contact.
 
 ---
 
 ## 10. Components
 
-### `Navbar.tsx` (~387 lines)
-Sticky top navigation bar.
-- Dropdown menus: Programs, AI Mentors, About AKMIND
+### `Navbar.tsx`
+**Fully rebuilt.** Fixed position, always-white background. AKMIND™ logo + "by AkonnAI" watermark below.
+- Full-screen mobile overlay slide-in menu (fixed `AnimatePresence` outside nav container — previously broken)
+- `overflow-x: clip` on `html` element fixes sticky header broken by `overflow-x: hidden`
 - Auth state: polls `GET /api/auth/me` on mount → shows Login/Signup OR logged-in user dropdown
-- Profile dropdown: user name, email, Logout button
-- Mobile hamburger menu
+- Navbar moved to `layout.tsx` — present on every route automatically (previously missing on login, signup, register, confirmation, curriculum)
+- Program labels use level descriptions instead of grade numbers
 
-### `HeroSection.tsx` (~215 lines)
-- Animated typewriter headline cycling through 4 phrases
+### `HeroSection.tsx`
+- Animated typewriter headline cycling through phrases
 - Gradient animated text (8s colour cycle)
 - Auto-rotating image slideshow (4 slides, 3s interval)
 - Magnetic CTA button — cursor attraction effect on hover
+- **"AKMIND™ — Dream. Discover. Shine." sparkle badge** above the main headline (new)
 - Background: dot-grid pattern with gradient overlay
+- Fully mobile responsive
 
-### `AIProgramsSection.tsx` (~150 lines)
-- 3D tilt effect on mouse hover (`perspective(800px) rotateX rotateY`)
-- Gradient borders, badge labels, per-card CTAs
+### `HowAKMINDWorks.tsx` ★ NEW (~563 lines)
+Cinematic 5-step learning method section.
+- Alternating left/right layout with scroll-triggered entry animations
+- Mockup panels (phone/screen illustrations) per step
+- Count-up stats bar at the bottom (e.g. 500+ Students, 95% Completion Rate)
+- Steps: Watch & Learn → Play & Practice → Build Projects → Get Mentor Feedback → Earn Certificates
 
-### `FAQ.tsx` (~145 lines)
-Accordion FAQ with 3 tabs — AI Curriculum, Mentorship, Class Experience.
+### `GamificationShowcase.tsx` ★ NEW (~282 lines)
+Gamification section with live-feeling UI mockups.
+- XP progress bar with level indicator
+- Badge achievement grid
+- Leaderboard preview (top 5 ranked students)
+- Bottom stats row with amber gradient numbers
+
+### `AIBotCinematic.tsx` ★ NEW (~261 lines)
+Full-screen AI guide chat demo section.
+- Staggered message animations (user + AI messages appear in sequence)
+- Code block display inside chat
+- Floating feature badges (e.g. "Always Available", "Personalized")
+- Typing indicator animation
+
+### `WhyChoose.tsx`
+**Updated headline:** "Everything that makes AKMIND™ different"
+**New 6 feature cards:**
+1. Micro-Learning Format (Play icon)
+2. Story-Based Games (Gamepad2 icon)
+3. AI Guide (Bot icon)
+4. XP & Badges (Trophy icon)
+5. Live Mentor Sessions (Users icon)
+6. Verifiable Certificate (Award icon)
+
+### `FAQ.tsx`
+**Rewritten content.** 3 tabs, 16 total questions.
+- **Class Experience** — session format, devices, recording, AI guide usage
+- **About the Program** — micro-learning, gamification, certificates, worldwide access
+- **Support** — parent involvement, technical support, cancellation
+
+### `ParentalGuidelines.tsx` ★ NEW (~79 lines)
+3-card info section displayed on Curriculum and Register pages.
+- Age Suitability card
+- Device Requirements card (web browser, iOS, Android, tablet)
+- Parent Involvement card
+- Pink info banner at bottom
+
+### `FloatingCTA.tsx` ★ NEW (~36 lines)
+Sticky "Book Free Demo" button fixed at the bottom-right of the viewport. Appears after initial scroll.
+
+### `ScrollReveal.tsx` ★ NEW (~25 lines)
+Reusable wrapper component. Children animate into view (fade + slide up) when scrolled into viewport via Framer Motion's `whileInView`.
+
+### `StudentSpotlight.tsx`
+**Updated with 5 real testimonials:** Arjun, Priya, Rohan, Ananya, Karthik. Card layout with initials avatar, star rating, MapPin location. Show-more button on mobile. Grade references removed.
+
+### `StatsRow.tsx`
+**Updated numbers:** 500+ Students · 4 Expert Mentors · 3 Programs · 100% Gamification
 
 ### `Footer.tsx`
-4-column footer — brand, programs, company links, contact info, social links (Instagram, LinkedIn, YouTube).
+- Real social URLs: Instagram / LinkedIn / YouTube
+- Contact email: `hello@akmind.com`
+- Legal links: Privacy Policy · Terms & Conditions
+- **Akonnai AI Pvt. Ltd. copyright line** added at bottom
+- Phone number removed
 
-### `LogoTicker.tsx`
-Horizontally scrolling tech logo ticker — Python, TensorFlow, OpenCV, etc. 30s infinite loop.
+### `Educators.tsx`
+Real mentor photos from `public/images/mentors/`. 3-column grid. Mentors: Nagaraj, Akhil Raj, Jaibin Jose (Abhishek removed).
 
-### `ScrollProgressBar.tsx`
-Thin progress bar fixed at top — grows 0→100% as user scrolls.
-
-*(Other components: `TopPicks`, `HowItWorks`, `WhyChoose`, `SkillsForSuccess`, `Educators`, `StudentSpotlight`, `StatsRow`, `ChooseYourCourse`)*
+*(Other components: `TopPicks`, `HowItWorks`, `SkillsForSuccess`, `LogoTicker`, `ScrollProgressBar`, `ChooseYourCourse` — all mobile responsive)*
 
 ---
 
@@ -851,8 +972,7 @@ Handles demo class booking.
   "phone": "9876543210",
   "email": "priya@example.com",
   "childName": "Aarav Sharma",
-  "grade": "Grade 7",
-  "course": "AI Builders (Grades 7-8)",
+  "course": "AI Builders",
   "date": "2025-04-10",
   "time": "4:00 PM"
 }
@@ -886,8 +1006,7 @@ Fetches booking details for the confirmation page.
   "success": true,
   "id": "...",
   "childName": "Aarav Sharma",
-  "grade": "Grade 7",
-  "course": "AI Builders (Grades 7-8)",
+  "course": "AI Builders",
   "date": "2025-04-10",
   "time": "4:00 PM",
   "email": "priya@example.com"
@@ -898,6 +1017,38 @@ Fetches booking details for the confirmation page.
 
 ---
 
+### `POST /api/careers` ★ NEW
+**File:** `src/app/api/careers/route.ts`
+
+Handles job application form submissions from the Careers page.
+
+**Rate limit:** 3 requests / 1 hour per IP
+
+**Request body (Zod validated):**
+```json
+{
+  "name": "Ravi Kumar",
+  "email": "ravi@example.com",
+  "phone": "9876543210",
+  "role": "AI Curriculum Designer",
+  "message": "I'd love to contribute to AKMIND's mission..."
+}
+```
+
+**Flow:**
+1. Rate limit check
+2. Zod validation (name, email format, phone format, role, message)
+3. `sendCareerApplication(data)` — fires both SES emails (admin notification + applicant confirmation)
+
+**Response `200`:**
+```json
+{ "success": true }
+```
+
+**Errors:** `422` validation fail | `429` rate limited | `500` server error
+
+---
+
 ## 12. Demo Booking Flow
 
 End-to-end walkthrough:
@@ -905,19 +1056,19 @@ End-to-end walkthrough:
 ```
 1. Parent visits /register
    ├── Step 1: Parent name, phone, email
-   ├── Step 2: Child name, grade
-   ├── Step 3: Select course
+   ├── Step 2: Child name
+   ├── Step 3: Select course (with level badges)
    └── Step 4: Pick date + time → click "Confirm Booking"
                 │
                 ▼
 2. POST /api/register (JSON)
    │
    ├── Rate limit: 3/hour per IP
-   ├── Zod validation of all 8 fields
+   ├── Zod validation of all fields
    ├── DynamoDB PutCommand → bookings table → get bookingId
    ├── fetch(GAS_WEBHOOK_URL) → Google Sheet [non-blocking]
    ├── SES: admin notification → admin@akmind.com
-   └── SES: parent confirmation → priya@example.com
+   └── SES: parent confirmation → parent email
                 │
                 ▼
 3. Response: { success: true, bookingId: "uuid" }
@@ -946,23 +1097,23 @@ End-to-end walkthrough:
 ### Welcome Email
 - **Trigger:** Successful `POST /api/auth/register`
 - **To:** New parent's email
-- **Subject:** `"Welcome to AKMIND! Your AI Journey Begins"`
+- **Subject:** `"Welcome to AKMIND™! Your AI Journey Begins"`
 - **Content:** Welcome message, "Book Free Demo Class" CTA button linking to `/register`
 - **Sent as:** Fire-and-forget (doesn't block the response)
 
 ```typescript
 export async function sendWelcomeEmail(to: string, name: string) {
-  await sendEmail(to, "Welcome to AKMIND! Your AI Journey Begins", `
+  await sendEmail(to, "Welcome to AKMIND™! Your AI Journey Begins", `
     <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto">
       <div style="background:#4F46E5;padding:32px;text-align:center">
-        <h1 style="color:#fff;margin:0;font-size:28px">Welcome to AKMIND</h1>
+        <h1 style="color:#fff;margin:0;font-size:28px">Welcome to AKMIND™</h1>
         <p style="color:#C7D2FE;margin:8px 0 0;font-size:16px">Dream. Discover. Shine.</p>
       </div>
       <div style="padding:32px;background:#fff">
         <p>Hi ${name},</p>
-        <p>Welcome to AKMIND — India's most exciting AI education program...</p>
+        <p>Welcome to AKMIND™ — the world's most exciting AI education program...</p>
         <a href="https://www.akmind.com/register"
-           style="background:#4F46E5;color:#fff;padding:14px 32px;border-radius:8px;...">
+           style="background:#4F46E5;color:#fff;padding:14px 32px;border-radius:8px;">
           Book Free Demo Class
         </a>
       </div>
@@ -976,18 +1127,35 @@ export async function sendWelcomeEmail(to: string, name: string) {
 ### Admin Booking Notification
 - **Trigger:** Successful `POST /api/register`
 - **To:** `SES_ADMIN_EMAIL` (`admin@akmind.com`)
-- **Subject:** `"New Demo Booking — Aarav Sharma (Grade 7)"`
-- **Content:** HTML table with all 8 booking fields
+- **Subject:** `"New Demo Booking — Aarav Sharma"`
+- **Content:** HTML table with all booking fields
 
 ---
 
 ### Parent Booking Confirmation
 - **Trigger:** Successful `POST /api/register`
 - **To:** Parent's email from the booking form
-- **Subject:** `"Your Demo Class is Booked! — AKMIND"`
+- **Subject:** `"Your Demo Class is Booked! — AKMIND™"`
 - **Content:** Booking summary card (student, course, date, time), mentor call instructions
 
-All three email functions return `{ success: boolean }` and catch errors internally — a failed email never blocks the API response or throws.
+---
+
+### Career Application Emails ★ NEW
+**Function:** `sendCareerApplication(data)` in `src/lib/email.ts`
+
+Two emails sent on each career form submission:
+
+**Admin notification:**
+- **To:** `SES_ADMIN_EMAIL`
+- **Subject:** `"New Job Application — <role> from <name>"`
+- **Content:** HTML table with applicant name, email, phone, role, message
+
+**Applicant confirmation:**
+- **To:** Applicant's email
+- **Subject:** `"We received your application — AKMIND™"`
+- **Content:** Thank-you note, role applied for, expected response timeline
+
+All email functions return `{ success: boolean }` and catch errors internally — a failed email never blocks the API response or throws.
 
 ---
 
@@ -1026,6 +1194,7 @@ All three email functions return `{ success: boolean }` and catch errors interna
 | Primary | Indigo | `indigo-600` |
 | Accent 1 | Purple | `purple-600` |
 | Accent 2 | Pink | `pink-500` |
+| Accent 3 | Amber | `amber-500` (gamification) |
 | Background | White / Slate-50 | `slate-50` |
 | Dark Background | Slate-900 | `slate-900` |
 | Text Primary | Slate-900 | `slate-900` |
@@ -1037,7 +1206,7 @@ All three email functions return `{ success: boolean }` and catch errors interna
 
 | Animation | Component | Details |
 |---|---|---|
-| Typewriter effect | HeroSection | Cycles through 4 phrases |
+| Typewriter effect | HeroSection | Cycles through phrases |
 | Gradient text shimmer | HeroSection | 8-second infinite cycle |
 | Image slideshow | HeroSection | Auto-advances every 3s |
 | Magnetic button | HeroSection | Mouse attraction on hover |
@@ -1045,7 +1214,38 @@ All three email functions return `{ success: boolean }` and catch errors interna
 | Logo ticker scroll | LogoTicker | 30s infinite loop |
 | Scroll progress bar | ScrollProgressBar | Tracks `window.scrollY` |
 | FAQ accordion | FAQ | Spring physics expand/collapse |
-| Booking wizard steps | register/page.tsx | Slide in/out with AnimatePresence |
+| Booking wizard steps | register/page.tsx | Directional slide via `AnimatePresence` |
+| Scroll-triggered reveal | ScrollReveal | `whileInView` fade + slide up |
+| HowAKMINDWorks steps | HowAKMINDWorks | Alternating scroll-triggered entry |
+| Count-up numbers | HowAKMINDWorks | Animate from 0 to target on scroll |
+| XP bar fill | GamificationShowcase | Smooth width transition |
+| AI chat messages | AIBotCinematic | Staggered appearance + typing indicator |
+| Full-screen mobile menu | Navbar | Slide-in overlay with `AnimatePresence` |
+
+### `src/app/globals.css` — Key Fixes
+
+```css
+/* Prevent input zoom on mobile iOS */
+input, select, textarea { font-size: 16px; }
+
+/* Fix sticky header broken by overflow-x hidden */
+html { overflow-x: clip; }
+
+/* Smooth scroll */
+html { scroll-behavior: smooth; }
+```
+
+### SEO & Social
+
+| Asset | File | Details |
+|---|---|---|
+| Default metadata | `src/app/layout.tsx` | Title, description, keywords, authors, robots |
+| Open Graph | `src/app/layout.tsx` | `og:title`, `og:description`, `og:image`, `en` locale |
+| Twitter Card | `src/app/layout.tsx` | `summary_large_image` |
+| OG Image | `public/og-image.png` | 1200×630 branded image |
+| Sitemap | `public/sitemap.xml` | 10 routes, changefreq + priority |
+| Robots | `public/robots.txt` | Disallow /api/ and /confirmation |
+| Route metadata | `src/app/*/layout.tsx` | Per-page metadata for client-component routes |
 
 ---
 
@@ -1159,7 +1359,7 @@ POST /api/auth/login
 
 ### Session Check (every page load)
 ```
-Navbar mounts
+Navbar mounts (global — injected by layout.tsx)
   → GET /api/auth/me
     → Rate limit: 60/min per IP
     → parseSessionCookie: split base64url + HMAC, verify signature
@@ -1173,7 +1373,7 @@ Navbar mounts
 /register (4 steps) → submit
   → POST /api/register
     → Rate limit: 3/hour per IP
-    → Zod validate: 8 fields
+    → Zod validate: all fields
     → DynamoDB PutCommand → bookings table → bookingId
     → fetch(GAS_WEBHOOK_URL) [non-blocking]
     → SES: sendAdminBookingNotification → admin@akmind.com
@@ -1183,8 +1383,21 @@ Navbar mounts
     → GET /api/booking/<bookingId>
       → Rate limit: 60/min per IP
       → DynamoDB GetCommand → bookings table
-      → 200 { id, childName, grade, course, date, time, email }
+      → 200 { id, childName, course, date, time, email }
     → Display booking confirmation card
+```
+
+### Career Application Flow ★ NEW
+```
+/careers → application form → submit
+  → POST /api/careers
+    → Rate limit: 3/hour per IP
+    → Zod validate: { name, email, phone, role, message }
+    → sendCareerApplication(data)
+      → SES: admin notification → admin@akmind.com
+      → SES: applicant confirmation → applicant email
+    → 200 { success: true }
+  → Client: shows success state ("Application received!")
 ```
 
 ### Logout Flow
@@ -1200,33 +1413,70 @@ User clicks Logout in Navbar
 
 ## 18. Version History
 
+### v2.1 — UI/UX Overhaul, New Sections, SEO, Worldwide Scope (March 22–23, 2026)
+
 | Commit | Description |
 |---|---|
-| `f504f68` | **feat: security hardening — rate limiting, SES email, env validation, build fixes** |
+| `c74dfd2` | fix: mentors page — remove Book Free Demo button, fix card alignment, update Akhil Raj name |
+| `8a0936a` | fix: remove phone number from contact page |
+| `5173606` | fix: correct mentor name spelling from Jebin to Jaibin Jose |
+| `03313c0` | feat: update WhyChoose section with new feature cards and headline |
+| `ca1375d` | feat: add HowAKMINDWorks, GamificationShowcase, AIBotCinematic sections + rewrite FAQ |
+| `0cd26ca` | fix: remove age/grade/India restrictions and fix device copy sitewide |
+| `6cd51ae` | fix: shorten default title to AKMIND — AI Education for Schools |
+| `cccd56e` | fix: update metadata titles and descriptions in layout.tsx |
+| `1c1e160` | feat: add OG image for social media sharing |
+| `0ee7bd7` | feat: add comprehensive SEO — metadata, sitemap, robots.txt |
+| `b33ad9a` | fix: move Navbar to global layout so it appears on every page |
+| `c4027af` | feat: mobile responsiveness, navbar fix, mentor photos, and visual polish |
+| `f31cc49` | feat: final polish — social links, testimonials, stats, contact, about, SEO |
+| `f53bc26` | feat: add AKMIND™ trademark symbol across all visible brand mentions |
+| `74be465` | feat: add watermark badges, branded hero badge, and upgrade register wizard |
+| `1574349` | feat: rewrite careers page with job cards, application form, and API route |
+| `9d9fa88` | feat: add ParentalGuidelines section to curriculum and register pages |
+| `38aa6d4` | feat: update mentors, FAQ, legal pages, remove grade refs, fix mentor lists |
+
+### v2.0 — Security Hardening, AWS Migration (March 21, 2026)
+
+| Commit | Description |
+|---|---|
+| `f48a34f` | docs: rewrite PROJECT_Readme.md for v2.0 — full update with all changes |
+| `f504f68` | feat: security hardening — rate limiting, SES email, env validation, build fixes |
 | `d9299b7` | feat: add Zod validation and safeHandler to all API routes |
 | `4035f79` | feat: migrate auth to AWS Cognito + DynamoDB, replace JSON file DB |
 | `f4a7cb0` | docs: add PROJECT_Readme.md and update about page year to 2026 |
+
+### v1.x — Foundation
+
+| Commit | Description |
+|---|---|
 | `54287de` | feat: add new pages, navbar updates, and start_all.cmd setup script |
 | `05cfd74` | feat: futuristic UI enhancements |
-
-### What changed in v2.0 (commit `f504f68`)
-
-| Area | v1.0 | v2.0 |
-|---|---|---|
-| Database | `data/users.json` flat file | AWS DynamoDB (3 tables) |
-| Email | nodemailer + Gmail SMTP | AWS SES — HTML templates |
-| Rate limiting | None | DynamoDB TTL (per-route, per-IP) |
-| Env validation | None | `env.ts` — fails fast on missing vars |
-| Security headers | None | CSP, HSTS, X-Frame-Options, Referrer-Policy via middleware + next.config |
-| Error handling | Raw errors potentially exposed | `safeHandler` — generic 500, server-side log only |
-| Input validation | Basic manual checks | Zod schemas on every route |
-| Booking confirmation | Read from `sessionStorage` | Fetch from DynamoDB via `bookingId` |
-| Hardcoded secrets | `AUTH_SESSION_SECRET` had a default fallback | No fallbacks — throws if missing |
-| GAS URL | Hardcoded in source | Moved to `GAS_WEBHOOK_URL` env var |
-| Next.js | 16.1.6 (5 CVEs) | 16.2.1 (0 vulnerabilities) |
-| npm audit | 4 vulnerabilities | 0 vulnerabilities |
+| `af25a19` | baseline: before futuristic UI enhancements |
 
 ---
 
-*AKMIND v2.0 — Built with Next.js, TypeScript, Tailwind CSS, Framer Motion, and AWS.*
-*© 2026 AKonnAI AI. All rights reserved.*
+### What changed in v2.1 (vs v2.0)
+
+| Area | v2.0 | v2.1 |
+|---|---|---|
+| Scope | India only, Grades 5–10, ages 10–16 | Worldwide, no age/grade restrictions |
+| Homepage sections | 11 sections | 14 sections (+ HowAKMINDWorks, GamificationShowcase, AIBotCinematic) |
+| Register wizard | Basic step form | Step progress bar, level badges, slide animations, video call note |
+| Careers page | Basic listing | Full job cards + application form + `/api/careers` route + SES emails |
+| Legal pages | None | Privacy Policy (8 sections) + Terms & Conditions (10 sections) |
+| Mentor photos | Placeholder avatars | Real photos (Nagaraj, Akhil Raj, Jaibin Jose) |
+| Navbar | Page-by-page import | Global — injected once in `layout.tsx` |
+| Mobile | Partial | Full responsive pass across all pages and components |
+| SEO | Basic | Full metadata, per-route layout.tsx, sitemap.xml, robots.txt, OG image |
+| Branding | AKMIND | AKMIND™, "by AkonnAI" watermark, Akonnai AI Pvt. Ltd. copyright |
+| WhyChoose cards | Generic | Micro-learning, Story games, AI guide, XP, Live mentors, Certificate |
+| FAQ | 3 tabs, old content | 3 tabs, 16 Q&As, gamification + worldwide device support copy |
+| Email copy | "India's most exciting" | "world's most exciting" |
+| Contact page | Email + phone | Email only (`hello@akmind.com`) |
+| Mentor cards | "Book Free Demo" button | No button — cleaner card layout |
+
+---
+
+*AKMIND™ v2.1 — Built with Next.js, TypeScript, Tailwind CSS, Framer Motion, and AWS.*
+*© 2026 Akonnai AI Pvt. Ltd. All rights reserved.*

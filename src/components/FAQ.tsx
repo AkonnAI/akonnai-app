@@ -13,7 +13,7 @@ const FAQS: { category: Tab; question: string; answer: string }[] = [
     {
         category: "Class Experience",
         question: "How are AKMIND classes conducted?",
-        answer: "AKMIND uses a unique micro-learning format. Each lesson consists of an 11-minute pre-recorded concept video, followed by an interactive story-based game that reinforces what you learned, and a 5-minute recap. Every module also includes 2 live sessions — either 1-on-1 or group — with an expert AI mentor for doubt clearing, project reviews and interactive activities. Students have complete freedom to learn at their own pace.",
+        answer: "AKMIND uses a unique micro-learning format. Each lesson consists of an 11-minute pre-recorded concept video, followed by an interactive story-based game that reinforces what you learned, and a 5-minute recap. Every module also includes 2 live sessions with an expert AI mentor for doubt clearing, project reviews and interactive activities. Students have complete freedom to learn at their own pace.",
     },
     {
         category: "Class Experience",
@@ -28,7 +28,7 @@ const FAQS: { category: Tab; question: string; answer: string }[] = [
     {
         category: "Class Experience",
         question: "How long are the live sessions?",
-        answer: "Each live session is 60 minutes. Every module includes 2 live sessions — these are used for kickoffs, doubt clearing, project reviews and interactive group activities. Live sessions can be 1-on-1 or group depending on the program and availability.",
+        answer: "Each live session is 60 minutes. Every module includes 2 live sessions with expert mentors — these are used for kickoffs, doubt clearing, project reviews and interactive group activities.",
     },
     {
         category: "Class Experience",

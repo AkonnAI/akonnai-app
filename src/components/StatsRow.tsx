@@ -7,7 +7,7 @@ const STATS = [
     { value: 500, suffix: "+", label: "STUDENTS ENROLLED" },
     { value: 4,   suffix: "",  label: "EXPERT AI MENTORS" },
     { value: 3,   suffix: "",  label: "AI PROGRAMS" },
-    { value: 100, suffix: "%", label: "LIVE 1-ON-1" },
+    { value: 100, suffix: "%", label: "GAMIFICATION" },
 ];
 
 function Counter({ target, suffix, inView }: { target: number; suffix: string; inView: boolean }) {

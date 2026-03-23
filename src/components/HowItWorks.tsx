@@ -20,7 +20,7 @@ const STEPS = [
         number: "03",
         Icon: Laptop,
         title: "Start Learning",
-        description: "Your child dives into hands-on AI projects with expert 1-on-1 guidance every session.",
+        description: "Your child dives into hands-on AI projects with expert mentor guidance and gamified challenges every session.",
     },
     {
         number: "04",
