@@ -16,6 +16,7 @@ export const demoBookingSchema = z.object({
   phone: z.string().min(7).max(20).trim(),
   email: z.string().email().toLowerCase().trim(),
   childName: z.string().min(2).max(60).trim(),
+  grade: z.string().optional(),
   course: z.enum(["AI Explorers", "AI Builders", "AI Innovators"]),
   date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
   time: z.string().min(1).max(30).trim(),

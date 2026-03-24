@@ -8,9 +8,10 @@ const MENTORS = [
     {
         name: "Nagaraj Ethirajulu",
         photo: "/images/mentors/nagaraj.jpg",
-        title: "AI Mentor & Industry Expert",
-        bio: "A seasoned AI professional who transforms complex machine learning concepts into exciting discoveries for young minds worldwide. Nagaraj believes every student has the potential to build the future with AI.",
-        tags: ["Python", "Machine Learning", "Deep Learning"],
+        title: "Doctorate Researcher | Generative AI & Emerging Technologies",
+        bio: "Nagaraj Ethirajulu is a Doctorate Researcher in Emerging Technologies with Generative AI as concentration. Nagaraj has over 20+ years of experience in IT Product and Services Industry. Nagaraj's core expertise spans Python, Machine Learning, Deep Learning, Neural Networks, Generative AI, Large Language Models, and Applied AI Research.",
+        tags: ["Python", "Machine Learning", "Deep Learning", "Generative AI", "LLMs", "Neural Networks"],
+        objectPosition: "center",
     },
     {
         name: "Akhil Raj",
@@ -81,7 +82,8 @@ export default function MentorsPage() {
                                     src={mentor.photo}
                                     alt={mentor.name}
                                     fill
-                                    className="object-cover object-top"
+                                    className="object-cover"
+                                    style={{ objectPosition: (mentor as typeof MENTORS[0] & { objectPosition?: string }).objectPosition ?? "top" }}
                                     sizes="112px"
                                 />
                             </div>

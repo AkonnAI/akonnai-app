@@ -18,7 +18,7 @@ export const POST = safeHandler(async (req: NextRequest) => {
   const result = demoBookingSchema.safeParse(await req.json());
   if (!result.success) return validationFail(result.error.flatten());
 
-  const { parentName, phone, email, childName, course, date, time } = result.data;
+  const { parentName, phone, email, childName, course, date, time, grade } = result.data;
 
   const bookingId = crypto.randomUUID();
   await getDb().send(
@@ -30,6 +30,7 @@ export const POST = safeHandler(async (req: NextRequest) => {
         phone,
         email,
         childName,
+        grade: grade ?? "",
         course,
         date,
         time,
@@ -45,7 +46,7 @@ export const POST = safeHandler(async (req: NextRequest) => {
     body: JSON.stringify(result.data),
   }).catch((e) => console.error("GAS forward failed:", e));
 
-  const bookingData: BookingData = { parentName, phone, email, childName, grade: "", course, date, time };
+  const bookingData: BookingData = { parentName, phone, email, childName, grade: grade ?? "", course, date, time };
   await Promise.allSettled([
     sendAdminBookingNotification(bookingData),
     sendParentBookingConfirmation(email, bookingData),

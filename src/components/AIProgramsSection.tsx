@@ -1,13 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { Rocket, Code2, Zap, Check, Star } from "lucide-react";
+import { detectCountryPricing, DEFAULT_PRICING, type CountryPricing } from "@/lib/pricing";
 
 const PROGRAMS = [
     {
         id: "explorers",
+        priceKey: "explorers" as keyof Pick<CountryPricing, "explorers" | "builders" | "innovators">,
         title: "AI Explorers",
         description: "Introduction to AI, Logic & Coding",
         badge: "Beginner Friendly",
@@ -23,6 +25,7 @@ const PROGRAMS = [
     },
     {
         id: "builders",
+        priceKey: "builders" as keyof Pick<CountryPricing, "explorers" | "builders" | "innovators">,
         title: "AI Builders",
         description: "Building Real-World AI Apps",
         badge: "Most Popular",
@@ -36,9 +39,11 @@ const PROGRAMS = [
             "Industry-standard tools",
         ],
         featured: true,
+        mostEnrolled: true,
     },
     {
         id: "innovators",
+        priceKey: "innovators" as keyof Pick<CountryPricing, "explorers" | "builders" | "innovators">,
         title: "AI Innovators",
         description: "Deep Learning & Generative AI",
         badge: "Advanced",
@@ -54,7 +59,17 @@ const PROGRAMS = [
     },
 ];
 
-function TiltCard({ program, index }: { program: typeof PROGRAMS[0]; index: number }) {
+function TiltCard({
+    program,
+    index,
+    pricing,
+    priceLoaded,
+}: {
+    program: typeof PROGRAMS[0];
+    index: number;
+    pricing: CountryPricing;
+    priceLoaded: boolean;
+}) {
     const ref = useRef<HTMLDivElement>(null);
     const x = useMotionValue(0);
     const y = useMotionValue(0);
@@ -106,7 +121,7 @@ function TiltCard({ program, index }: { program: typeof PROGRAMS[0]; index: numb
                 <div className="border-t border-slate-700/50 my-6" />
 
                 {/* Features */}
-                <ul className="space-y-2 mb-8">
+                <ul className="space-y-2 mb-6">
                     {program.features.map((f) => (
                         <li key={f} className="flex items-center gap-2.5 text-slate-300 text-sm">
                             <Check className="w-4 h-4 text-indigo-400 shrink-0" />
@@ -114,6 +129,29 @@ function TiltCard({ program, index }: { program: typeof PROGRAMS[0]; index: numb
                         </li>
                     ))}
                 </ul>
+
+                {/* Pricing */}
+                <div className="border-t border-slate-700/50 my-4" />
+                {program.mostEnrolled && (
+                    <div className="bg-green-500/10 border border-green-500/20 rounded-full px-3 py-1 text-green-400 text-xs font-medium inline-block mb-2">
+                        Most Enrolled
+                    </div>
+                )}
+                <div className="mt-2 mb-6">
+                    {!priceLoaded ? (
+                        <div className="h-8 w-24 bg-slate-700/50 rounded animate-pulse mt-2" />
+                    ) : (
+                        <div className="flex items-baseline gap-2">
+                            <span className={`text-3xl font-bold text-white transition-all duration-500 ${!priceLoaded ? "opacity-0" : "opacity-100"}`}>
+                                {pricing.symbol}{pricing[program.priceKey]}
+                            </span>
+                            <span className="text-slate-400 text-sm">/ program</span>
+                        </div>
+                    )}
+                    <p className="text-slate-500 text-xs mt-1">
+                        Full program access · Certificate included
+                    </p>
+                </div>
 
                 {/* CTA */}
                 <Link
@@ -128,6 +166,16 @@ function TiltCard({ program, index }: { program: typeof PROGRAMS[0]; index: numb
 }
 
 const AIProgramsSection = () => {
+    const [pricing, setPricing] = useState<CountryPricing>(DEFAULT_PRICING);
+    const [priceLoaded, setPriceLoaded] = useState(false);
+
+    useEffect(() => {
+        detectCountryPricing().then((p) => {
+            setPricing(p);
+            setPriceLoaded(true);
+        });
+    }, []);
+
     return (
         <section className="relative bg-slate-950 py-14 md:py-28 overflow-hidden">
             {/* Grid overlay */}
@@ -165,9 +213,20 @@ const AIProgramsSection = () => {
                 {/* Cards */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
                     {PROGRAMS.map((program, index) => (
-                        <TiltCard key={program.id} program={program} index={index} />
+                        <TiltCard
+                            key={program.id}
+                            program={program}
+                            index={index}
+                            pricing={pricing}
+                            priceLoaded={priceLoaded}
+                        />
                     ))}
                 </div>
+
+                <p className="text-center text-slate-500 text-sm mt-8">
+                    Prices shown in your local currency · EMI options available ·{" "}
+                    <span className="text-indigo-400">7-day money back guarantee</span>
+                </p>
             </div>
         </section>
     );

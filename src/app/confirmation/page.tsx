@@ -133,6 +133,9 @@ export default function ConfirmationPage() {
                             <div>
                                 <p className="text-xs font-bold text-slate-400 uppercase">Course</p>
                                 <p className="font-bold text-slate-900">{data.course}</p>
+                                {data.grade && (
+                                    <p className="text-sm text-slate-500 mt-0.5"><b>Grade:</b> {data.grade}</p>
+                                )}
                             </div>
                         </div>
 

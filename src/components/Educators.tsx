@@ -8,8 +8,9 @@ const MENTORS = [
     {
         name: "Nagaraj Ethirajulu",
         photo: "/images/mentors/nagaraj.jpg",
-        role: "AI PhD | Research & Advanced Machine Learning",
-        description: "Specializes in Deep Learning, Neural Networks, and Applied AI Research. Guides advanced AI curriculum and research-driven learning.",
+        role: "Doctorate Researcher | Generative AI & Emerging Technologies",
+        description: "Nagaraj Ethirajulu is a Doctorate Researcher in Emerging Technologies with Generative AI as concentration. Nagaraj has over 20+ years of experience in IT Product and Services Industry. Nagaraj's core expertise spans Python, Machine Learning, Deep Learning, Neural Networks, Generative AI, Large Language Models, and Applied AI Research.",
+        objectPosition: "center",
     },
     {
         name: "Jaibin Jose",
@@ -62,7 +63,8 @@ const Educators = () => {
                                     src={mentor.photo}
                                     alt={mentor.name}
                                     fill
-                                    className="object-cover object-top"
+                                    className="object-cover"
+                                    style={{ objectPosition: (mentor as typeof MENTORS[0] & { objectPosition?: string }).objectPosition ?? "top" }}
                                     sizes="128px"
                                 />
                             </div>

@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { UserPlus, Calendar, Laptop, Trophy, PlayCircle } from "lucide-react";
 
@@ -30,7 +31,93 @@ const STEPS = [
     },
 ];
 
+function WavePath() {
+    return (
+        <div
+            className="absolute top-16 left-0 right-0 hidden md:block pointer-events-none"
+            style={{ zIndex: 0 }}
+        >
+            <svg
+                width="100%"
+                height="40"
+                viewBox="0 0 1200 40"
+                preserveAspectRatio="none"
+                xmlns="http://www.w3.org/2000/svg"
+            >
+                <defs>
+                    <linearGradient id="waveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stopColor="#6366f1" stopOpacity="0.3" />
+                        <stop offset="50%" stopColor="#a855f7" stopOpacity="0.8" />
+                        <stop offset="100%" stopColor="#6366f1" stopOpacity="0.3" />
+                        <animateTransform
+                            attributeName="gradientTransform"
+                            type="translate"
+                            values="-1 0; 1 0; -1 0"
+                            dur="3s"
+                            repeatCount="indefinite"
+                        />
+                    </linearGradient>
+                    <filter id="glow">
+                        <feGaussianBlur stdDeviation="3" result="blur" />
+                        <feMerge>
+                            <feMergeNode in="blur" />
+                            <feMergeNode in="SourceGraphic" />
+                        </feMerge>
+                    </filter>
+                </defs>
+
+                <path
+                    d="M 0 20 Q 150 5 300 20 Q 450 35 600 20 Q 750 5 900 20 Q 1050 35 1200 20"
+                    fill="none"
+                    stroke="#4f46e5"
+                    strokeWidth="1.5"
+                    strokeOpacity="0.3"
+                    strokeDasharray="8 4"
+                />
+
+                <path
+                    d="M 0 20 Q 150 5 300 20 Q 450 35 600 20 Q 750 5 900 20 Q 1050 35 1200 20"
+                    fill="none"
+                    stroke="url(#waveGradient)"
+                    strokeWidth="2.5"
+                    filter="url(#glow)"
+                >
+                    <animate
+                        attributeName="stroke-dashoffset"
+                        values="1200;0"
+                        dur="2.5s"
+                        repeatCount="indefinite"
+                    />
+                    <animate
+                        attributeName="stroke-dasharray"
+                        values="0 1200;400 800;1200 0"
+                        dur="2.5s"
+                        repeatCount="indefinite"
+                    />
+                </path>
+
+                <circle r="6" fill="#6366f1" filter="url(#glow)">
+                    <animateMotion
+                        dur="2.5s"
+                        repeatCount="indefinite"
+                        path="M 0 20 Q 150 5 300 20 Q 450 35 600 20 Q 750 5 900 20 Q 1050 35 1200 20"
+                    />
+                </circle>
+            </svg>
+        </div>
+    );
+}
+
 const HowItWorks = () => {
+    const [activeStep, setActiveStep] = useState(0);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setActiveStep((prev) => (prev + 1) % 4);
+        }, 2500);
+        return () => clearInterval(interval);
+    }, []);
+
     return (
         <section className="py-16 md:py-28 bg-slate-50">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -56,34 +143,62 @@ const HowItWorks = () => {
 
                 {/* Steps — horizontal timeline */}
                 <div className="relative">
-                    {/* Connecting dashed line (desktop only) */}
-                    <div className="hidden md:block absolute top-8 left-[12.5%] right-[12.5%] h-px border-t-2 border-dashed border-indigo-200 z-0" />
+                    <WavePath />
 
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-8 relative z-10">
-                        {STEPS.map((step, i) => (
-                            <motion.div
-                                key={step.number}
-                                initial={{ opacity: 0, y: 24 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: i * 0.12, duration: 0.45 }}
-                                whileHover={{ y: -4, boxShadow: "0 8px 30px rgba(0,0,0,0.08)" }}
-                                className="bg-white rounded-2xl p-4 md:p-6 border border-slate-100 shadow-sm hover:border-indigo-100 transition-all duration-300 flex flex-col sm:flex-row sm:items-start md:flex-col md:items-center md:text-center items-start text-left gap-4"
-                            >
-                                {/* Number circle */}
-                                <div className="w-12 h-12 md:w-16 md:h-16 rounded-2xl bg-indigo-50 flex items-center justify-center mb-5 relative z-10 shrink-0">
-                                    <span className="text-lg md:text-2xl font-bold text-indigo-600">{step.number}</span>
-                                </div>
+                        {STEPS.map((step, i) => {
+                            const isActive = activeStep === i;
+                            return (
+                                <motion.div
+                                    key={step.number}
+                                    initial={{ opacity: 0, y: 24 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true }}
+                                    transition={{ delay: i * 0.12, duration: 0.45 }}
+                                    className="bg-white rounded-2xl p-4 md:p-6 shadow-sm flex flex-col sm:flex-row sm:items-start md:flex-col md:items-center md:text-center items-start text-left gap-4"
+                                    style={{
+                                        border: isActive
+                                            ? "1px solid rgba(99,102,241,0.7)"
+                                            : "1px solid rgba(100,116,139,0.2)",
+                                        boxShadow: isActive
+                                            ? "0 0 30px rgba(99,102,241,0.3)"
+                                            : "none",
+                                        transform: isActive ? "scale(1.03)" : "scale(1)",
+                                        transition: "all 0.5s ease",
+                                    }}
+                                >
+                                    {/* Number circle */}
+                                    <div
+                                        className="w-12 h-12 md:w-16 md:h-16 rounded-2xl flex items-center justify-center mb-5 relative z-10 shrink-0"
+                                        style={{
+                                            background: isActive ? "#4f46e5" : "rgba(99,102,241,0.1)",
+                                            boxShadow: isActive
+                                                ? "0 0 16px rgba(99,102,241,0.5)"
+                                                : "none",
+                                            transition: "all 0.5s ease",
+                                        }}
+                                    >
+                                        <span
+                                            className="text-lg md:text-2xl font-bold"
+                                            style={{
+                                                color: isActive ? "#ffffff" : "#6366f1",
+                                                transition: "color 0.5s ease",
+                                            }}
+                                        >
+                                            {step.number}
+                                        </span>
+                                    </div>
 
-                                {/* Icon */}
-                                <div className="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center md:mb-4 shrink-0">
-                                    <step.Icon className="w-5 h-5 text-white" />
-                                </div>
+                                    {/* Icon */}
+                                    <div className="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center md:mb-4 shrink-0">
+                                        <step.Icon className="w-5 h-5 text-white" />
+                                    </div>
 
-                                <h3 className="font-bold text-slate-900 text-base mb-2">{step.title}</h3>
-                                <p className="text-slate-500 text-sm leading-relaxed">{step.description}</p>
-                            </motion.div>
-                        ))}
+                                    <h3 className="font-bold text-slate-900 text-base mb-2">{step.title}</h3>
+                                    <p className="text-slate-500 text-sm leading-relaxed">{step.description}</p>
+                                </motion.div>
+                            );
+                        })}
                     </div>
                 </div>
 

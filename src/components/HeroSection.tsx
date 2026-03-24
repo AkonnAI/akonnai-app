@@ -13,42 +13,6 @@ const SLIDES = [
     "/images/slide4.png"
 ];
 
-const TYPEWRITER_PHRASES = [
-    "Master the tools of tomorrow.",
-    "Build real AI projects.",
-    "Learn from industry experts.",
-    "Get certified. Stand out.",
-];
-
-function useTypewriter(phrases: string[]) {
-    const [displayed, setDisplayed] = useState("");
-    const [phraseIndex, setPhraseIndex] = useState(0);
-    const [isDeleting, setIsDeleting] = useState(false);
-
-    useEffect(() => {
-        const current = phrases[phraseIndex];
-        const speed = isDeleting ? 35 : 65;
-
-        const timer = setTimeout(() => {
-            if (!isDeleting) {
-                setDisplayed(current.slice(0, displayed.length + 1));
-                if (displayed.length + 1 === current.length) {
-                    setTimeout(() => setIsDeleting(true), 1800);
-                }
-            } else {
-                setDisplayed(current.slice(0, displayed.length - 1));
-                if (displayed.length === 0) {
-                    setIsDeleting(false);
-                    setPhraseIndex((prev) => (prev + 1) % phrases.length);
-                }
-            }
-        }, speed);
-
-        return () => clearTimeout(timer);
-    }, [displayed, isDeleting, phraseIndex, phrases]);
-
-    return displayed;
-}
 
 function MagneticButton({ children, onClick, className }: { children: React.ReactNode; onClick: () => void; className: string }) {
     const ref = useRef<HTMLButtonElement>(null);
@@ -84,7 +48,52 @@ function MagneticButton({ children, onClick, className }: { children: React.Reac
 const HeroSection = () => {
     const router = useRouter();
     const [currentSlide, setCurrentSlide] = useState(0);
-    const typewriterText = useTypewriter(TYPEWRITER_PHRASES);
+
+    const phrases = [
+        "Build real AI projects.",
+        "Learn Python and Machine Learning.",
+        "Get certified by experts.",
+        "Join the AI revolution.",
+        "Master Computer Vision and NLP.",
+        "Your AI journey starts here.",
+    ];
+    const [displayed, setDisplayed] = useState("");
+    const [phraseIndex, setPhraseIndex] = useState(0);
+    const [isDeleting, setIsDeleting] = useState(false);
+    const [isPaused, setIsPaused] = useState(false);
+
+    useEffect(() => {
+        if (isPaused) {
+            const timeout = setTimeout(() => {
+                setIsPaused(false);
+                setIsDeleting(true);
+            }, 2000);
+            return () => clearTimeout(timeout);
+        }
+
+        const current = phrases[phraseIndex];
+
+        if (!isDeleting) {
+            if (displayed.length < current.length) {
+                const timeout = setTimeout(() => {
+                    setDisplayed(current.slice(0, displayed.length + 1));
+                }, 80);
+                return () => clearTimeout(timeout);
+            } else {
+                setIsPaused(true);
+            }
+        } else {
+            if (displayed.length > 0) {
+                const timeout = setTimeout(() => {
+                    setDisplayed(current.slice(0, displayed.length - 1));
+                }, 40);
+                return () => clearTimeout(timeout);
+            } else {
+                setIsDeleting(false);
+                setPhraseIndex((prev) => (prev + 1) % phrases.length);
+            }
+        }
+    }, [displayed, phraseIndex, isDeleting, isPaused]);
 
     useEffect(() => {
         const timer = setInterval(() => {
@@ -149,10 +158,9 @@ const HeroSection = () => {
                         transition={{ delay: 0.1, duration: 0.6 }}
                         className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-4 tracking-tight"
                     >
-                        Build the Mind<br />
-                        of an{" "}
+                        Where Students Become<br />
                         <span className="bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
-                            AI Builder
+                            AI Builders
                         </span>
                     </motion.h1>
 
@@ -161,10 +169,12 @@ const HeroSection = () => {
                         initial={{ opacity: 0, y: 16 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.15, duration: 0.6 }}
-                        className="text-indigo-300 text-base sm:text-xl font-medium mb-5 min-h-[2rem]"
+                        className="mb-5 min-h-[2rem]"
                     >
-                        {typewriterText}
-                        <span className="inline-block w-[2px] h-5 bg-indigo-400 ml-1 animate-pulse align-middle" />
+                        <span className="text-indigo-300 font-medium text-xl">
+                            {displayed}
+                            <span className="animate-pulse">|</span>
+                        </span>
                     </motion.p>
 
                     {/* Subheading */}
@@ -174,7 +184,9 @@ const HeroSection = () => {
                         transition={{ delay: 0.2, duration: 0.6 }}
                         className="text-slate-300 text-sm sm:text-base lg:text-lg max-w-lg mx-auto lg:mx-0 mb-8 leading-relaxed"
                     >
-                        The most exciting AI education platform. Learn Python, Machine Learning and real AI with Gamificiation & Expert Mentors.
+                        The most exciting AI education platform.{" "}
+                        Learn Python, Machine Learning and real AI{" "}
+                        with Gamification and Expert Mentors.
                     </motion.p>
 
                     {/* CTA buttons */}

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronRight, ChevronLeft, Check, Loader2, ChevronDown } from "lucide-react";
 import ParentalGuidelines from "@/components/ParentalGuidelines";
+import PhoneInput from "@/components/PhoneInput";
 
 const STEPS = [
     { id: 1, label: "Your Details" },
@@ -105,6 +106,10 @@ export default function RegisterPage() {
 
     const nextStep = () => {
         if (!isStepValid()) return;
+        if (currentStep === 2 && !formData.grade) {
+            alert("Please select a grade");
+            return;
+        }
         if (currentStep < STEPS.length) {
             setCompletedSteps((prev) => new Set([...prev, currentStep]));
             setDirection(1);
@@ -133,6 +138,7 @@ export default function RegisterPage() {
                     phone: formData.phone,
                     email: formData.email,
                     childName: formData.childName,
+                    grade: formData.grade,
                     course: formData.course,
                     date: formData.date,
                     time: formData.time,
@@ -236,7 +242,14 @@ export default function RegisterPage() {
                                 {currentStep === 1 && (
                                     <>
                                         <InputField label="Parent Name" value={formData.parentName} onChange={(e) => updateField("parentName", e.target.value)} placeholder="Enter your name" />
-                                        <InputField label="Phone Number" value={formData.phone} onChange={(e) => updateField("phone", e.target.value)} placeholder="Enter your mobile number" type="tel" />
+                                        <div>
+                                            <label className="block text-sm font-bold text-slate-700 mb-2">Phone Number</label>
+                                            <PhoneInput
+                                                value={formData.phone}
+                                                onChange={(val) => setFormData((prev) => ({ ...prev, phone: val }))}
+                                                placeholder="Phone number"
+                                            />
+                                        </div>
                                         <InputField label="Email Address" value={formData.email} onChange={(e) => updateField("email", e.target.value)} placeholder="Enter your email" type="email" />
                                     </>
                                 )}
@@ -245,7 +258,32 @@ export default function RegisterPage() {
                                 {currentStep === 2 && (
                                     <>
                                         <InputField label="Child's Name" value={formData.childName} onChange={(e) => updateField("childName", e.target.value)} placeholder="Enter student's name" />
-                                        <InputField label="Grade / Class" value={formData.grade} onChange={(e) => updateField("grade", e.target.value)} placeholder="e.g. Grade 6" />
+                                        <div className="mt-4">
+                                            <label className="block text-sm font-medium text-slate-700 mb-3">
+                                                Select Grade
+                                            </label>
+                                            <div className="grid grid-cols-4 gap-2">
+                                                {[1,2,3,4,5,6,7,8,9,10,11,12].map((g) => (
+                                                    <button
+                                                        key={g}
+                                                        type="button"
+                                                        onClick={() => setFormData(prev => ({ ...prev, grade: `Grade ${g}` }))}
+                                                        className={`py-3 rounded-xl text-sm font-medium border transition-all duration-200 ${
+                                                            formData.grade === `Grade ${g}`
+                                                                ? "bg-indigo-600 text-white border-indigo-600 shadow-lg scale-105"
+                                                                : "bg-white text-slate-700 border-slate-200 hover:border-indigo-300 hover:bg-indigo-50"
+                                                        }`}
+                                                    >
+                                                        {g}
+                                                    </button>
+                                                ))}
+                                            </div>
+                                            {formData.grade && (
+                                                <p className="text-indigo-600 text-sm mt-2 font-medium">
+                                                    Selected: {formData.grade}
+                                                </p>
+                                            )}
+                                        </div>
                                     </>
                                 )}
 

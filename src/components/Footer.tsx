@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Instagram, Linkedin, Youtube, Mail } from "lucide-react";
 
 const SOCIAL = [
-    { Icon: Instagram, href: "https://instagram.com/akmind.ai", label: "Instagram" },
+    { Icon: Instagram, href: "https://www.instagram.com/_akmind?igsh=MTQ4dDRkMHMxeDQ0OA%3D%3D&utm_source=qr", label: "Instagram" },
     { Icon: Linkedin, href: "https://linkedin.com/company/akmind", label: "LinkedIn" },
     { Icon: Youtube, href: "https://youtube.com/@akmind", label: "YouTube" },
 ];
@@ -72,7 +72,7 @@ const Footer = () => {
                             </div>
                             <div className="flex flex-col leading-none">
                                 <span className="text-white text-2xl font-bold tracking-tight">AKMIND™</span>
-                                <span className="text-slate-500 text-sm font-normal">by Akonnai</span>
+                                <span className="text-slate-500 text-sm font-normal">by AkonnAI LLP</span>
                             </div>
                         </Link>
                         <p className="text-indigo-400 text-sm font-medium">Dream. Discover. Shine.</p>
@@ -132,7 +132,7 @@ const Footer = () => {
                 <div className="border-t border-slate-800 pt-8">
                     <div className="flex flex-col md:flex-row justify-between items-center gap-3">
                         <p className="text-slate-500 text-sm">
-                            © 2026 Akonnai AI Pvt. Ltd. · Bangalore, India
+                            © 2026 AkonnAI LLP · Bengaluru, India
                         </p>
                         <div className="flex items-center gap-4 text-sm text-slate-500">
                             <Link href="/privacy-policy" className="hover:text-slate-300 transition-colors">Privacy Policy</Link>

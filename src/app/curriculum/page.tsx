@@ -1,13 +1,16 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { Lock, ArrowRight, CheckCircle2 } from "lucide-react";
 import ParentalGuidelines from "@/components/ParentalGuidelines";
+import { detectCountryPricing, DEFAULT_PRICING, type CountryPricing } from "@/lib/pricing";
 
 const MODULES = [
     {
         id: "explorers",
+        priceKey: "explorers" as keyof Pick<CountryPricing, "explorers" | "builders" | "innovators">,
         title: "AI Explorers",
         description: "Introduction to AI, Logic & Coding",
         topics: [
@@ -23,6 +26,7 @@ const MODULES = [
         id: "builders",
         title: "AI Builders",
         description: "Building Real-World AI Apps",
+        priceKey: "builders" as keyof Pick<CountryPricing, "explorers" | "builders" | "innovators">,
         topics: [
             "Python Programming Basics",
             "Building Chatbots with LLMs",
@@ -36,6 +40,7 @@ const MODULES = [
         id: "innovators",
         title: "AI Innovators",
         description: "Deep Learning & Generative AI",
+        priceKey: "innovators" as keyof Pick<CountryPricing, "explorers" | "builders" | "innovators">,
         topics: [
             "Advanced Python & Data Science",
             "Neural Networks & Deep Learning",
@@ -49,6 +54,15 @@ const MODULES = [
 
 export default function CurriculumPage() {
     const router = useRouter();
+    const [pricing, setPricing] = useState<CountryPricing>(DEFAULT_PRICING);
+    const [priceLoaded, setPriceLoaded] = useState(false);
+
+    useEffect(() => {
+        detectCountryPricing().then((p) => {
+            setPricing(p);
+            setPriceLoaded(true);
+        });
+    }, []);
 
     return (
         <div className="min-h-screen bg-white">
@@ -85,7 +99,19 @@ export default function CurriculumPage() {
                             </div>
 
                             <h3 className="text-2xl font-bold text-slate-900 mb-2">{module.title}</h3>
-                            <p className="text-slate-600 font-medium mb-6">{module.description}</p>
+                            <p className="text-slate-600 font-medium mb-3">{module.description}</p>
+                            <div className="flex items-baseline gap-2 mb-6">
+                                {!priceLoaded ? (
+                                    <div className="h-7 w-24 bg-slate-200 rounded animate-pulse" />
+                                ) : (
+                                    <>
+                                        <span className="text-2xl font-bold text-indigo-600">
+                                            {pricing.symbol}{pricing[module.priceKey]}
+                                        </span>
+                                        <span className="text-sm text-slate-500">/ program</span>
+                                    </>
+                                )}
+                            </div>
 
                             <div className="space-y-3 mb-8">
                                 {module.topics.map((topic, i) => (
