@@ -6,22 +6,29 @@ let client: DynamoDBDocumentClient | null = null;
 
 export function getDb() {
   if (!client) {
-    // STEP 6 — Only use static credentials for local dev.
-    // On Amplify, credentials are auto-injected via IAM role.
-    // Skip temp STS credentials (ASIA prefix) to avoid conflicts.
-    const clientConfig: Record<string, unknown> = {
-      region: process.env.AWS_REGION || "ap-south-1",
-    };
+    // Amplify reserves AWS_* variable names and auto-injects temp STS creds (ASIA* prefix).
+    // The user's permanent IAM key is stored under custom names ACCESS_KEY_ID / SECRET_ACCESS_KEY.
+    // Prefer the permanent AKIA key when available; fall back to Amplify's IAM role otherwise.
+    const accessKeyId =
+      process.env.ACCESS_KEY_ID ||        // Amplify custom var (permanent AKIA key)
+      process.env.AWS_ACCESS_KEY_ID;      // Amplify auto-injected (temp ASIA key)
+    const secretAccessKey =
+      process.env.SECRET_ACCESS_KEY ||    // Amplify custom var
+      process.env.AWS_SECRET_ACCESS_KEY;  // Amplify auto-injected
+    const region =
+      process.env.AWS_REGION ||           // Amplify auto-injected
+      process.env.REGION ||               // Amplify custom var
+      "ap-south-1";
 
+    const clientConfig: Record<string, unknown> = { region };
+
+    // Only use static creds if permanent AKIA key — skip temp STS (ASIA) tokens
     if (
-      process.env.AWS_ACCESS_KEY_ID &&
-      process.env.AWS_SECRET_ACCESS_KEY &&
-      !process.env.AWS_ACCESS_KEY_ID.startsWith("ASIA") // Skip temp credentials
+      accessKeyId &&
+      secretAccessKey &&
+      !accessKeyId.startsWith("ASIA")
     ) {
-      clientConfig.credentials = {
-        accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-      };
+      clientConfig.credentials = { accessKeyId, secretAccessKey };
     }
 
     const ddb = new DynamoDBClient(clientConfig);
