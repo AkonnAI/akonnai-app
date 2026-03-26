@@ -1,6 +1,12 @@
-/** Static AWS keys are optional: Amplify / Lambda often use the default credential chain (IAM role). */
+// Amplify reserves AWS_* variable names — user stores credentials under custom names.
+// Fall back to custom names (ACCESS_KEY_ID, SECRET_ACCESS_KEY, REGION) when AWS_* are absent.
+const region =
+  process.env.AWS_REGION ||
+  process.env.REGION ||
+  "";
+
 const required: Record<string, string | undefined> = {
-  AWS_REGION: process.env.AWS_REGION,
+  AWS_REGION: region,
   DYNAMODB_USERS_TABLE: process.env.DYNAMODB_USERS_TABLE,
   DYNAMODB_BOOKINGS_TABLE: process.env.DYNAMODB_BOOKINGS_TABLE,
   COGNITO_USER_POOL_ID: process.env.COGNITO_USER_POOL_ID,
@@ -22,9 +28,14 @@ if (!isBuildPhase) {
 }
 
 export const env = {
-  awsAccessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  awsSecretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  awsRegion: process.env.AWS_REGION!,
+  // Credentials: prefer custom Amplify var names (since AWS_* prefix is reserved)
+  awsAccessKeyId:
+    process.env.ACCESS_KEY_ID ||
+    process.env.AWS_ACCESS_KEY_ID,
+  awsSecretAccessKey:
+    process.env.SECRET_ACCESS_KEY ||
+    process.env.AWS_SECRET_ACCESS_KEY,
+  awsRegion: region || "ap-south-1",
   usersTable: process.env.DYNAMODB_USERS_TABLE!,
   bookingsTable: process.env.DYNAMODB_BOOKINGS_TABLE!,
   cognitoUserPoolId: process.env.COGNITO_USER_POOL_ID!,
