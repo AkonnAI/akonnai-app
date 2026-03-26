@@ -1,14 +1,10 @@
+/** Static AWS keys are optional: Amplify / Lambda often use the default credential chain (IAM role). */
 const required: Record<string, string | undefined> = {
-  AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID,
-  AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY,
   AWS_REGION: process.env.AWS_REGION,
   DYNAMODB_USERS_TABLE: process.env.DYNAMODB_USERS_TABLE,
   DYNAMODB_BOOKINGS_TABLE: process.env.DYNAMODB_BOOKINGS_TABLE,
   COGNITO_USER_POOL_ID: process.env.COGNITO_USER_POOL_ID,
   COGNITO_CLIENT_ID: process.env.COGNITO_CLIENT_ID,
-  SES_FROM_EMAIL: process.env.SES_FROM_EMAIL,
-  SES_ADMIN_EMAIL: process.env.SES_ADMIN_EMAIL,
-  GAS_WEBHOOK_URL: process.env.GAS_WEBHOOK_URL,
   AUTH_SESSION_SECRET: process.env.AUTH_SESSION_SECRET,
 };
 
@@ -26,15 +22,15 @@ if (!isBuildPhase) {
 }
 
 export const env = {
-  awsAccessKeyId: process.env.AWS_ACCESS_KEY_ID!,
-  awsSecretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
+  awsAccessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  awsSecretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
   awsRegion: process.env.AWS_REGION!,
   usersTable: process.env.DYNAMODB_USERS_TABLE!,
   bookingsTable: process.env.DYNAMODB_BOOKINGS_TABLE!,
   cognitoUserPoolId: process.env.COGNITO_USER_POOL_ID!,
   cognitoClientId: process.env.COGNITO_CLIENT_ID!,
-  sesFrom: process.env.SES_FROM_EMAIL!,
-  sesAdmin: process.env.SES_ADMIN_EMAIL!,
-  gasWebhookUrl: process.env.GAS_WEBHOOK_URL!,
+  sesFrom: process.env.SES_FROM_EMAIL ?? "",
+  sesAdmin: process.env.SES_ADMIN_EMAIL ?? "",
+  gasWebhookUrl: process.env.GAS_WEBHOOK_URL ?? "",
   sessionSecret: process.env.AUTH_SESSION_SECRET!,
 };

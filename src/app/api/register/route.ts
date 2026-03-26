@@ -39,11 +39,13 @@ export const POST = safeHandler(async (req: NextRequest) => {
   );
 
   // Forward to GAS — non-blocking
-  fetch(env.gasWebhookUrl, {
-    method: "POST",
-    headers: { "Content-Type": "text/plain;charset=utf-8" },
-    body: JSON.stringify(result.data),
-  }).catch((e) => console.error("GAS forward failed:", e));
+  if (env.gasWebhookUrl) {
+    fetch(env.gasWebhookUrl, {
+      method: "POST",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify(result.data),
+    }).catch((e) => console.error("GAS forward failed:", e));
+  }
 
   // Create demo token for parent
   let demoToken: string | undefined;

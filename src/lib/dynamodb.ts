@@ -6,12 +6,19 @@ let client: DynamoDBDocumentClient | null = null;
 
 export function getDb() {
   if (!client) {
+    const hasStaticCreds =
+      Boolean(env.awsAccessKeyId?.trim()) &&
+      Boolean(env.awsSecretAccessKey?.trim());
     const ddb = new DynamoDBClient({
       region: env.awsRegion,
-      credentials: {
-        accessKeyId: env.awsAccessKeyId,
-        secretAccessKey: env.awsSecretAccessKey,
-      },
+      ...(hasStaticCreds
+        ? {
+            credentials: {
+              accessKeyId: env.awsAccessKeyId!,
+              secretAccessKey: env.awsSecretAccessKey!,
+            },
+          }
+        : {}),
     });
     client = DynamoDBDocumentClient.from(ddb, {
       marshallOptions: { removeUndefinedValues: true },

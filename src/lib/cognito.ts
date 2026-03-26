@@ -6,12 +6,20 @@ import {
 } from "@aws-sdk/client-cognito-identity-provider";
 import { env } from "./env";
 
+const hasStaticCreds =
+  Boolean(env.awsAccessKeyId?.trim()) &&
+  Boolean(env.awsSecretAccessKey?.trim());
+
 const cognitoClient = new CognitoIdentityProviderClient({
   region: env.awsRegion,
-  credentials: {
-    accessKeyId: env.awsAccessKeyId,
-    secretAccessKey: env.awsSecretAccessKey,
-  },
+  ...(hasStaticCreds
+    ? {
+        credentials: {
+          accessKeyId: env.awsAccessKeyId!,
+          secretAccessKey: env.awsSecretAccessKey!,
+        },
+      }
+    : {}),
 });
 
 export async function cognitoSignUp(email: string, password: string, name: string) {
