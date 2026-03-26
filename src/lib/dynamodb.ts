@@ -6,20 +6,25 @@ let client: DynamoDBDocumentClient | null = null;
 
 export function getDb() {
   if (!client) {
-    const hasStaticCreds =
-      Boolean(env.awsAccessKeyId?.trim()) &&
-      Boolean(env.awsSecretAccessKey?.trim());
-    const ddb = new DynamoDBClient({
-      region: env.awsRegion,
-      ...(hasStaticCreds
-        ? {
-            credentials: {
-              accessKeyId: env.awsAccessKeyId!,
-              secretAccessKey: env.awsSecretAccessKey!,
-            },
-          }
-        : {}),
-    });
+    // STEP 6 — Only use static credentials for local dev.
+    // On Amplify, credentials are auto-injected via IAM role.
+    // Skip temp STS credentials (ASIA prefix) to avoid conflicts.
+    const clientConfig: Record<string, unknown> = {
+      region: process.env.AWS_REGION || "ap-south-1",
+    };
+
+    if (
+      process.env.AWS_ACCESS_KEY_ID &&
+      process.env.AWS_SECRET_ACCESS_KEY &&
+      !process.env.AWS_ACCESS_KEY_ID.startsWith("ASIA") // Skip temp credentials
+    ) {
+      clientConfig.credentials = {
+        accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+      };
+    }
+
+    const ddb = new DynamoDBClient(clientConfig);
     client = DynamoDBDocumentClient.from(ddb, {
       marshallOptions: { removeUndefinedValues: true },
     });
