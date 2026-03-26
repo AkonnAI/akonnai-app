@@ -9,7 +9,10 @@ export function safeHandler(fn: Handler): Handler {
     } catch (err) {
       console.error("[API Error]", err);
       return NextResponse.json(
-        { error: "Something went wrong. Please try again." },
+        {
+          success: false,
+          error: "Something went wrong. Please try again.",
+        },
         { status: 500 }
       );
     }

@@ -282,8 +282,11 @@ const Navbar = () => {
                                                 <p className="text-xs text-slate-500 font-semibold uppercase">Signed in as</p>
                                                 <p className="text-sm font-bold text-white truncate">{authUser.email}</p>
                                             </div>
-                                            <button type="button" onClick={() => { setIsProfileOpen(false); router.push("/dashboard"); }} className="w-full text-left px-4 py-2 text-sm text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
+                                            <button type="button" onClick={() => { setIsProfileOpen(false); window.location.href = (process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000") + "/dashboard"; }} className="w-full text-left px-4 py-2 text-sm text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
                                                 Dashboard
+                                            </button>
+                                            <button type="button" onClick={() => { setIsProfileOpen(false); window.location.href = (process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000") + "/dashboard/program/ai-explorers"; }} className="w-full text-left px-4 py-2 text-sm text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
+                                                My Programs
                                             </button>
                                             <button type="button" onClick={handleLogout} className="w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-red-500/10 transition-colors">
                                                 Log out
@@ -377,7 +380,7 @@ const Navbar = () => {
                             )}
                             {authUser && (
                                 <>
-                                    <button type="button" onClick={() => { setIsMenuOpen(false); router.push("/dashboard"); }} className="w-full border border-slate-200 text-slate-700 font-semibold py-4 rounded-xl text-center hover:bg-slate-50 transition-colors">
+                                    <button type="button" onClick={() => { setIsMenuOpen(false); window.location.href = (process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000") + "/dashboard"; }} className="w-full border border-slate-200 text-slate-700 font-semibold py-4 rounded-xl text-center hover:bg-slate-50 transition-colors">
                                         Dashboard
                                     </button>
                                     <button type="button" onClick={() => { setIsMenuOpen(false); handleLogout(); }} className="w-full border border-red-200 text-red-500 font-semibold py-4 rounded-xl text-center hover:bg-red-50 transition-colors">

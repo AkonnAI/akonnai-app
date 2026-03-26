@@ -11,8 +11,21 @@ export const POST = safeHandler(async (req: NextRequest) => {
   const { allowed } = await checkRateLimit(`auth:${getIP(req)}`, LIMITS.auth);
   if (!allowed) return fail("Too many attempts. Try again in 15 minutes.", 429);
 
-  const result = loginSchema.safeParse(await req.json());
-  if (!result.success) return validationFail(result.error.flatten());
+  let body: unknown;
+  try {
+    body = await req.json();
+  } catch {
+    return fail("Invalid or empty JSON body", 400);
+  }
+
+  const result = loginSchema.safeParse(body);
+  if (!result.success) {
+    const details =
+      typeof result.error.flatten === "function"
+        ? result.error.flatten()
+        : result.error.issues;
+    return validationFail(details);
+  }
 
   const { email, password } = result.data;
 

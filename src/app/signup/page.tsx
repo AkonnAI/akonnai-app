@@ -1,12 +1,11 @@
 "use client";
 
 import { FormEvent, useState } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { readApiJson } from "@/lib/read-api-response";
 
 export default function SignupPage() {
-  const router = useRouter();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -25,18 +24,19 @@ export default function SignupPage() {
         body: JSON.stringify({ name, email, password }),
       });
 
-      const data = await res.json();
+      const data = await readApiJson(res);
+
       if (!res.ok || !data.success) {
-        throw new Error(data.error || "Failed to sign up.");
+        throw new Error((data.error as string) || "Failed to sign up.");
       }
 
-      if (typeof window !== "undefined") {
-        window.location.href = "/";
-      } else {
-        router.push("/");
-      }
-    } catch (err: any) {
-      setError(err?.message || "Something went wrong.");
+      const dashboardBase = process.env.NEXT_PUBLIC_DASHBOARD_URL?.trim();
+      globalThis.location.href = dashboardBase
+        ? `${dashboardBase.replace(/\/$/, "")}/dashboard`
+        : "/";
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Something went wrong.";
+      setError(message);
     } finally {
       setLoading(false);
     }

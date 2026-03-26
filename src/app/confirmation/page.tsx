@@ -20,6 +20,14 @@ export default function ConfirmationPage() {
     const [data, setData] = useState<BookingData | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
+    const [demoToken, setDemoToken] = useState<string | null>(null);
+
+    const demoAppUrl =
+        process.env.NEXT_PUBLIC_DEMO_APP_URL || "http://localhost:3001";
+
+    useEffect(() => {
+        setDemoToken(sessionStorage.getItem("demoToken"));
+    }, []);
 
     useEffect(() => {
         const bookingId = new URLSearchParams(window.location.search).get("id");
@@ -158,6 +166,32 @@ export default function ConfirmationPage() {
                                 <p className="font-bold text-slate-900">{data.time}</p>
                             </div>
                         </div>
+                    </div>
+
+                    <div className="mb-8 rounded-2xl border border-indigo-200 bg-indigo-50 p-6 text-left">
+                        <p className="text-lg font-bold text-indigo-900">
+                            🎮 Your Demo Class is Ready!
+                        </p>
+                        <p className="mt-2 text-sm text-indigo-700">
+                            Check your email — we&apos;ve sent you a personal demo link to
+                            experience 4 AI lessons for free.
+                        </p>
+                        {data.email && (
+                            <p className="mt-1 text-sm text-indigo-500">
+                                Sent to: {data.email}
+                            </p>
+                        )}
+                        <p className="mt-2 text-xs text-indigo-400">
+                            Check Spam folder if not received within 2 minutes.
+                        </p>
+                        {demoToken ? (
+                            <a
+                                href={`${demoAppUrl}?token=${encodeURIComponent(demoToken)}`}
+                                className="mt-4 inline-block rounded-xl bg-indigo-600 px-6 py-2 text-sm font-bold text-white hover:bg-indigo-700"
+                            >
+                                Open Demo Now →
+                            </a>
+                        ) : null}
                     </div>
 
                     <button

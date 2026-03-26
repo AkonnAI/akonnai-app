@@ -1,209 +1,274 @@
-import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses";
-import { env } from "./env";
+import nodemailer from 'nodemailer'
 
-const ses = new SESClient({
-  region: env.awsRegion,
-  credentials: {
-    accessKeyId: env.awsAccessKeyId,
-    secretAccessKey: env.awsSecretAccessKey,
-  },
-});
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.GMAIL_USER,
+    pass: process.env.GMAIL_APP_PASSWORD
+  }
+})
 
-async function sendEmail(to: string, subject: string, html: string) {
-  await ses.send(new SendEmailCommand({
-    Source: env.sesFrom,
-    Destination: { ToAddresses: [to] },
-    Message: {
-      Subject: { Data: subject, Charset: "UTF-8" },
-      Body: { Html: { Data: html, Charset: "UTF-8" } },
-    },
-  }));
+async function sendEmail(
+  to: string, subject: string, html: string
+) {
+  try {
+    await transporter.sendMail({
+      from: `"AKMIND" <${process.env.GMAIL_USER}>`,
+      to, subject, html
+    })
+    console.log('Email sent to', to)
+  } catch(e) {
+    console.error('Email failed:', e)
+  }
 }
 
-export type BookingData = {
-  parentName: string; phone: string; email: string;
-  childName: string; grade: string; course: string;
-  date: string; time: string;
-};
-
-export async function sendWelcomeEmail(to: string, name: string) {
-  try {
-    await sendEmail(
-      to,
-      "Welcome to AKMIND! Your AI Journey Begins",
-      `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto">
-        <div style="background:#4F46E5;padding:32px;text-align:center">
-          <h1 style="color:#fff;margin:0;font-size:28px">Welcome to AKMIND</h1>
-          <p style="color:#C7D2FE;margin:8px 0 0;font-size:16px">Dream. Discover. Shine.</p>
+export async function sendWelcomeEmail(
+  email: string, name: string
+) {
+  await sendEmail(
+    email,
+    'Welcome to AKMIND!',
+    `<div style="font-family:Arial;max-width:600px;margin:0 auto">
+      <div style="background:#4f46e5;padding:32px;text-align:center">
+        <h1 style="color:white;margin:0">AKMIND</h1>
+        <p style="color:#c7d2fe;margin:4px 0 0">
+          Dream. Discover. Shine.
+        </p>
+      </div>
+      <div style="padding:32px">
+        <h2 style="color:#1e293b">Welcome, ${name}!</h2>
+        <p style="color:#475569">
+          Your AKMIND account is ready. 
+          Start your AI learning journey today.
+        </p>
+        <div style="text-align:center;margin:24px 0">
+          <a href="${process.env.NEXT_PUBLIC_APP_URL}"
+             style="background:#4f46e5;color:white;
+                    padding:14px 28px;border-radius:10px;
+                    text-decoration:none;font-weight:bold">
+            Go to Dashboard →
+          </a>
         </div>
-        <div style="padding:32px;background:#fff">
-          <p style="font-size:16px;color:#374151">Hi ${name},</p>
-          <p style="font-size:15px;color:#374151;line-height:1.6">Welcome to AKMIND — the most exciting AI education program for students and AI enthusiasts worldwide.</p>
-          <p style="font-size:15px;color:#374151">Ready to book your free demo class?</p>
-          <div style="text-align:center;margin:28px 0">
-            <a href="https://www.akmind.com/register"
-              style="background:#4F46E5;color:#fff;padding:14px 32px;border-radius:8px;
-              text-decoration:none;display:inline-block;font-weight:bold;font-size:15px">
-              Book Free Demo Class
+      </div>
+      <div style="background:#f8fafc;padding:16px;
+                  text-align:center;color:#94a3b8;
+                  font-size:12px">
+        AKMIND by AkonnAI LLP, Bengaluru India
+      </div>
+    </div>`
+  )
+}
+
+export async function sendAdminBookingNotification(
+  booking: {
+    parentName: string, email: string,
+    phone: string, childName: string,
+    course: string, date: string, time: string,
+    id: string
+  }
+) {
+  await sendEmail(
+    process.env.SES_ADMIN_EMAIL || 
+    process.env.GMAIL_USER!,
+    `New Booking — ${booking.childName} (${booking.parentName})`,
+    `<div style="font-family:Arial;max-width:600px">
+      <h2 style="color:#4f46e5">New Demo Booking</h2>
+      <table style="width:100%;border-collapse:collapse;
+                    font-size:14px">
+        <tr><td style="padding:8px;color:#64748b">
+          Parent</td>
+          <td style="padding:8px;font-weight:bold">
+          ${booking.parentName}</td></tr>
+        <tr><td style="padding:8px;color:#64748b">
+          Email</td>
+          <td style="padding:8px">${booking.email}</td></tr>
+        <tr><td style="padding:8px;color:#64748b">
+          Phone</td>
+          <td style="padding:8px">${booking.phone}</td></tr>
+        <tr><td style="padding:8px;color:#64748b">
+          Child</td>
+          <td style="padding:8px;font-weight:bold">
+          ${booking.childName}</td></tr>
+        <tr><td style="padding:8px;color:#64748b">
+          Course</td>
+          <td style="padding:8px">${booking.course}</td></tr>
+        <tr><td style="padding:8px;color:#64748b">
+          Date</td>
+          <td style="padding:8px">
+          ${booking.date} at ${booking.time}</td></tr>
+        <tr><td style="padding:8px;color:#64748b">
+          Booking ID</td>
+          <td style="padding:8px;font-size:12px;
+                     color:#94a3b8">${booking.id}</td></tr>
+      </table>
+    </div>`
+  )
+}
+
+export async function sendParentBookingConfirmation(
+  email: string,
+  booking: {
+    parentName: string, childName: string,
+    course: string, date: string, time: string,
+    id: string
+  },
+  demoToken?: string
+) {
+  const demoLink = demoToken
+    ? `${process.env.DEMO_APP_URL || 
+        'http://localhost:3001'}?token=${demoToken}`
+    : null
+
+  await sendEmail(
+    email,
+    'Your AKMIND Demo is Confirmed!',
+    `<div style="font-family:Arial;max-width:600px;
+                 margin:0 auto">
+      <div style="background:#4f46e5;padding:32px;
+                  text-align:center">
+        <h1 style="color:white;margin:0">AKMIND</h1>
+        <p style="color:#c7d2fe;margin:4px 0 0">
+          Dream. Discover. Shine.
+        </p>
+      </div>
+      <div style="padding:32px">
+        <h2 style="color:#1e293b">
+          Hi ${booking.parentName}!
+        </h2>
+        <p style="color:#475569">
+          Your demo class for 
+          <strong>${booking.childName}</strong> 
+          is confirmed.
+        </p>
+        <div style="background:#f8fafc;
+                    border-radius:12px;padding:20px;
+                    margin:20px 0">
+          <table style="width:100%;font-size:14px">
+            <tr>
+              <td style="color:#64748b;padding:6px 0">
+                Program</td>
+              <td style="font-weight:bold;padding:6px 0">
+                ${booking.course}</td>
+            </tr>
+            <tr>
+              <td style="color:#64748b;padding:6px 0">
+                Date</td>
+              <td style="padding:6px 0">
+                ${booking.date}</td>
+            </tr>
+            <tr>
+              <td style="color:#64748b;padding:6px 0">
+                Time</td>
+              <td style="padding:6px 0">
+                ${booking.time}</td>
+            </tr>
+          </table>
+        </div>
+
+        ${demoLink ? `
+        <div style="background:#eef2ff;
+                    border-radius:12px;padding:20px;
+                    margin:20px 0;
+                    border:1px solid #c7d2fe">
+          <p style="color:#3730a3;font-weight:bold;
+                    margin:0 0 8px">
+            🎮 Start Your Free Demo Now!
+          </p>
+          <p style="color:#4338ca;font-size:13px;
+                    margin:0 0 16px">
+            ${booking.childName} can start 
+            4 free AI lessons right now 
+            while waiting for the live class.
+          </p>
+          <div style="text-align:center">
+            <a href="${demoLink}"
+               style="background:#4f46e5;color:white;
+                      padding:12px 24px;
+                      border-radius:10px;
+                      text-decoration:none;
+                      font-weight:bold;
+                      font-size:14px">
+              Start Demo Lessons →
             </a>
           </div>
-          <p style="color:#6B7280;font-size:13px;border-top:1px solid #E5E7EB;padding-top:16px;margin-top:24px">
-            Questions? Email us at hello@akmind.com
-          </p>
         </div>
-      </div>`
-    );
-    return { success: true };
-  } catch (err) {
-    console.error("[SES] sendWelcomeEmail failed:", err);
-    return { success: false };
-  }
+        ` : ''}
+
+        <p style="color:#94a3b8;font-size:12px;
+                  margin-top:24px">
+          A mentor will contact you with the 
+          video call link before your session.
+          Questions? Email hello@akmind.com
+        </p>
+      </div>
+      <div style="background:#f8fafc;padding:16px;
+                  text-align:center;color:#94a3b8;
+                  font-size:12px">
+        AKMIND by AkonnAI LLP, Bengaluru India
+      </div>
+    </div>`
+  )
 }
 
-export async function sendAdminBookingNotification(b: BookingData) {
-  try {
-    await sendEmail(
-      env.sesAdmin,
-      `New Demo Booking — ${b.childName} (${b.grade})`,
-      `<div style="font-family:Arial,sans-serif;max-width:600px">
-        <div style="background:#4F46E5;padding:20px 24px">
-          <h2 style="color:#fff;margin:0;font-size:20px">New Demo Booking</h2>
-        </div>
-        <div style="padding:24px;background:#fff">
-          <table style="width:100%;border-collapse:collapse;font-size:14px">
-            ${[
-              ["Student", b.childName],
-              ["Grade", b.grade],
-              ["Program", b.course],
-              ["Date", b.date],
-              ["Time", b.time],
-              ["Parent / Guardian", b.parentName],
-              ["Phone", b.phone],
-              ["Email", b.email]
-            ].map(([k,v], i) => `<tr style="background:${i%2===0?'#F9FAFB':'#fff'}">
-              <td style="padding:10px 12px;border:1px solid #E5E7EB;font-weight:600;color:#374151;width:160px">${k}</td>
-              <td style="padding:10px 12px;border:1px solid #E5E7EB;color:#374151">${v}</td>
-            </tr>`).join("")}
-          </table>
-        </div>
-      </div>`
-    );
-    return { success: true };
-  } catch (err) {
-    console.error("[SES] sendAdminBookingNotification failed:", err);
-    return { success: false };
+export async function sendCareerApplicationAdmin(
+  app: {
+    name: string, email: string,
+    phone: string, role: string,
+    message: string
   }
+) {
+  await sendEmail(
+    process.env.SES_ADMIN_EMAIL ||
+    process.env.GMAIL_USER!,
+    `New Application — ${app.role} — ${app.name}`,
+    `<div style="font-family:Arial;max-width:600px">
+      <h2 style="color:#4f46e5">New Job Application</h2>
+      <table style="width:100%;border-collapse:collapse;
+                    font-size:14px">
+        <tr><td style="padding:8px;color:#64748b">
+          Name</td>
+          <td style="padding:8px">${app.name}</td></tr>
+        <tr><td style="padding:8px;color:#64748b">
+          Email</td>
+          <td style="padding:8px">${app.email}</td></tr>
+        <tr><td style="padding:8px;color:#64748b">
+          Phone</td>
+          <td style="padding:8px">${app.phone}</td></tr>
+        <tr><td style="padding:8px;color:#64748b">
+          Role</td>
+          <td style="padding:8px;font-weight:bold">
+          ${app.role}</td></tr>
+        <tr><td style="padding:8px;color:#64748b">
+          Message</td>
+          <td style="padding:8px">${app.message}</td></tr>
+      </table>
+    </div>`
+  )
 }
 
-export type CareerApplication = {
-  name: string;
-  email: string;
-  phone: string;
-  role: string;
-  linkedin?: string;
-  portfolio?: string;
-  message: string;
-  source: string;
-};
-
-export async function sendCareerApplication(app: CareerApplication) {
-  const rows = [
-    ["Full Name", app.name],
-    ["Email", app.email],
-    ["Phone", app.phone],
-    ["Role Applied For", app.role],
-    ["LinkedIn", app.linkedin || "Not provided"],
-    ["Portfolio / GitHub", app.portfolio || "Not provided"],
-    ["How they heard", app.source],
-    ["Message", app.message],
-  ];
-
-  try {
-    // Admin notification
-    await sendEmail(
-      env.sesAdmin,
-      `New Job Application — ${app.role} — ${app.name}`,
-      `<div style="font-family:Arial,sans-serif;max-width:600px">
-        <div style="background:#4F46E5;padding:20px 24px">
-          <h2 style="color:#fff;margin:0;font-size:20px">New Job Application</h2>
-          <p style="color:#C7D2FE;margin:6px 0 0;font-size:14px">${app.role}</p>
-        </div>
-        <div style="padding:24px;background:#fff">
-          <table style="width:100%;border-collapse:collapse;font-size:14px">
-            ${rows.map(([k, v], i) => `<tr style="background:${i % 2 === 0 ? "#F9FAFB" : "#fff"}">
-              <td style="padding:10px 12px;border:1px solid #E5E7EB;font-weight:600;color:#374151;width:160px">${k}</td>
-              <td style="padding:10px 12px;border:1px solid #E5E7EB;color:#374151;white-space:pre-wrap">${v}</td>
-            </tr>`).join("")}
-          </table>
-        </div>
-      </div>`
-    );
-
-    // Applicant confirmation
-    await sendEmail(
-      app.email,
-      `Application Received — AKMIND`,
-      `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto">
-        <div style="background:#4F46E5;padding:32px;text-align:center">
-          <h1 style="color:#fff;margin:0;font-size:24px">Application Received!</h1>
-          <p style="color:#C7D2FE;margin:8px 0 0;font-size:15px">Thank you for applying to AKMIND</p>
-        </div>
-        <div style="padding:32px;background:#fff">
-          <p style="font-size:16px;color:#374151">Hi ${app.name},</p>
-          <p style="font-size:15px;color:#374151;line-height:1.6">
-            Thank you for applying to AKMIND. We have received your application for
-            <strong>${app.role}</strong> and will get back to you within 3 working days.
-          </p>
-          <p style="font-size:15px;color:#374151;line-height:1.6">
-            If you have any questions in the meantime, feel free to reach out to us at
-            <a href="mailto:hello@akmind.com" style="color:#4F46E5">hello@akmind.com</a>.
-          </p>
-          <p style="color:#6B7280;font-size:13px;border-top:1px solid #E5E7EB;padding-top:16px;margin-top:24px">
-            — The AKMIND Team · <a href="https://www.akmind.com" style="color:#4F46E5">www.akmind.com</a>
-          </p>
-        </div>
-      </div>`
-    );
-
-    return { success: true };
-  } catch (err) {
-    console.error("[SES] sendCareerApplication failed:", err);
-    return { success: false };
-  }
-}
-
-export async function sendParentBookingConfirmation(to: string, b: BookingData) {
-  try {
-    await sendEmail(
-      to,
-      "Your Demo Class is Booked! — AKMIND",
-      `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto">
-        <div style="background:#4F46E5;padding:32px;text-align:center">
-          <h1 style="color:#fff;margin:0;font-size:26px">Your Demo is Confirmed!</h1>
-          <p style="color:#C7D2FE;margin:8px 0 0">We can't wait to meet ${b.childName}!</p>
-        </div>
-        <div style="padding:32px;background:#fff">
-          <p style="font-size:16px;color:#374151">Hi ${b.parentName},</p>
-          <p style="font-size:15px;color:#374151;line-height:1.6">
-            Your free demo class for ${b.childName} has been successfully booked.</p>
-          <div style="background:#EEF2FF;border-radius:10px;padding:20px 24px;margin:20px 0">
-            <p style="margin:0 0 8px;color:#374151"><b>Student:</b> ${b.childName} (${b.grade})</p>
-            <p style="margin:0 0 8px;color:#374151"><b>Program:</b> ${b.course}</p>
-            <p style="margin:0 0 8px;color:#374151"><b>Date:</b> ${b.date}</p>
-            <p style="margin:0;color:#374151"><b>Time:</b> ${b.time}</p>
-          </div>
-          <p style="font-size:15px;color:#374151;line-height:1.6">
-            Our mentor will send you a video call link 30 minutes before the class starts.</p>
-          <p style="color:#6B7280;font-size:13px;border-top:1px solid #E5E7EB;padding-top:16px;margin-top:24px">
-            Questions? Reply to this email or contact us at hello@akmind.com<br>
-            <a href="https://www.akmind.com" style="color:#4F46E5">www.akmind.com</a>
-          </p>
-        </div>
-      </div>`
-    );
-    return { success: true };
-  } catch (err) {
-    console.error("[SES] sendParentBookingConfirmation failed:", err);
-    return { success: false };
-  }
+export async function sendCareerApplicationConfirmation(
+  email: string, name: string, role: string
+) {
+  await sendEmail(
+    email,
+    'Application Received — AKMIND',
+    `<div style="font-family:Arial;max-width:600px;
+                 margin:0 auto">
+      <div style="background:#4f46e5;padding:32px;
+                  text-align:center">
+        <h1 style="color:white;margin:0">AKMIND</h1>
+      </div>
+      <div style="padding:32px">
+        <h2 style="color:#1e293b">
+          Thanks, ${name}!
+        </h2>
+        <p style="color:#475569">
+          We received your application for 
+          <strong>${role}</strong>.
+          Our team will review it and get 
+          back to you within 3 working days.
+        </p>
+      </div>
+    </div>`
+  )
 }

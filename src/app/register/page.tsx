@@ -35,6 +35,19 @@ const LEVEL_COLORS: Record<string, string> = {
     "Advanced": "bg-purple-100 text-purple-700",
 };
 
+/** Same-origin proxy → demo app (see /api/demo/check). */
+async function checkDemoUsed(email: string): Promise<boolean> {
+    try {
+        const res = await fetch(
+            `/api/demo/check?email=${encodeURIComponent(email)}`
+        );
+        const data = (await res.json()) as { hasUsedDemo?: boolean };
+        return data.hasUsedDemo === true;
+    } catch {
+        return false;
+    }
+}
+
 // Step progress indicator
 function StepBar({ current, completed }: { current: number; completed: Set<number> }) {
     return (
@@ -82,6 +95,7 @@ export default function RegisterPage() {
     const [completedSteps, setCompletedSteps] = useState<Set<number>>(new Set());
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitError, setSubmitError] = useState<string | null>(null);
+    const [emailDemoError, setEmailDemoError] = useState<string | null>(null);
     const [formData, setFormData] = useState({
         parentName: "",
         phone: "",
@@ -93,8 +107,10 @@ export default function RegisterPage() {
         time: "",
     });
 
-    const updateField = (field: string, value: string) =>
+    const updateField = (field: string, value: string) => {
+        if (field === "email") setEmailDemoError(null);
         setFormData((prev) => ({ ...prev, [field]: value }));
+    };
 
     const isStepValid = (step = currentStep) => {
         if (step === 1) return !!(formData.parentName && formData.phone && formData.email);
@@ -129,6 +145,18 @@ export default function RegisterPage() {
     const handleSubmit = async () => {
         setIsSubmitting(true);
         setSubmitError(null);
+        setEmailDemoError(null);
+
+        const alreadyDemo = await checkDemoUsed(formData.email);
+        if (alreadyDemo) {
+            setEmailDemoError(
+                "A demo has already been used with this email. Contact hello@akmind.com to discuss full enrollment."
+            );
+            setCurrentStep(1);
+            setIsSubmitting(false);
+            return;
+        }
+
         try {
             const res = await fetch("/api/register", {
                 method: "POST",
@@ -151,7 +179,19 @@ export default function RegisterPage() {
                 setIsSubmitting(false);
                 return;
             }
-            const { bookingId } = await res.json();
+            const payload = (await res.json()) as {
+                bookingId?: string;
+                demoToken?: string;
+            };
+            const bookingId = payload.bookingId;
+            if (!bookingId) {
+                setSubmitError("Registration failed. Missing confirmation id.");
+                setIsSubmitting(false);
+                return;
+            }
+            if (typeof window !== "undefined" && payload.demoToken) {
+                sessionStorage.setItem("demoToken", payload.demoToken);
+            }
             router.push(`/confirmation?id=${bookingId}`);
         } catch (error) {
             console.error("Submission error:", error);
@@ -250,7 +290,14 @@ export default function RegisterPage() {
                                                 placeholder="Phone number"
                                             />
                                         </div>
-                                        <InputField label="Email Address" value={formData.email} onChange={(e) => updateField("email", e.target.value)} placeholder="Enter your email" type="email" />
+                                        <div>
+                                            <InputField label="Email Address" value={formData.email} onChange={(e) => updateField("email", e.target.value)} placeholder="Enter your email" type="email" />
+                                            {emailDemoError && (
+                                                <p className="mt-1 text-sm text-red-500">
+                                                    {emailDemoError}
+                                                </p>
+                                            )}
+                                        </div>
                                     </>
                                 )}
 

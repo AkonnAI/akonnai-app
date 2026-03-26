@@ -9,7 +9,7 @@ export type CountryPricing = {
 
 export const PRICING: Record<string, CountryPricing> = {
   IN: { country: "India", currency: "INR", symbol: "₹",
-    explorers: "18,999", builders: "20,999", innovators: "28,999" },
+    explorers: "29,999", builders: "34,999", innovators: "45,999" },
   AU: { country: "Australia", currency: "AUD", symbol: "A$",
     explorers: "349", builders: "389", innovators: "529" },
   SG: { country: "Singapore", currency: "SGD", symbol: "S$",
@@ -22,7 +22,7 @@ export const PRICING: Record<string, CountryPricing> = {
     explorers: "249", builders: "279", innovators: "379" },
 };
 
-export const DEFAULT_PRICING = PRICING.DEFAULT;
+export const DEFAULT_PRICING = PRICING.IN;
 
 export async function detectCountryPricing(): Promise<CountryPricing> {
   try {
