@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { safeHandler } from "@/middleware-helpers/safe-handler";
-import { sendCareerApplication } from "@/lib/email";
+import {
+    sendCareerApplicationAdmin,
+    sendCareerApplicationConfirmation,
+} from "@/lib/email";
 
 const REQUIRED_ROLES = [
     "AI Mentor",
@@ -47,16 +50,30 @@ export const POST = safeHandler(async (req: NextRequest) => {
         return NextResponse.json({ error: "Invalid role selected." }, { status: 400 });
     }
 
-    await sendCareerApplication({
-        name: name.trim(),
-        email: email.trim(),
-        phone: phone.trim(),
-        role: role.trim(),
-        linkedin: linkedin?.trim() || undefined,
-        portfolio: portfolio?.trim() || undefined,
-        message: message.trim(),
-        source: source?.trim() || "Not specified",
-    });
+    const nameTrim = name.trim();
+    const emailTrim = email.trim();
+    const phoneTrim = phone.trim();
+    const roleTrim = role.trim();
+    const messageTrim = message.trim();
+    const adminMessage = [
+        messageTrim,
+        linkedin?.trim() && `LinkedIn: ${linkedin.trim()}`,
+        portfolio?.trim() && `Portfolio: ${portfolio.trim()}`,
+        source?.trim() && `Source: ${source.trim()}`,
+    ]
+        .filter(Boolean)
+        .join("\n\n");
+
+    await Promise.all([
+        sendCareerApplicationAdmin({
+            name: nameTrim,
+            email: emailTrim,
+            phone: phoneTrim,
+            role: roleTrim,
+            message: adminMessage,
+        }),
+        sendCareerApplicationConfirmation(emailTrim, nameTrim, roleTrim),
+    ]);
 
     return NextResponse.json({ success: true });
 });
