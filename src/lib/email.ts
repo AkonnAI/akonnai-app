@@ -115,8 +115,7 @@ export async function sendParentBookingConfirmation(
   demoToken?: string
 ) {
   const demoLink = demoToken
-    ? `${process.env.DEMO_APP_URL || 
-        'http://localhost:3001'}?token=${demoToken}`
+    ? `${process.env.DEMO_APP_URL || 'http://demo.akmind.com'}?token=${demoToken}`
     : null
 
   await sendEmail(

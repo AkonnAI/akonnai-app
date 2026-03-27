@@ -89,6 +89,9 @@ export const POST = safeHandler(async (req: NextRequest) => {
           email: result.data.email,
           phone: result.data.phone,
           childName: result.data.childName,
+          noExpiry: true,
+          permanent: true,
+          expiresAt: null,
         }),
         signal: controller.signal,
       }

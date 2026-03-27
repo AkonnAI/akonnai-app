@@ -23,7 +23,7 @@ export default function ConfirmationPage() {
     const [demoToken, setDemoToken] = useState<string | null>(null);
 
     const demoAppUrl =
-        process.env.NEXT_PUBLIC_DEMO_APP_URL || "http://localhost:3001";
+        process.env.NEXT_PUBLIC_DEMO_APP_URL || "http://demo.akmind.com";
 
     useEffect(() => {
         setDemoToken(sessionStorage.getItem("demoToken"));

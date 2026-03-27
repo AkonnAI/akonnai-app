@@ -10,7 +10,9 @@ export async function createDemoTokenForParent(
     const token = crypto.randomUUID().replace(/-/g, "").slice(0, 16);
 
     const demoAppUrl =
-      process.env.NEXT_PUBLIC_DEMO_APP_URL || "http://localhost:3001";
+      process.env.DEMO_APP_URL ||
+      process.env.NEXT_PUBLIC_DEMO_APP_URL ||
+      "http://demo.akmind.com";
 
     const res = await fetch(`${demoAppUrl}/api/demo/register`, {
       method: "POST",
@@ -23,6 +25,9 @@ export async function createDemoTokenForParent(
         phone,
         childName,
         presetToken: token,
+        noExpiry: true,
+        permanent: true,
+        expiresAt: null,
       }),
     });
 
