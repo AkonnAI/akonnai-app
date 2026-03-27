@@ -7,28 +7,26 @@ frontend:
     build:
       commands:
         - |
-          cat > .env.production << EOF
-          AWS_REGION="${AWS_REGION}"
-          REGION="${REGION}"
-          DYNAMODB_BOOKINGS_TABLE="${DYNAMODB_BOOKINGS_TABLE}"
-          DYNAMODB_USERS_TABLE="${DYNAMODB_USERS_TABLE}"
-          COGNITO_USER_POOL_ID="${COGNITO_USER_POOL_ID}"
-          COGNITO_CLIENT_ID="${COGNITO_CLIENT_ID}"
-          AUTH_SESSION_SECRET="${AUTH_SESSION_SECRET}"
-          ACCESS_KEY_ID="${ACCESS_KEY_ID}"
-          SECRET_ACCESS_KEY="${SECRET_ACCESS_KEY}"
-          GMAIL_USER="${GMAIL_USER}"
-          GMAIL_APP_PASSWORD="${GMAIL_APP_PASSWORD}"
-          SES_ADMIN_EMAIL="${SES_ADMIN_EMAIL}"
-          SES_FROM_EMAIL="${SES_FROM_EMAIL}"
-          DEMO_APP_URL="${DEMO_APP_URL}"
-          GAS_WEBHOOK_URL="${GAS_WEBHOOK_URL}"
-          NEXT_PUBLIC_APP_URL="${NEXT_PUBLIC_APP_URL}"
-          NEXT_PUBLIC_DEMO_APP_URL="${NEXT_PUBLIC_DEMO_APP_URL}"
-          NEXT_PUBLIC_COGNITO_USER_POOL_ID="${NEXT_PUBLIC_COGNITO_USER_POOL_ID}"
-          NEXT_PUBLIC_COGNITO_CLIENT_ID="${NEXT_PUBLIC_COGNITO_CLIENT_ID}"
-          NEXT_PUBLIC_COGNITO_REGION="${NEXT_PUBLIC_COGNITO_REGION}"
-          EOF
+          printf 'AWS_REGION=%s\n'                        "${AWS_REGION:-}"                        >  .env.production
+          printf 'REGION=%s\n'                            "${REGION:-}"                            >> .env.production
+          printf 'DYNAMODB_BOOKINGS_TABLE=%s\n'           "${DYNAMODB_BOOKINGS_TABLE:-}"           >> .env.production
+          printf 'DYNAMODB_USERS_TABLE=%s\n'              "${DYNAMODB_USERS_TABLE:-}"              >> .env.production
+          printf 'COGNITO_USER_POOL_ID=%s\n'              "${COGNITO_USER_POOL_ID:-}"              >> .env.production
+          printf 'COGNITO_CLIENT_ID=%s\n'                 "${COGNITO_CLIENT_ID:-}"                 >> .env.production
+          printf 'AUTH_SESSION_SECRET=%s\n'               "${AUTH_SESSION_SECRET:-}"               >> .env.production
+          printf 'ACCESS_KEY_ID=%s\n'                     "${ACCESS_KEY_ID:-}"                     >> .env.production
+          printf 'SECRET_ACCESS_KEY=%s\n'                 "${SECRET_ACCESS_KEY:-}"                 >> .env.production
+          printf 'GMAIL_USER=%s\n'                        "${GMAIL_USER:-}"                        >> .env.production
+          printf 'GMAIL_APP_PASSWORD=%s\n'                "${GMAIL_APP_PASSWORD:-}"                >> .env.production
+          printf 'SES_ADMIN_EMAIL=%s\n'                   "${SES_ADMIN_EMAIL:-}"                   >> .env.production
+          printf 'SES_FROM_EMAIL=%s\n'                    "${SES_FROM_EMAIL:-}"                    >> .env.production
+          printf 'DEMO_APP_URL=%s\n'                      "${DEMO_APP_URL:-}"                      >> .env.production
+          printf 'GAS_WEBHOOK_URL=%s\n'                   "${GAS_WEBHOOK_URL:-}"                   >> .env.production
+          printf 'NEXT_PUBLIC_APP_URL=%s\n'               "${NEXT_PUBLIC_APP_URL:-}"               >> .env.production
+          printf 'NEXT_PUBLIC_DEMO_APP_URL=%s\n'          "${NEXT_PUBLIC_DEMO_APP_URL:-}"          >> .env.production
+          printf 'NEXT_PUBLIC_COGNITO_USER_POOL_ID=%s\n'  "${NEXT_PUBLIC_COGNITO_USER_POOL_ID:-}"  >> .env.production
+          printf 'NEXT_PUBLIC_COGNITO_CLIENT_ID=%s\n'     "${NEXT_PUBLIC_COGNITO_CLIENT_ID:-}"     >> .env.production
+          printf 'NEXT_PUBLIC_COGNITO_REGION=%s\n'        "${NEXT_PUBLIC_COGNITO_REGION:-}"        >> .env.production
         - npm run build
   artifacts:
     baseDirectory: .next

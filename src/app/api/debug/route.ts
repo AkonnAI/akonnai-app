@@ -20,6 +20,10 @@ export async function GET() {
       COGNITO_CLIENT_ID: process.env.COGNITO_CLIENT_ID || null,
       AUTH_SESSION_SECRET_LENGTH:
         process.env.AUTH_SESSION_SECRET?.length ?? 0,
+      AUTH_SESSION_SECRET_preview:
+        process.env.AUTH_SESSION_SECRET
+          ? process.env.AUTH_SESSION_SECRET.slice(0, 6) + "..."
+          : "MISSING",
       ACCESS_KEY_ID_prefix: accessKeyId.slice(0, 8) || "MISSING",
       SECRET_KEY_present: secretKey.length > 0,
       GMAIL_USER: process.env.GMAIL_USER || null,
