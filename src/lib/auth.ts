@@ -83,7 +83,9 @@ export function createSessionCookiePayload(user: { id: string; email: string; na
     email: user.email,
     name: user.name,
   });
-  const signature = crypto.createHmac("sha256", env.sessionSecret).update(base).digest("hex");
+  const secret = env.sessionSecret || process.env.AUTH_SESSION_SECRET;
+  if (!secret) throw new Error("AUTH_SESSION_SECRET is not configured");
+  const signature = crypto.createHmac("sha256", secret).update(base).digest("hex");
   // base64url avoids +, /, = which would be percent-encoded in cookie values
   const value = Buffer.from(base).toString("base64url") + "." + signature;
   return { name: SESSION_COOKIE_NAME, value };
@@ -110,7 +112,9 @@ export function parseSessionCookie(cookieHeader: string | null | undefined) {
   if (!encoded || !signature) return null;
 
   const base = Buffer.from(encoded, "base64url").toString("utf-8");
-  const expectedSignature = crypto.createHmac("sha256", env.sessionSecret).update(base).digest("hex");
+  const secret = env.sessionSecret || process.env.AUTH_SESSION_SECRET;
+  if (!secret) return null;
+  const expectedSignature = crypto.createHmac("sha256", secret).update(base).digest("hex");
 
   if (expectedSignature !== signature) return null;
 

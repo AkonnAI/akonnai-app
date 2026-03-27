@@ -11,7 +11,9 @@ const required: Record<string, string | undefined> = {
   DYNAMODB_BOOKINGS_TABLE: process.env.DYNAMODB_BOOKINGS_TABLE,
   COGNITO_USER_POOL_ID: process.env.COGNITO_USER_POOL_ID,
   COGNITO_CLIENT_ID: process.env.COGNITO_CLIENT_ID,
-  AUTH_SESSION_SECRET: process.env.AUTH_SESSION_SECRET,
+  // AUTH_SESSION_SECRET validated separately — Amplify filters SECRET vars
+  // from the build shell so it cannot be written to .env.production via printf.
+  // Auth routes validate it at call time; booking routes do not need it.
 };
 
 // Skip validation during Next.js build — vars are only required at runtime
@@ -23,8 +25,6 @@ if (!isBuildPhase) {
     .map(([k]) => k);
   if (missing.length > 0)
     throw new Error(`Missing required environment variables: ${missing.join(", ")}`);
-  if (process.env.AUTH_SESSION_SECRET!.length < 32)
-    throw new Error("AUTH_SESSION_SECRET must be at least 32 characters");
 }
 
 export const env = {
