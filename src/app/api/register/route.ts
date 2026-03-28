@@ -8,6 +8,14 @@ import { checkRateLimit, getIP, LIMITS } from "@/lib/rate-limit";
 import { sendAdminBookingNotification, sendParentBookingConfirmation } from "@/lib/email";
 
 export const runtime = "nodejs";
+const DEMO_USERS_TABLE =
+  process.env.DEMO_USERS_TABLE ||
+  process.env.DYNAMODB_DEMO_TABLE ||
+  "akmind-demo-users";
+
+const normalizeDemoToken = (token: string) => token.trim().toLowerCase();
+const generateDemoToken = () =>
+  crypto.randomUUID().replaceAll("-", "").slice(0, 16);
 
 export const POST = safeHandler(async (req: NextRequest) => {
   // STEP 5 — Log env state to CloudWatch on every booking attempt
@@ -73,37 +81,45 @@ export const POST = safeHandler(async (req: NextRequest) => {
     console.log("GAS webhook failed:", e);
   }
 
-  // STEP 2 — Demo app call non-blocking with 3s timeout
+  // STEP 2 — Create demo user in shared demo table
   let demoToken: string | undefined;
-
   try {
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 3000);
-    const demoRes = await fetch(
-      (process.env.DEMO_APP_URL || "") + "/api/demo/register",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          parentName: result.data.parentName,
-          email: result.data.email,
-          phone: result.data.phone,
-          childName: result.data.childName,
-          noExpiry: true,
-          permanent: true,
-          expiresAt: null,
-        }),
-        signal: controller.signal,
-      }
+    demoToken = generateDemoToken();
+    const now = new Date().toISOString();
+    await getDb().send(
+      new PutCommand({
+        TableName: DEMO_USERS_TABLE,
+        Item: {
+          id: crypto.randomUUID(),
+          email: email.trim().toLowerCase(),
+          name: parentName.trim(),
+          childName: childName.trim(),
+          phone: phone.trim(),
+          demoToken: normalizeDemoToken(demoToken),
+          demoStarted: false,
+          demoCompleted: false,
+          lessonsComplete: [],
+          quizScores: {},
+          xp: 0,
+          badgeEarned: false,
+          createdAt: now,
+        },
+      })
     );
-    clearTimeout(timeout);
-    if (demoRes.ok) {
-      const data = await demoRes.json();
-      demoToken = data.token;
-    }
+    console.log("Demo user created in shared table", {
+      table: DEMO_USERS_TABLE,
+      email: email.trim().toLowerCase(),
+      token: demoToken.slice(0, 8) + "...",
+    });
   } catch (e) {
-    console.log("Demo app unavailable:", e);
-    // Non-blocking — booking continues
+    console.error("Demo user creation failed:", {
+      message: e instanceof Error ? e.message : "Unknown error",
+      name: e instanceof Error ? e.name : "Unknown",
+      table: DEMO_USERS_TABLE,
+      region: process.env.AWS_REGION,
+    });
+    demoToken = undefined;
+    // Non-blocking — booking continues even if demo setup fails
   }
 
   // STEP 4 — Emails non-blocking
